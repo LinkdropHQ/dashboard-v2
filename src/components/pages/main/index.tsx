@@ -18,7 +18,7 @@ import { defineNativeTokenSymbol } from 'helpers'
 
 // CRYPTO IMPORTS ARE ONLY USED FOR EXAMPLE
 // TODO remove the import
-import { generateKeyPair, deriveSymmetricKey, encrypt, decrypt } from '@walletconnect/utils/dist/esm'
+import { generateKeyPair, deriveSymmetricKey, encrypt, decrypt } from 'lib/crypto'
 
 const mapStateToProps = ({
   campaigns: { campaigns },
@@ -52,11 +52,11 @@ const Main: FC<ReduxType> = ({
   const message = "We claim links"
   const symKey = deriveSymmetricKey(keyPair.privateKey)
   console.log({ symKey })
-  const encoded = encrypt({ message, symKey })
+  const encoded = encrypt(message, symKey)
   console.log({ encoded })
-  const decrypted = decrypt({ symKey, encoded })
+  const decrypted = decrypt(encoded, symKey)
   console.log({ decrypted })
-  // END OF ENCRYPT-DECRYPT EXAMPLE 
+  // END OF ENCRYPT-DECRYPT EXAMPLE
 
   if (!chainId || !address) {
     return <ContainerCentered>
