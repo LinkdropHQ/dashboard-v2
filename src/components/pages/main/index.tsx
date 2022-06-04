@@ -18,7 +18,7 @@ import { defineNativeTokenSymbol } from 'helpers'
 
 // CRYPTO IMPORTS ARE ONLY USED FOR EXAMPLE
 // TODO remove the import
-import { generateKeyPair, deriveSymmetricKey, encrypt, decrypt } from 'lib/crypto'
+import { generateKeyPair, deriveSymmetricKey, encrypt, decrypt } from '@walletconnect/utils/dist/esm'
 
 const mapStateToProps = ({
   campaigns: { campaigns },
