@@ -16,6 +16,10 @@ import * as asyncUserActions from 'data/store/reducers/user/async-actions'
 import { UserActions } from 'data/store/reducers/user/types'
 import { defineNativeTokenSymbol } from 'helpers'
 
+// CRYPTO IMPORTS ARE ONLY USED FOR EXAMPLE
+// TODO remove the import
+import { generateKeyPair, deriveSymmetricKey, encrypt, decrypt } from 'lib/crypto'
+
 const mapStateToProps = ({
   campaigns: { campaigns },
   user: { address, chainId },
@@ -40,6 +44,20 @@ const Main: FC<ReduxType> = ({
   connectWallet
 }) => {
   const nativeTokenSymbol = defineNativeTokenSymbol({ chainId: Number(chainId) })
+
+  // ENCRYPT-DECRYPT EXAMPLE
+  // TODO remove this block
+  const keyPair = generateKeyPair()
+  console.log({ keyPair })
+  const message = "We claim links"
+  const symKey = deriveSymmetricKey(keyPair.privateKey)
+  console.log({ symKey })
+  const encoded = encrypt({ message, symKey })
+  console.log({ encoded })
+  const decrypted = decrypt({ symKey, encoded })
+  console.log({ decrypted })
+  // END OF ENCRYPT-DECRYPT EXAMPLE 
+
   if (!chainId || !address) {
     return <ContainerCentered>
       <Title>
@@ -49,7 +67,7 @@ const Main: FC<ReduxType> = ({
         appearance='action'
         onClick={connectWallet}
         title='Connect'
-      />
+        />
     </ContainerCentered>
   }
   return <Container>
@@ -64,7 +82,7 @@ const Main: FC<ReduxType> = ({
         title='Create'
         appearance='action'
         to='/campaigns/new/erc20/initial'
-      />
+        />
     </Widget>
     <Widget title='ERC721 Campaign'>
       <WidgetDescription>
@@ -77,7 +95,7 @@ const Main: FC<ReduxType> = ({
         title='Create'
         appearance='action'
         to='/campaigns/new/erc721/initial'
-      />
+        />
     </Widget>
     <Widget title='ERC1155 Campaign'>
       <WidgetDescription>
@@ -90,7 +108,7 @@ const Main: FC<ReduxType> = ({
         title='Create'
         appearance='action'
         to='/campaigns/new/erc1155/initial'
-      />
+        />
     </Widget>
     <InvertedWidget title='Need other features?'>
       <WidgetDescription>
@@ -100,8 +118,8 @@ const Main: FC<ReduxType> = ({
         title='Contact us'
         appearance='action-inverted'
         href='https://linkdrop.io/'
-      />
-      
+        />
+
     </InvertedWidget>
   </Container>
 }
