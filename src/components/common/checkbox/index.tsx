@@ -13,9 +13,13 @@ import {
 const Checkbox: FC<TCheckbox> = ({
   label,
   onChange,
-  value
+  value,
+  disabled
 }) => {
-  return <CheckboxContainer onClick={() => onChange && onChange(!value)}>
+  return <CheckboxContainer disabled={disabled} onClick={() => {
+    if (disabled) { return }
+    onChange && onChange(!value)
+  }}>
     <CheckboxContent>
       <CheckboxInput
         type='checkbox'

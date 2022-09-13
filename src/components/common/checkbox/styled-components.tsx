@@ -2,12 +2,18 @@ import styled, { css } from 'styled-components'
 
 export const CustomCheckboxClassName = 'CustomCheckboxClassName'
 
-export const CheckboxContainer = styled.div`
+export const CheckboxContainer = styled.div<{disabled?: boolean}>`
   display: flex;
   align-items: center;
   cursor: pointer;
   width: fit-content;
   position: relative;
+
+  ${props => props.disabled && css`
+    cursor: not-allowed;
+    opacity: .6;
+    user-select: none;
+  `}
 `
 
 export const CheckboxInput = styled.input`

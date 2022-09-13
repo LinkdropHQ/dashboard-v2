@@ -69,6 +69,7 @@ const Secure: FC<ReduxType> = ({
           Transaction sponsorship
         </WidgetData>
         <CheckboxComponent
+          disabled
           label='Select to sponsor claim transactions'
           value={sponsored}
           onChange={value => setSponsored(value)}
