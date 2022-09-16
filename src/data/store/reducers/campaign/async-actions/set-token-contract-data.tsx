@@ -78,6 +78,8 @@ async function setTokenContractData (
       } catch (e) {
         console.log('Method balanceOf doesnt work with provided contract')
       }
+
+      // const symbol = await contractInstance.symbol()
       dispatch(actionsCampaign.setSymbol('ERC1155'))
     }
     dispatch(actionsCampaign.setLoading(false))
