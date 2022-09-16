@@ -53,13 +53,32 @@ async function setTokenContractData (
       dispatch(actionsCampaign.setDecimals(decimals))
       dispatch(actionsCampaign.setSymbol(symbol))
     }
+
     if (type === 'erc721') {
       const contractInstance = await new ethers.Contract(tokenAddress, ERC721Contract.abi, signer)
+      try {
+        const hasTokens = await contractInstance.balanceOf(address)
+        if (String(hasTokens) === '0') {
+          alert('You don’t own any of the tokens from the contract. Please enter the contract address for items that you own.')
+          return dispatch(actionsCampaign.setLoading(false))
+        }
+      } catch (e) {
+        console.log('Method balanceOf doesnt work with provided contract')
+      }
       const symbol = await contractInstance.symbol()
       dispatch(actionsCampaign.setSymbol(symbol))
     }
     if (type === 'erc1155') {
       const contractInstance = await new ethers.Contract(tokenAddress, ERC1155Contract.abi, signer)
+      try {
+        const hasTokens = await contractInstance.balanceOf(address)
+        if (String(hasTokens) === '0') {
+          alert('You don’t own any of the tokens from the contract. Please enter the contract address for items that you own.')
+          return dispatch(actionsCampaign.setLoading(false))
+        }
+      } catch (e) {
+        console.log('Method balanceOf doesnt work with provided contract')
+      }
       // const symbol = await contractInstance.symbol()
       dispatch(actionsCampaign.setSymbol('ERC1155'))
     }

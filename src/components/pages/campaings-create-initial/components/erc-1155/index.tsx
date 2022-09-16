@@ -177,7 +177,7 @@ const Erc1155: FC<ReduxType > = ({
       <WidgetOptions>
         <InputTokenAddress
           value={title}
-          onChange={value => {
+          onChange={(value: string) => {
             setTitle(value)
             return value
           }}
@@ -188,7 +188,7 @@ const Erc1155: FC<ReduxType > = ({
           value={tokenAddress}
           placeholder='0x Address'
           disabled={Boolean(campaign)}
-          onChange={value => {
+          onChange={(value: string) => {
             setTokenAddress(value)
             return value
           }}
