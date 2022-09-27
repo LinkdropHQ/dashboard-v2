@@ -66,7 +66,12 @@ const QRs: FC<ReduxType> = ({
       <InputComponent
         value={amount}
         title='Quantity of QR codes'
-        onChange={value => { setAmount(value); return value }}
+        onChange={value => {
+          if (/^[0-9]+$/.test(value) || value === '') {
+            setAmount(value);
+          }
+          return value
+        }}
       />
       <ContainerButton
         title='Create'
