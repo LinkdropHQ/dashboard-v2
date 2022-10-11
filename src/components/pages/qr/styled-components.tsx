@@ -9,7 +9,7 @@ export const WidgetComponent = styled(Widget)``
 
 export const WidgetInfo = styled.div`
   display: grid;
-  max-width: 600px;
+  max-width: 800px;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
   align-items: center;

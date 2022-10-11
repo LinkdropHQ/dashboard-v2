@@ -1,14 +1,20 @@
-import { TLinkDecrypted } from "types"
+import { TQRItem } from "types"
+import { decrypt } from 'lib/crypto'
+import { CLAIM_APP_QR } from 'configs/app'
 
-const downloadLinksAsCSV = (
-  arr: TLinkDecrypted[],
+const downloadQRsAsCSV = (
+  arr: TQRItem[],
   title: string,
+  dashboardKey: string,
   createdAt?: string
 ) => {
-  const header = Object.keys(arr[0]).join(",")
   const values = arr.map(item => {
-    return Object.values(item).join(",")
+    const updatedItem = {
+      ar_link: `${CLAIM_APP_QR}/#/qr/${decrypt(item.encrypted_qr_secret, dashboardKey)}`
+    }
+    return Object.values(updatedItem).join(",")
   })
+  const header = ['qr_link']
   const data = [header, ...values].join("\n")
   const hiddenElement = document.createElement('a')
   hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(data)
@@ -21,4 +27,5 @@ const downloadLinksAsCSV = (
   body.removeChild(hiddenElement)
 }
 
-export default downloadLinksAsCSV
+export default downloadQRsAsCSV
+
