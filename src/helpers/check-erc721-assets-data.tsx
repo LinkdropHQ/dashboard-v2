@@ -29,9 +29,8 @@ const checkERC721SingleValue = (value: string): boolean => {
     .replace(/\[/i, '')
     .split('-')
     .map((item: string) => item.trim())
-    console.log({ tokenIds })
     return tokenIds
-    .every(item => Boolean(Number(item))) &&
+    .every(item => item === '0' || Boolean(Number(item))) &&
     tokenIds.length === 2 &&
     Number(tokenIds[0]) < Number(tokenIds[1])
 
