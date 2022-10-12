@@ -1,5 +1,4 @@
 const path = require(`path`)
-const webpack = require('webpack')
 
 module.exports = {
   webpack: {
@@ -7,4 +6,9 @@ module.exports = {
       react: path.resolve('./node_modules/react')
     }
   },
+  babel: {
+    plugins: [
+        "@babel/plugin-proposal-logical-assignment-operators"
+    ]
+  }
 }

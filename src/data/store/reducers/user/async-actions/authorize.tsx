@@ -1,7 +1,8 @@
 import { Dispatch } from 'redux'
 import * as campaignActions from 'data/store/reducers/campaign/actions'
 import * as userActions from '../actions'
-
+import ethUtil from 'ethereumjs-util'
+import sigUtil from '@metamask/eth-sig-util'
 import {
   UserActions,
 } from '../types'
@@ -10,9 +11,7 @@ import {
 } from 'data/store/reducers/campaign/types'
 import { RootState } from 'data/store'
 import { authorizationApi, dashboardKeyApi } from 'data/api'
-import { ethers } from 'ethers'
-import { encrypt, decrypt, generateKeyPair } from 'lib/crypto' 
-import { toString } from "uint8arrays/to-string"
+import { generateKeyPair } from 'lib/crypto' 
 
 const authorize = (
   address: string
@@ -43,21 +42,23 @@ const authorize = (
 
       // dashboard key 
       const dashboardKeyData = await dashboardKeyApi.get()
-      const { encrypted_key, sig_message, key_id } = dashboardKeyData.data
+      const { key: { encrypted_key, encryption_scheme, key_id } = {} } = dashboardKeyData.data
       if (!encrypted_key) {
         // register
         const {
           dashboard_key,
-          encrypted_dashboard_key
+          encrypted_dashboard_key,
+          key_id
         } = await createDashboardKey(
-          signer,
-          sig_message
+          provider,
+          address
         )
 
-        if (encrypted_dashboard_key && dashboard_key) {
+        if (encrypted_dashboard_key && dashboard_key && key_id && encryption_scheme) {
           const { data: { success } } = await dashboardKeyApi.create(
             encrypted_dashboard_key,
-            key_id
+            key_id,
+            encryption_scheme
           )
           if (success) {
             dispatch(userActions.setDashboardKey(dashboard_key))
@@ -66,9 +67,9 @@ const authorize = (
       } else {
 
         const decrypted_dashboard_key = await retrieveDashboardKey(
-          signer,
+          provider,
           encrypted_key,
-          sig_message
+          address
         )
 
         dispatch(userActions.setDashboardKey(decrypted_dashboard_key))
@@ -86,55 +87,62 @@ const authorize = (
 }
 
 
-const createDashboardKey: (signer: any, sig_message: string) => Promise<{ dashboard_key: string, encrypted_dashboard_key: string }> = async (
-  signer,
-  sig_message
+const createDashboardKey: (
+  provider: any,
+  address: string
+) => Promise<{ dashboard_key: string, encrypted_dashboard_key: string, key_id: string }> = async (
+  provider,
+  address
 ) => {
-  const signature = await signer.signMessage(sig_message)
-  const signature_key = await ethers.utils.id(signature)
-  const { privateKey: dashboard_key } = generateKeyPair()
-  console.log({ dashboard_key })
+  const encryptionPublicKey = await provider.provider.request({
+    method: 'eth_getEncryptionPublicKey',
+    params: [address],
+  })
 
+  const { privateKey: dashboard_key, publicKey: key_id } = generateKeyPair()
 
-  const signature_key_32 = signature_key.slice(0, 32)
-  const signature_key_uint_8_array = new TextEncoder().encode(signature_key_32)
-  const signature_key_as_base_16 = toString(signature_key_uint_8_array, 'base16')
+  const encrypted_dashboard_key = ethUtil.bufferToHex(
+    Buffer.from(
+      JSON.stringify(
+        sigUtil.encrypt({
+          publicKey: encryptionPublicKey,
+          data: dashboard_key,
+          version: 'x25519-xsalsa20-poly1305',
+        })
+      ),
+      'utf8'
+    )
+  )
 
-
-  // revert signature_key_32
-  // const signature_key_from_string = fromString(signature_key_as_base_16, 'base16')
-  // const signature_key_32_decoded = new TextDecoder().decode(signature_key_from_string)  
-
-  const encrypted_dashboard_key = encrypt(dashboard_key, signature_key_as_base_16)
   return {
     dashboard_key,
-    encrypted_dashboard_key
+    encrypted_dashboard_key,
+    key_id
   }
 }
 
 const retrieveDashboardKey: (
-  signer: any,
+  provider: any,
   encrypted_dashboard_key: string,
-  sig_message: string
+  address: string
 ) => Promise<string> = async (
-  signer,
+  provider,
   encrypted_dashboard_key,
-  sig_message
+  address
 ) => {
-  const signature = await signer.signMessage(sig_message)
-  const signature_key = await ethers.utils.id(signature)
-  const signature_key_32 = signature_key.slice(0, 32)
-  const signature_key_uint_8_array = new TextEncoder().encode(signature_key_32)
-  const signature_key_as_base_16 = toString(signature_key_uint_8_array, 'base16')
 
-  return decrypt(encrypted_dashboard_key, signature_key_as_base_16)
+  const decryptedKey = await provider.provider.request({
+    method: 'eth_decrypt',
+    params: [encrypted_dashboard_key, address],
+  })
+
+  return decryptedKey
 }
 
 export default authorize
-
 
 // get
 // 4223502431
 // 799be89db4a45876862dadb04f7b6afe546fc5d61b651208007eb906def5b045
 // encrypted ip6cv+Mdmr94FHNHbtYwsCeQjUYkju6HY26+CgMwvrVtDaMAxAI7Ug0vWqneK+f+7YOE29pnZ6+3NL2kyik3/nGb+bYWRs8sBPbYQwewsDIsFTOh0uirsFnT9WM=
-// 
+//
