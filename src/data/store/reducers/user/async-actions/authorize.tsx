@@ -1,34 +1,34 @@
 import { Dispatch } from 'redux'
 import * as campaignActions from 'data/store/reducers/campaign/actions'
 import * as userActions from '../actions'
-import ethUtil from 'ethereumjs-util'
-import sigUtil from '@metamask/eth-sig-util'
 import {
   UserActions,
 } from '../types'
 import {
   CampaignActions
 } from 'data/store/reducers/campaign/types'
+import { encrypt } from './encrypt'
 import { RootState } from 'data/store'
 import { authorizationApi, dashboardKeyApi } from 'data/api'
-import { generateKeyPair } from 'lib/crypto' 
+import { generateKeyPair } from 'lib/crypto'
+const ethUtil = require('ethereumjs-util');
 
 const authorize = (
   address: string
 ) => {
-  return async (dispatch: Dispatch<UserActions>  & Dispatch<CampaignActions>, getState: () => RootState) => {
+  return async (dispatch: Dispatch<UserActions> & Dispatch<CampaignActions>, getState: () => RootState) => {
     const {
       user: {
         provider
       }
     } = getState()
-    
-    
+
+
     dispatch(campaignActions.setLoading(true))
 
     const timestamp = Date.now()
     const humanReadable = new Date(timestamp).toUTCString()
-    
+
     try {
       const signer = await provider.getSigner()
       const message = `I'm signing this message to login to Linkdrop Dashboard at ${humanReadable}`
@@ -94,32 +94,27 @@ const createDashboardKey: (
   provider,
   address
 ) => {
-  const encryptionPublicKey = await provider.provider.request({
-    method: 'eth_getEncryptionPublicKey',
-    params: [address],
-  })
+    const encryptionPublicKey = await provider.provider.request({
+      method: 'eth_getEncryptionPublicKey',
+      params: [address],
+    })
 
-  const { privateKey: dashboard_key, publicKey: key_id } = generateKeyPair()
+    const { privateKey: dashboard_key, publicKey: key_id } = generateKeyPair()
 
-  const encrypted_dashboard_key = ethUtil.bufferToHex(
-    Buffer.from(
-      JSON.stringify(
-        sigUtil.encrypt({
-          publicKey: encryptionPublicKey,
-          data: dashboard_key,
-          version: 'x25519-xsalsa20-poly1305',
-        })
-      ),
-      'utf8'
-    )
-  )
-
-  return {
-    dashboard_key,
-    encrypted_dashboard_key,
-    key_id
+    const encrypted = encrypt({
+      publicKey: encryptionPublicKey,
+      data: dashboard_key,
+      version: 'x25519-xsalsa20-poly1305',
+    })
+    const encryptedString = JSON.stringify(encrypted)
+    const encryptedBuff = Buffer.from(encryptedString, 'utf8')
+    const encrypted_dashboard_key = ethUtil.bufferToHex(encryptedBuff)
+    return {
+      dashboard_key,
+      encrypted_dashboard_key,
+      key_id
+    }
   }
-}
 
 const retrieveDashboardKey: (
   provider: any,
@@ -131,13 +126,13 @@ const retrieveDashboardKey: (
   address
 ) => {
 
-  const decryptedKey = await provider.provider.request({
-    method: 'eth_decrypt',
-    params: [encrypted_dashboard_key, address],
-  })
+    const decryptedKey = await provider.provider.request({
+      method: 'eth_decrypt',
+      params: [encrypted_dashboard_key, address],
+    })
 
-  return decryptedKey
-}
+    return decryptedKey
+  }
 
 export default authorize
 
