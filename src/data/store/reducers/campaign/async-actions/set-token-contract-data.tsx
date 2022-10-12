@@ -95,7 +95,7 @@ async function setTokenContractData (
     dispatch(actionsCampaign.setLoading(false))
     dispatch(actionsCampaign.setDecimals(null))
     dispatch(actionsCampaign.setSymbol(null))
-    alert('Some error occured, please check token address')
+    alert('Make sure that you are the contract owner and that you are connected to the correct Network')
   }
 }
 
