@@ -19,7 +19,6 @@ import {
 } from './styled-components'
 import { Select } from 'components/common'
 import * as asyncQRsActions from 'data/store/reducers/qrs/async-actions.tsx'
-import { downloadQRsAsCSV } from 'helpers'
 
 const mapStateToProps = ({
   campaigns: { campaigns },
@@ -67,8 +66,7 @@ const QR: FC<ReduxType> = ({
   loading,
   mapQRsToLinks,
   updateQRSetQuantity,
-  getQRsArray,
-  dashboardKey
+  getQRsArray
 }) => {
   const { id } = useParams<TLinkParams>()
   const qr: TQRSet | undefined = qrs.find(qr => String(qr.set_id) === id)
@@ -138,6 +136,7 @@ const QR: FC<ReduxType> = ({
     {id && downloadPopup && <DownloadPopup
       id={id}  
       onClose={() => toggleDownloadPopup(false)}
+
     />}
 
     <WidgetComponent title={qr.set_name}>
@@ -155,32 +154,13 @@ const QR: FC<ReduxType> = ({
               }}
             />
             <WidgetButton
-              title='Download (images)'
+              title='Download'
               appearance='action'
               
               onClick={() => {
                 toggleDownloadPopup(true)
               }}
-            />
-
-            <WidgetButton
-              title='Download (as CSV)'
-              appearance='action'
-              disabled={!qr.qr_array || !dashboardKey}
-              onClick={() => {
-                if (!qr.qr_array || !dashboardKey) { return }
-                downloadQRsAsCSV(
-                  qr.qr_array,
-                  qr.set_name,
-                  dashboardKey,
-                  qr.created_at
-                )
-                // toggleDownloadPopup(true)
-              }}
-            />
-
-
-
+            /> 
           </Buttons>
         </WidgetValue>
         <WidgetSubtitle>
