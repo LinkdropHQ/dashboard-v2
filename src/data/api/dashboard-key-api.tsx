@@ -17,6 +17,7 @@ type TGetKeyResponse = {
 
 const requests = {
   create: (encrypted_key: string, key_id: string, encryption_scheme: string) => {
+    console.log({ encrypted_key, key_id, encryption_scheme })
     return dashboardKeyApi.post('dashboard-key', {
       encrypted_key, key_id, encryption_scheme
     }, { withCredentials: true })

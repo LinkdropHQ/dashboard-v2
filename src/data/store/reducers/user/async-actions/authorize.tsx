@@ -42,7 +42,11 @@ const authorize = (
 
       // dashboard key 
       const dashboardKeyData = await dashboardKeyApi.get()
-      const { key: { encrypted_key, encryption_scheme, key_id } = {} } = dashboardKeyData.data
+      const { key: {
+        encrypted_key,
+        encryption_scheme = 'EIP1024',
+        key_id
+      } = {} } = dashboardKeyData.data
       if (!encrypted_key) {
         // register
         const {
@@ -53,6 +57,10 @@ const authorize = (
           provider,
           address
         )
+
+        console.log({
+          encrypted_dashboard_key, dashboard_key, key_id, encryption_scheme
+        })
 
         if (encrypted_dashboard_key && dashboard_key && key_id && encryption_scheme) {
           const { data: { success } } = await dashboardKeyApi.create(
