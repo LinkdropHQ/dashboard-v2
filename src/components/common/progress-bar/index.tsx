@@ -12,7 +12,15 @@ const ProgressBar: FC<TProps> = ({
   current,
   max
 }) => {
+  console.log({
+    current,
+    max
+  })
+  if (isNaN(current)) {
+    return null
+  }
   const value = current / max * 100
+  
   return <ProgressBarContainer className={className}>
     <Bar style={{
       width: `${value}%`

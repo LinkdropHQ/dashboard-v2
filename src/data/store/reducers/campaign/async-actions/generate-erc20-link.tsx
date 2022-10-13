@@ -10,7 +10,24 @@ import { CampaignsActions } from '../../campaigns/types'
 import { defineBatchPreviewContents } from 'helpers'
 import { campaignsApi } from 'data/api'
 import { encrypt } from 'lib/crypto'
-import { sleep } from 'helpers'
+import {
+  defineNetworkName,
+  defineJSONRpcUrl,
+  sleep
+} from 'helpers'
+import { wrap, Remote, proxy } from 'comlink';
+import { CLAIM_APP, CLAIM_APP_AURORA } from 'configs/app'
+import contracts from 'configs/contracts'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import Worker from 'worker-loader!web-workers/Worker'
+import { MyWebWorker } from 'web-workers/Worker'
+
+// // eslint-disable-next-line import/no-webpack-loader-syntax
+// import Worker from 'worker-loader!web-workers/Test'
+// import { remoteFunction } from 'web-workers/Test'
+
+const { REACT_APP_INFURA_ID } = process.env
+
 
 const generateERC20Link = ({
   callback,
@@ -25,7 +42,8 @@ const generateERC20Link = ({
       user: {
         sdk,
         chainId,
-        address, dashboardKey
+        address,
+        dashboardKey
       },
       campaign,
       campaigns: { campaigns }
@@ -47,6 +65,7 @@ const generateERC20Link = ({
         claimPattern
       } = campaign
       if (!assets) { return alert('assets are not provided') }
+      if (!chainId) { return alert('assets are not provided') }
       if (!symbol) { return alert('symbol is not provided') }
       if (!tokenAddress) { return alert('tokenAddress is not provided') }
       if (!wallet) { return alert('wallet is not provided') }
@@ -54,32 +73,45 @@ const generateERC20Link = ({
       if (!signerKey) { return alert('signerKey is not provided') }
       if (!signerAddress) { return alert('signerAddress is not provided') }
       if (!dashboardKey) { return alert('dashboardKey is not provided') }
-      let newLinks: Array<TLink> = []
-      const date = String(new Date())
-      for (let i = 0; i < assets.length; i++) {
-        const result = await sdk?.generateLink({
-          weiAmount: assets[i].native_tokens_amount || '0',
-          tokenAddress,
-          wallet,
-          tokenAmount: assets[i].amount || '0',
-          expirationTime: EXPIRATION_DATE,
-          campaignId: id,
-          signingKeyOrWallet: signerKey
-        })
-        if (result) {
-          const newLink = !sponsored ? `${result?.url}&manual=true` : result?.url
-          const newLinkEncrypted = encrypt(newLink, dashboardKey)
-          newLinks = [...newLinks, {
-            link_id: result?.linkId,
-            encrypted_claim_link: newLinkEncrypted
-          }]
-          dispatch(actionsCampaign.setLinks(
-            newLinks,
-            date
-          ))
-          await sleep(1)
-        }
+      if (!REACT_APP_INFURA_ID) {
+        return alert('REACT_APP_INFURA_ID is not provided in .env file')
       }
+      const date = String(new Date())
+
+      const claimHost = chainId === 1313161554 ? CLAIM_APP_AURORA : CLAIM_APP
+      const contract = contracts[chainId]
+      const networkName = defineNetworkName(chainId)
+      const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
+
+      const updateProgressbar = async (value: number) => {
+        dispatch(actionsCampaign.setLinksGenerateLoader(value))
+        await sleep(1)
+      }
+
+      const RemoteChannel = wrap<typeof MyWebWorker>(new Worker())
+      const webWorker: Remote<MyWebWorker> = await new RemoteChannel(proxy(updateProgressbar));
+
+      const newLinks = await webWorker.getData(
+        address,
+        contract.factory,
+        networkName,
+        jsonRpcUrl,
+        `https://${networkName}.linkdrop.io`,
+        claimHost,
+        assets,
+        sponsored,
+        tokenAddress,
+        wallet,
+        id,
+        signerKey,
+        dashboardKey
+      )
+
+      dispatch(actionsCampaign.setLinks(
+        newLinks,
+        date
+      ))
+
       if (!decimals || !chainId || !proxyContractAddress || !signerKey || !tokenStandard || !address) { return }
       const updatingCampaign = currentCampaignId ? campaigns.find(item => item.campaign_id === currentCampaignId) : undefined
       const batchPreviewContents = defineBatchPreviewContents(
@@ -127,11 +159,15 @@ const generateERC20Link = ({
         }
 
         const result = await campaignsApi.create(newCampaign)
+        console.log({ result })
         if (result.data.success) {
           const { campaign } = result.data
 
           dispatch(actionsCampaigns.addCampaign(campaign))
-          if (callback) { callback(campaign.campaign_id) }
+          if (callback) {
+            console.log('should call callback')
+            callback(campaign.campaign_id)
+          }
         }
       }
       dispatch(actionsCampaign.clearCampaign())

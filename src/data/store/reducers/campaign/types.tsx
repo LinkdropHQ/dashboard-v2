@@ -20,6 +20,7 @@ export interface CampaignState {
   signerAddress: string | null,
   sponsored: boolean,
   claimPattern: TClaimPattern,
+  linksGenerateLoader: number,
   links: {
     date: string,
     links: TLink[],

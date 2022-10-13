@@ -84,17 +84,11 @@ declare module '@linkdrop/sdk' {
   export = LinkdropSDK
 }
 
+declare module 'worker-loader!*' {
 
-declare module 'qrious' {
-  interface IQRious {
-    value: string,
-    size?: number
+  class WebpackWorker extends Worker {
+      constructor ()
   }
 
-  class QRious implements IQRious {
-    constructor(params: IQRious)
-
-    toDataURL: (type?: string) => string
-  }
-  export = QRious
+  export default WebpackWorker;
 }

@@ -9,11 +9,17 @@ import { useParams } from 'react-router-dom'
 import { TCallback } from './types'
 
 const mapStateToProps = ({
-  campaign: { assets, tokenStandard, links },
+  campaign: {
+    linksGenerateLoader,
+    assets,
+    tokenStandard,
+    links
+  },
 }: RootState) => ({
   assets,
   tokenStandard,
-  links
+  links,
+  linksGenerateLoader
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
@@ -42,7 +48,8 @@ const CampaignsCreateGenerate: FC<ReduxType> = ({
   generateERC1155,
   assets,
   links,
-  tokenStandard
+  tokenStandard,
+  linksGenerateLoader
 }) => {
   const history = useHistory()
   const { id } = useParams<TLinkParams>()
@@ -67,8 +74,8 @@ const CampaignsCreateGenerate: FC<ReduxType> = ({
 
   return <Container>
     <GenerateProgressBar
-      max={(assets || []).length}
-      current={(links || []).length}
+      max={100}
+      current={linksGenerateLoader * 100}
     />
   </Container>
 }
