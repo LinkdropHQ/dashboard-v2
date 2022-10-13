@@ -73,10 +73,8 @@ const generateERC721Link = ({
             link_id: result?.linkId,
             encrypted_claim_link: newLinkEncrypted
           }]
-          dispatch(actionsCampaign.setLinks(
-            newLinks,
-            date
-          ))
+          const percentageFinished = Math.round(newLinks.length / assets.length * 100) / 100
+          dispatch(actionsCampaign.setLinksGenerateLoader(percentageFinished))
           await sleep(1)
         }
       }

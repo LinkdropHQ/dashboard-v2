@@ -3,7 +3,6 @@ import { expose } from 'comlink';
 import { TLink, TAssetsData } from 'types'
 import { EXPIRATION_DATE } from 'configs/app'
 import { encrypt } from 'lib/crypto'
-import { sleep } from 'helpers'
 
 export class MyWebWorker {
   private newLinks: Array<TLink> = [];
