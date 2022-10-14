@@ -5,7 +5,10 @@ import { TQRSet } from 'types'
 export interface QRsState {
   qrs: TQRSet[],
   loading: boolean,
-  downloadItems: Blob[]
+  downloadItems: Blob[],
+  uploadLoader: number,
+  downloadLoader: number,
+  mappingLoader: number
 }
 
 export type QRsActions = ActionType<typeof actions>;

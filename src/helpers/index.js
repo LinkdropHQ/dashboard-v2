@@ -4,7 +4,6 @@ import capitalize from './capitalize'
 import defineJSONRpcUrl from './define-json-rpc-url'
 import copyToClipboard from './copy-to-clipboard'
 import downloadLinksAsCSV from './download-links-as-csv'
-import prepareQRArray from './prepare-qr-array'
 import checkRecipientsDataFormat from './check-recipients-data-format'
 import hexlifyIpfsHash from './hexlify-ipfs-hash'
 import getValidImage from './get-valid-image'
@@ -64,7 +63,6 @@ export {
   parseERC1155AssetsData,
   countAssetsTotalAmountERC1155,
   defineQRStatusName,
-  prepareQRArray,
   mapQRsWithLinks,
   defineBatchPreviewContents,
   downloadBase64FilesAsZip,

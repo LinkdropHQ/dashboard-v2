@@ -23,7 +23,7 @@ import { downloadQRsAsCSV } from 'helpers'
 
 const mapStateToProps = ({
   campaigns: { campaigns },
-  qrs: { qrs, loading },
+  qrs: { qrs, loading, mappingLoader, uploadLoader },
   user: { address, chainId, dashboardKey },
 }: RootState) => ({
   campaigns,
@@ -31,7 +31,9 @@ const mapStateToProps = ({
   chainId,
   qrs,
   loading,
-  dashboardKey
+  dashboardKey,
+  mappingLoader,
+  uploadLoader
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
@@ -68,7 +70,9 @@ const QR: FC<ReduxType> = ({
   mapQRsToLinks,
   updateQRSetQuantity,
   getQRsArray,
-  dashboardKey
+  dashboardKey,
+  mappingLoader,
+  uploadLoader
 }) => {
   const { id } = useParams<TLinkParams>()
   const qr: TQRSet | undefined = qrs.find(qr => String(qr.set_id) === id)
@@ -109,11 +113,17 @@ const QR: FC<ReduxType> = ({
     return <Redirect to='/qrs' /> 
   }
 
+  const defineIfDisabled = () => {
+    return !qr.qr_array || !dashboardKey || loading
+  }
+
   return <Container>
     {loading && <Loader withOverlay />}
     {updateQuantityPopup && <QuantityPopup
       onClose={() => toggleUpdateQuantityPopup(false)}
       quantity={qr.qr_quantity}
+      loading={loading}
+      loader={uploadLoader}
       onSubmit={value => {
         if (!id) { return }
         updateQRSetQuantity(
@@ -126,6 +136,8 @@ const QR: FC<ReduxType> = ({
 
     {updateLinksPopup && <LinksPopup
       quantity={qr.qr_quantity}
+      loader={mappingLoader}
+      loading={loading}
       onClose={() => toggleUpdateLinksPopup(false)}
       onSubmit={links => {
         if (!id || !qr.qr_array) { return }
@@ -140,6 +152,7 @@ const QR: FC<ReduxType> = ({
       onClose={() => toggleDownloadPopup(false)}
     />}
 
+
     <WidgetComponent title={qr.set_name}>
       <WidgetInfo>
         <WidgetSubtitle>
@@ -149,7 +162,7 @@ const QR: FC<ReduxType> = ({
           <Buttons>
             <WidgetButton
               title='Change quantity'
-              disabled={qr.links_uploaded || qr.status !== 'NOT_SENT_TO_PRINTER'}
+              disabled={defineIfDisabled() || qr.links_uploaded || qr.status !== 'NOT_SENT_TO_PRINTER'}
               onClick={() => {
                 toggleUpdateQuantityPopup(true)
               }}
@@ -157,7 +170,7 @@ const QR: FC<ReduxType> = ({
             <WidgetButton
               title='Download (images)'
               appearance='action'
-              
+              disabled={defineIfDisabled()}
               onClick={() => {
                 toggleDownloadPopup(true)
               }}
@@ -166,7 +179,7 @@ const QR: FC<ReduxType> = ({
             <WidgetButton
               title='Download (as CSV)'
               appearance='action'
-              disabled={!qr.qr_array || !dashboardKey}
+              disabled={defineIfDisabled()}
               onClick={() => {
                 if (!qr.qr_array || !dashboardKey) { return }
                 downloadQRsAsCSV(
@@ -175,12 +188,8 @@ const QR: FC<ReduxType> = ({
                   dashboardKey,
                   qr.created_at
                 )
-                // toggleDownloadPopup(true)
               }}
             />
-
-
-
           </Buttons>
         </WidgetValue>
         <WidgetSubtitle>

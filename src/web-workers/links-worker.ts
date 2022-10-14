@@ -4,7 +4,7 @@ import { TLink, TAssetsData, TTokenType } from 'types'
 import { EXPIRATION_DATE } from 'configs/app'
 import { encrypt } from 'lib/crypto'
 
-export class MyWebWorker {
+export class LinksWorker {
   private newLinks: Array<TLink> = [];
   private sdk?: LinkdropSDK | null
   private cb: (value: number) => void;
@@ -177,4 +177,4 @@ export class MyWebWorker {
   }
 }
 
-expose(MyWebWorker);
+expose(LinksWorker)

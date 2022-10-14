@@ -30,7 +30,6 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
 const mapStateToProps = ({ user: { address } }: RootState) => ({ address })
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
-
 const AppRouter: FC<ReduxType> = ({ address }) => {
   return <HashRouter>
     <Page>

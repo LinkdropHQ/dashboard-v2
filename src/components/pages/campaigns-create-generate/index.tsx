@@ -75,7 +75,7 @@ const CampaignsCreateGenerate: FC<ReduxType> = ({
   return <Container>
     <GenerateProgressBar
       max={100}
-      current={linksGenerateLoader * 100}
+      current={Math.ceil(linksGenerateLoader * 100)}
     />
   </Container>
 }

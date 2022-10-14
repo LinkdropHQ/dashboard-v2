@@ -2,7 +2,8 @@ import styled from "styled-components";
 import {
   QR,
   Button,
-  Input
+  Input,
+  ProgressBar
 } from 'components/common' 
 
 export const QRItem = styled(QR)`
@@ -21,4 +22,10 @@ export const ContainerButton = styled(Button)`
 `
 
 export const InputComponent = styled(Input)`
+
+`
+
+export const GenerateProgressBar = styled(ProgressBar)`
+  min-width: 100%;
+  margin-bottom: 20px;
 `

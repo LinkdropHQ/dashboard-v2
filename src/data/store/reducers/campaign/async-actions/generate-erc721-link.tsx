@@ -18,8 +18,8 @@ import { wrap, Remote, proxy } from 'comlink';
 import { CLAIM_APP, CLAIM_APP_AURORA } from 'configs/app'
 import contracts from 'configs/contracts'
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import Worker from 'worker-loader!web-workers/Worker'
-import { MyWebWorker } from 'web-workers/Worker'
+import Worker from 'worker-loader!web-workers/links-worker'
+import { LinksWorker } from 'web-workers/links-worker'
 const { REACT_APP_INFURA_ID } = process.env
 
 const generateERC721Link = ({
@@ -79,8 +79,8 @@ const generateERC721Link = ({
         await sleep(1)
       }
 
-      const RemoteChannel = wrap<typeof MyWebWorker>(new Worker())
-      const webWorker: Remote<MyWebWorker> = await new RemoteChannel(proxy(updateProgressbar));
+      const RemoteChannel = wrap<typeof LinksWorker>(new Worker())
+      const webWorker: Remote<LinksWorker> = await new RemoteChannel(proxy(updateProgressbar));
 
       const newLinks = await webWorker.generateLink(
         tokenStandard,
