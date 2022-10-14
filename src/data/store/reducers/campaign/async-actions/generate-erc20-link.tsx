@@ -4,8 +4,7 @@ import * as actionsCampaigns from '../../campaigns/actions';
 import { CampaignActions } from '../types';
 import { UserActions } from '../../user/types'
 import { RootState } from 'data/store'
-import { TLink, TCampaignNew } from 'types'
-import { EXPIRATION_DATE } from 'configs/app'
+import { TCampaignNew } from 'types'
 import { CampaignsActions } from '../../campaigns/types'
 import { defineBatchPreviewContents } from 'helpers'
 import { campaignsApi } from 'data/api'
@@ -22,12 +21,7 @@ import contracts from 'configs/contracts'
 import Worker from 'worker-loader!web-workers/Worker'
 import { MyWebWorker } from 'web-workers/Worker'
 
-// // eslint-disable-next-line import/no-webpack-loader-syntax
-// import Worker from 'worker-loader!web-workers/Test'
-// import { remoteFunction } from 'web-workers/Test'
-
 const { REACT_APP_INFURA_ID } = process.env
-
 
 const generateERC20Link = ({
   callback,
@@ -40,7 +34,6 @@ const generateERC20Link = ({
     
     let {
       user: {
-        sdk,
         chainId,
         address,
         dashboardKey
@@ -73,10 +66,10 @@ const generateERC20Link = ({
       if (!signerKey) { return alert('signerKey is not provided') }
       if (!signerAddress) { return alert('signerAddress is not provided') }
       if (!dashboardKey) { return alert('dashboardKey is not provided') }
+      if (!tokenStandard) { return alert('tokenStandard is not provided') }
       if (!REACT_APP_INFURA_ID) {
         return alert('REACT_APP_INFURA_ID is not provided in .env file')
       }
-      const date = String(new Date())
 
       const claimHost = chainId === 1313161554 ? CLAIM_APP_AURORA : CLAIM_APP
       const contract = contracts[chainId]
@@ -91,7 +84,8 @@ const generateERC20Link = ({
       const RemoteChannel = wrap<typeof MyWebWorker>(new Worker())
       const webWorker: Remote<MyWebWorker> = await new RemoteChannel(proxy(updateProgressbar));
 
-      const newLinks = await webWorker.getData(
+      const newLinks = await webWorker.generateLink(
+        tokenStandard,
         address,
         contract.factory,
         networkName,
@@ -106,11 +100,6 @@ const generateERC20Link = ({
         signerKey,
         dashboardKey
       )
-
-      dispatch(actionsCampaign.setLinks(
-        newLinks,
-        date
-      ))
 
       if (!decimals || !chainId || !proxyContractAddress || !signerKey || !tokenStandard || !address) { return }
       const updatingCampaign = currentCampaignId ? campaigns.find(item => item.campaign_id === currentCampaignId) : undefined

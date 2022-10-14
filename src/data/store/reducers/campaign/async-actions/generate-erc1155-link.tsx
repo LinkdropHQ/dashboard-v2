@@ -4,13 +4,23 @@ import * as actionsCampaigns from '../../campaigns/actions'
 import { CampaignActions } from '../types'
 import { UserActions } from '../../user/types'
 import { RootState } from 'data/store'
-import { TLink, TCampaignNew } from 'types'
-import { EXPIRATION_DATE } from 'configs/app'
+import { TCampaignNew } from 'types'
 import { CampaignsActions } from '../../campaigns/types'
 import { defineBatchPreviewContents } from 'helpers'
 import { campaignsApi } from 'data/api'
 import { encrypt } from 'lib/crypto'
-import { sleep } from 'helpers'
+import {
+  defineNetworkName,
+  defineJSONRpcUrl,
+  sleep
+} from 'helpers'
+import { wrap, Remote, proxy } from 'comlink';
+import { CLAIM_APP, CLAIM_APP_AURORA } from 'configs/app'
+import contracts from 'configs/contracts'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import Worker from 'worker-loader!web-workers/Worker'
+import { MyWebWorker } from 'web-workers/Worker'
+const { REACT_APP_INFURA_ID } = process.env
 
 const generateERC1155Link = ({
   callback,
@@ -54,32 +64,41 @@ const generateERC1155Link = ({
       if (!signerKey) { return alert('signerKey is not provided') }
       if (!signerAddress) { return alert('signerAddress is not provided') }
       if (!dashboardKey) { return alert('dashboardKey is not provided') }
-      
-      let newLinks: Array<TLink> = []
-      const date = String(new Date())
-      for (let i = 0; i < assets.length; i++) {
-        const result = await sdk?.generateLinkERC1155({
-          weiAmount: assets[i].native_tokens_amount || '0',
-          nftAddress: tokenAddress,
-          wallet,
-          tokenId: assets[i].id || '0',
-          tokenAmount: assets[i].amount || '0',
-          expirationTime: EXPIRATION_DATE,
-          campaignId: id,
-          signingKeyOrWallet: signerKey
-        })
-        if (result) {
-          const newLink = !sponsored ? `${result?.url}&manual=true` : result?.url
-          const newLinkEncrypted = encrypt(newLink, dashboardKey)
-          newLinks = [...newLinks, {
-            link_id: result?.linkId,
-            encrypted_claim_link: newLinkEncrypted
-          }]
-          const percentageFinished = Math.round(newLinks.length / assets.length * 100) / 100
-          dispatch(actionsCampaign.setLinksGenerateLoader(percentageFinished))
-          await sleep(1)
-        }
+      if (!chainId) { return alert('chainId is not provided') }
+      if (!tokenStandard) { return alert('tokenStandard is not provided') }
+      if (!REACT_APP_INFURA_ID) {
+        return alert('REACT_APP_INFURA_ID is not provided in .env file')
       }
+
+      const claimHost = chainId === 1313161554 ? CLAIM_APP_AURORA : CLAIM_APP
+      const contract = contracts[chainId]
+      const networkName = defineNetworkName(chainId)
+      const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
+
+      const updateProgressbar = async (value: number) => {
+        dispatch(actionsCampaign.setLinksGenerateLoader(value))
+        await sleep(1)
+      }
+
+      const RemoteChannel = wrap<typeof MyWebWorker>(new Worker())
+      const webWorker: Remote<MyWebWorker> = await new RemoteChannel(proxy(updateProgressbar));
+      
+      const newLinks = await webWorker.generateLink(
+        tokenStandard,
+        address,
+        contract.factory,
+        networkName,
+        jsonRpcUrl,
+        `https://${networkName}.linkdrop.io`,
+        claimHost,
+        assets,
+        sponsored,
+        tokenAddress,
+        wallet,
+        id,
+        signerKey,
+        dashboardKey
+      )
   
       if (!chainId || !proxyContractAddress || !signerKey || !tokenStandard || !address) { return }
   
