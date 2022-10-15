@@ -42,8 +42,7 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 const QR: FC<ReduxType> = ({
   qrs,
   downloadQRs,
-  downloadLoader,
-  downloadItems
+  downloadLoader
 }) => {
   const { id } = useParams<TLinkParams>()
   const qr: TQRSet | undefined = qrs.find(qr => String(qr.set_id) === id)
@@ -67,8 +66,8 @@ const QR: FC<ReduxType> = ({
 
   return <Container>
     <DownloadProgressBar
-      max={qr && qr.qr_quantity}
-      current={(downloadItems || []).length}
+      max={100}
+      current={Math.ceil(downloadLoader * 100)}
     />
 
   </Container>
