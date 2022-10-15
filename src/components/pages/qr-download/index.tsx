@@ -12,7 +12,7 @@ import * as asyncQRsActions from 'data/store/reducers/qrs/async-actions.tsx'
 
 const mapStateToProps = ({
   campaigns: { campaigns },
-  qrs: { qrs, loading, downloadLoader },
+  qrs: { qrs, loading, downloadLoader, downloadItems },
   user: { address, chainId, dashboardKey },
 }: RootState) => ({
   campaigns,
@@ -21,7 +21,7 @@ const mapStateToProps = ({
   qrs,
   loading,
   dashboardKey,
-  downloadLoader
+  downloadLoader, downloadItems
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
@@ -42,7 +42,8 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 const QR: FC<ReduxType> = ({
   qrs,
   downloadQRs,
-  downloadLoader
+  downloadLoader,
+  downloadItems
 }) => {
   const { id } = useParams<TLinkParams>()
   const qr: TQRSet | undefined = qrs.find(qr => String(qr.set_id) === id)
@@ -67,7 +68,7 @@ const QR: FC<ReduxType> = ({
   return <Container>
     <DownloadProgressBar
       max={qr && qr.qr_quantity}
-      current={Math.ceil(downloadLoader * 100)}
+      current={(downloadItems || []).length}
     />
 
   </Container>
