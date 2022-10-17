@@ -7,19 +7,15 @@ const dashboardKeyApi = axios.create({
 
 type TGetKeyResponse = {
   success: boolean
-  key?: {
-    key_id: string
-    encrypted_key?: string
-    encryption_scheme: string
-  }
-  
+  key_id: string
+  sig_message: string, 
+  encrypted_key?: string
 }
 
 const requests = {
-  create: (encrypted_key: string, key_id: string, encryption_scheme: string) => {
-    console.log({ encrypted_key, key_id, encryption_scheme })
+  create: (encrypted_key: string, key_id: string) => {
     return dashboardKeyApi.post('dashboard-key', {
-      encrypted_key, key_id, encryption_scheme
+      encrypted_key, key_id
     }, { withCredentials: true })
   },
   get: () => {
