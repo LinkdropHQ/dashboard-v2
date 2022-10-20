@@ -12,13 +12,17 @@ const ProgressBar: FC<TProps> = ({
   current,
   max
 }) => {
+  if (isNaN(current)) {
+    return null
+  }
   const value = current / max * 100
+  
   return <ProgressBarContainer className={className}>
     <Bar style={{
       width: `${value}%`
     }} />
     <Data>
-      <span>{current}</span> / <span>{max}</span>
+      <span>{current}</span>%
     </Data>
   </ProgressBarContainer>
 }

@@ -5,7 +5,8 @@ import {
   QRItem,
   Container,
   ContainerButton,
-  InputComponent
+  InputComponent,
+  GenerateProgressBar
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
@@ -13,14 +14,15 @@ import * as asyncQRsActions from 'data/store/reducers/qrs/async-actions.tsx'
 
 const mapStateToProps = ({
   campaigns: { campaigns },
-  qrs: { qrs, loading },
+  qrs: { qrs, loading, uploadLoader },
   user: { address, chainId },
 }: RootState) => ({
   campaigns,
   address,
   chainId,
   qrs,
-  loading
+  loading,
+  uploadLoader
 })
 
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
@@ -36,11 +38,10 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const QRs: FC<ReduxType> = ({
-  chainId,
-  address,
   addQRSet,
   qrs,
-  loading
+  loading,
+  uploadLoader
 }) => {
   const history = useHistory()
   const [ popup, showPopup ] = useState<boolean>(false)
@@ -68,6 +69,12 @@ const QRs: FC<ReduxType> = ({
         title='Quantity of QR codes'
         onChange={value => { setAmount(value); return value }}
       />
+
+      {loading && <GenerateProgressBar
+        current={Math.ceil(uploadLoader * 100)}
+        max={100}
+      />}
+
       <ContainerButton
         title='Create'
         appearance='action'

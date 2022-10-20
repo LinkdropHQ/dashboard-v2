@@ -128,3 +128,9 @@ export function setClaimPattern(claimPattern: TClaimPattern) {
   })
 }
 
+export function setLinksGenerateLoader(linksGenerateLoader: number) {
+  return action(Constants.CAMPAIGN_SET_LINKS_GENERATE_LOADER, {
+    linksGenerateLoader
+  })
+}
+

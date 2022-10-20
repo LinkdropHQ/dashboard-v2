@@ -2,7 +2,6 @@ import { FC } from 'react'
 import { Route, Switch, HashRouter } from 'react-router-dom'
 import ProtectedRoute from './protected-route'
 import { IAppDispatch } from 'data/store'
-
 import {
   NotFound,
   Page,
@@ -28,11 +27,10 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   }
 }
 
-const mapStateToProps = ({ user: { provider, address } }: RootState) => ({ provider, address })
+const mapStateToProps = ({ user: { address } }: RootState) => ({ address })
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
-const AppRouter: FC<ReduxType> = ({ address, connectWallet }) => {
-
+const AppRouter: FC<ReduxType> = ({ address }) => {
   return <HashRouter>
     <Page>
       <Switch>

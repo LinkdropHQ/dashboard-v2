@@ -4,7 +4,10 @@ import { Constants } from './constants'
 const initialState: QRsState = {
   qrs: [],
   loading: false,
-  downloadItems: []
+  downloadItems: [],
+  uploadLoader: 0,
+  downloadLoader: 0,
+  mappingLoader: 0
 }
 
 export function qrsReducer(
@@ -20,6 +23,12 @@ export function qrsReducer(
         return {...state, loading: action.payload }
       case Constants.QRS_SET_DOWNLOAD_ITEMS:
         return {...state, downloadItems: action.payload }
+      case Constants.QRS_SET_UPLOAD_LOADER:
+        return {...state, uploadLoader: action.payload.uploadLoader }
+      case Constants.QRS_SET_MAPPING_LOADER:
+        return {...state, mappingLoader: action.payload.mappingLoader }
+      case Constants.QRS_SET_DOWNLOAD_LOADER:
+        return {...state, downloadLoader: action.payload.downloadLoader }
       default:
           return state;
     }
