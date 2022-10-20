@@ -97,10 +97,12 @@ const downloadQRs = ({
 
         const blob = await currentQr.getRawData('svg')
         if (!blob) { continue }
+        qrs = [...qrs, blob]
         const percentageFinished = Math.round((i + 1) / qrsArray.length * 100) / 100
         dispatch(actionsQR.setDownloadLoader(percentageFinished))
         await sleep(1)
       }
+      console.log({ qrs })
 
       downloadBase64FilesAsZip('svg', qrs, qrSetName)
       dispatch(actionsQR.setDownloadItems([]))
