@@ -102,7 +102,6 @@ const downloadQRs = ({
         dispatch(actionsQR.setDownloadLoader(percentageFinished))
         await sleep(1)
       }
-      console.log({ qrs })
 
       downloadBase64FilesAsZip('svg', qrs, qrSetName)
       dispatch(actionsQR.setDownloadItems([]))
