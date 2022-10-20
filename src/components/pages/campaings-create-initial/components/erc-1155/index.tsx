@@ -66,14 +66,16 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
       tokenAddress: string,
       type: TTokenType,
       address: string,
-      chainId: number
+      chainId: number,
+      claimPattern: TClaimPattern
     ) => campaignAsyncActions.setTokenContractData(
       dispatch,
       tokenAddress,
       provider,
       type,
       address,
-      chainId
+      chainId,
+      claimPattern
     ),
     setAssetsData: (
       type: TTokenType,
@@ -165,7 +167,7 @@ const Erc1155: FC<ReduxType > = ({
 
   useEffect(() => {
     if (!tokenAddress.length || !chainId) { return }
-    setTokenContractData(provider, tokenAddress, type, address, chainId)
+    setTokenContractData(provider, tokenAddress, type, address, chainId, radio)
   }, [tokenAddress, provider])
 
   useEffect(() => {
@@ -189,7 +191,7 @@ const Erc1155: FC<ReduxType > = ({
       <WidgetOptions>
         <InputTokenAddress
           value={title}
-          onChange={value => {
+          onChange={(value: string) => {
             setTitle(value)
             return value
           }}
@@ -200,7 +202,7 @@ const Erc1155: FC<ReduxType > = ({
           value={tokenAddress}
           placeholder='0x Address'
           disabled={Boolean(campaign)}
-          onChange={value => {
+          onChange={(value: string) => {
             setTokenAddress(value)
             return value
           }}

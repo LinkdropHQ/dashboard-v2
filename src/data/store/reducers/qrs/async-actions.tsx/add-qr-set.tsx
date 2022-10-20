@@ -4,7 +4,11 @@ import { QRsActions } from '../types'
 import { RootState } from 'data/store'
 import { TQRSet } from 'types'
 import { qrsApi } from 'data/api'
-import { prepareQRArray } from 'helpers'
+import { sleep } from 'helpers'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import Worker from 'worker-loader!web-workers/qrs-worker'
+import { QRsWorker } from 'web-workers/qrs-worker'
+import { wrap, Remote, proxy } from 'comlink';
 
 const addQRSet = ({
   title,
@@ -23,8 +27,17 @@ const addQRSet = ({
     try {
       if (!dashboardKey) { throw new Error('No dashboardKey found') }
       dispatch(actionsQR.setLoading(true))
+
+      const updateProgressbar = async (value: number) => {
+        dispatch(actionsQR.setUploadLoader(value))
+        await sleep(1)
+      }
+
+      const RemoteChannel = wrap<typeof QRsWorker>(new Worker())
+      const qrsWorker: Remote<QRsWorker> = await new RemoteChannel(proxy(updateProgressbar));
       
-      const qrArray = prepareQRArray(quantity, dashboardKey)
+      const qrArray = await qrsWorker.prepareQRs(quantity, dashboardKey)
+
       const newQr: TQRSet = {
         set_name: title,
         qr_quantity: quantity,
@@ -36,6 +49,7 @@ const addQRSet = ({
       const result = await qrsApi.create(newQr)
       if (result.data.success) {
         dispatch(actionsQR.addQr(result.data.qr_set))
+        dispatch(actionsQR.setUploadLoader(0))
         callback && callback(result.data._id)
       }
     } catch (err) {

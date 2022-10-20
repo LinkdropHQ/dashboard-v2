@@ -14,17 +14,6 @@ import {
  } from './index'
  const { REACT_APP_INFURA_ID } = process.env
 
-// const supportedNetworkURLs = {
-//   1: `https://mainnet.infura.io/v3/${REACT_APP_INFURA_ID}`,
-//   4: `https://rinkeby.infura.io/v3/${REACT_APP_INFURA_ID}`,
-//   3: `https://ropsten.infura.io/v3/${REACT_APP_INFURA_ID}`,
-//   5: `https://goerli.infura.io/v3/${REACT_APP_INFURA_ID}`,
-//   42: `https://kovan.infura.io/v3/${REACT_APP_INFURA_ID}`,
-//   137: 'https://rpc-mainnet.maticvigil.com/',
-//   80001: 'https://rpc-mumbai.maticvigil.com/v1/f592ae2e5afb3bebe39314e9bd0949de5b74cd2f'
-//   // 97: 'https://data-seed-prebsc-1-s1.binance.org:8545/'
-// }
-
 async function connectWallet (dispatch: Dispatch<UserActions> & IAppDispatch) {
   const providerOptions = {
     walletconnect: {
@@ -41,7 +30,7 @@ async function connectWallet (dispatch: Dispatch<UserActions> & IAppDispatch) {
   })
   const provider = await web3Modal.connect();
 
-  const providerWeb3 = new Web3Provider(provider)
+  const providerWeb3 = new Web3Provider(provider, 'any')
   
   let { chainId } = await providerWeb3.getNetwork()
   // if (chainId !== 4) {
@@ -63,6 +52,7 @@ async function connectWallet (dispatch: Dispatch<UserActions> & IAppDispatch) {
   dispatch(actions.setChainId(chainId))
   
   dispatch(initialization(chainId, address))
+
   await getNativeTokenAmount(
     dispatch,
     chainId,

@@ -10,7 +10,7 @@ import {
     NetworkIndicatorClass
     // @ts-ignore
 } from './styled-components.tsx'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import themes from 'themes'
 import { shortenString, defineNetworkName, capitalize } from 'helpers'
@@ -27,7 +27,7 @@ const mapStateToProps = ({ user: { chainId, address, provider } }: RootState) =>
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   return {
     connectWallet: () => asyncUserActions.connectWallet(dispatch),
-    switchNetwork: (provider: any, chainId: number, address: string) => asyncUserActions.switchNetwork(dispatch, provider, chainId, address),
+    switchNetwork: (provider: any, chainId: number, address: string, callback: () => void) => asyncUserActions.switchNetwork(dispatch, provider, chainId, address, callback),
     logout: () => dispatch(asyncUserActions.logout())
   }
 }
@@ -79,12 +79,12 @@ const HeaderComponent: FC<Props & ReduxType> = ({ chainId, address, connectWalle
   const [ showToggleChain, setShowToggleChain ] = useState(false)
   const [ showUserOptions, setShowUserOptions ] = useState(false)
   const location = useLocation<LocationType>()
-  console.log({ location })
+  const history = useHistory()
   const chainsPopup = showToggleChain && <MiniPopup onClose={() => { setShowToggleChain(false) }}>
     {Object.keys(chains).map((chain: string) => {
       const currentChain = chains[Number(chain)]
       return <MiniPopupCustomItem onClick={() => {
-        switchNetwork(provider, Number(chain), address)
+        switchNetwork(provider, Number(chain), address, () => history.push('/'))
       }}>
         {currentChain.displayName}
         <NetworkIndicator className={NetworkIndicatorClass} selected={Number(chainId) === Number(chain)} />

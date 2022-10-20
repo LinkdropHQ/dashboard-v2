@@ -92,9 +92,7 @@ const grantRole = (
         if (callback) { callback() }
       }
     } catch (err) {
-      console.log({
-        err
-      })
+      alert('The contract does not comply to the claim pattern that you’ve selected (mint at claim). Please read more here: https://linkdrop-docs.notion.site/Mint-pattern-requirements-4d99306c117e416dad9bdcf4f473560e')
     }
     dispatch(campaignActions.setLoading(false))
   }

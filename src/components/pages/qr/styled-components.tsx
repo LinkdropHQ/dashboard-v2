@@ -1,4 +1,4 @@
-import { Widget, Button, Input } from "components/common"
+import { Widget, Button, Input, ProgressBar } from "components/common"
 import styled from "styled-components"
 
 export const Container = styled.div`
@@ -48,5 +48,9 @@ export const PopupForm = styled.form`
 `
 
 export const LinksIndicator = styled.div`
-  
+`
+
+export const StyledProgressBar = styled(ProgressBar)`
+  min-width: 100%;
+  margin-bottom: 20px;
 `

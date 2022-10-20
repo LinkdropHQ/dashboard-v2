@@ -11,19 +11,22 @@ import {
   toHex,
 } from 'helpers'
 import chains from 'configs/chains'
+import * as userActions from '../actions'
 import { IAppDispatch } from 'data/store';
 
 async function switchNetwork (
   dispatch: Dispatch<UserActions> & IAppDispatch,
 	provider: any,
   chainId: number,
-  address: string
+  address: string,
+  callback: () => void
 ) {
   try {
     await provider.provider.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: toHex(chainId) }],
     })
+    dispatch(userActions.setChainId(chainId))
     dispatch(initialization(chainId, address))
     await getNativeTokenAmount(
       dispatch,
@@ -31,7 +34,9 @@ async function switchNetwork (
       address,
       provider
     )
-    window.location.href = ''
+    console.log({ provider })
+    callback && callback()
+    
   } catch (err) {
       const switchError = err as IMetamaskError
       console.log(switchError.code)
@@ -52,7 +57,15 @@ async function switchNetwork (
               params: [data],
             })
 
-            window.location.href = ''
+            dispatch(userActions.setChainId(chainId))
+            dispatch(initialization(chainId, address))
+            await getNativeTokenAmount(
+              dispatch,
+              chainId,
+              address,
+              provider
+            )
+            callback && callback()
           }
         } catch (addError) {
           // handle "add" error

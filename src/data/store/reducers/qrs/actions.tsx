@@ -17,3 +17,15 @@ export function setLoading(loading: boolean) {
 export function setDownloadItems(downloadItems: Blob[]) {
   return action(Constants.QRS_SET_DOWNLOAD_ITEMS, downloadItems)
 }
+
+export function setUploadLoader(uploadLoader: number) {
+  return action(Constants.QRS_SET_UPLOAD_LOADER, { uploadLoader })
+}
+
+export function setDownloadLoader(downloadLoader: number) {
+  return action(Constants.QRS_SET_DOWNLOAD_LOADER, { downloadLoader })
+}
+
+export function setMappingLoader(mappingLoader: number) {
+  return action(Constants.QRS_SET_MAPPING_LOADER, { mappingLoader })
+}

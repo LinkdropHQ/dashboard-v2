@@ -53,6 +53,7 @@ const initialization = (
     const networkName = defineNetworkName(chainId)
     const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
     const claimHost = chainId === 1313161554 ? CLAIM_APP_AURORA : CLAIM_APP
+
     const sdk = new LinkdropSDK({
       claimHost,
       factoryAddress: contract.factory,

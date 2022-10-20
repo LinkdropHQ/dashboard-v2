@@ -72,14 +72,16 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
       tokenAddress: string,
       type: TTokenType,
       address: string,
-      chainId: number
+      chainId: number,
+      claimPattern: TClaimPattern
     ) => campaignAsyncActions.setTokenContractData(
       dispatch,
       tokenAddress,
       provider,
       type,
       address,
-      chainId
+      chainId,
+      claimPattern
     ),
     setAssetsData: (
       type: TTokenType,
@@ -172,7 +174,7 @@ const Erc20: FC<ReduxType > = ({
 
   useEffect(() => {
     if (!tokenAddress.length || !chainId) { return }
-    setTokenContractData(provider, tokenAddress, type, address, chainId)
+    setTokenContractData(provider, tokenAddress, type, address, chainId, radio)
   }, [tokenAddress, provider])
 
   useEffect(() => {

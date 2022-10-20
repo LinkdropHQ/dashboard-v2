@@ -45,6 +45,21 @@ const chains: TChains = {
       'https://etherscan.io'
     ]
   },
+  5: {
+    chainName: 'Goerli',
+    displayName: 'Goerli',
+    nativeCurrency: {
+      name: 'GoerliETH',
+      symbol: 'GoerliETH',
+      decimals: 18
+    },
+    rpcUrls: [
+      `https://goerli.infura.io/v3/${REACT_APP_INFURA_ID}`
+    ],
+    blockExplorerUrls: [
+      'https://goerli.etherscan.io'
+    ]
+  },
   // 4: {
   //   chainName: 'Rinkeby Testnet',
   //   displayName: 'Rinkeby',

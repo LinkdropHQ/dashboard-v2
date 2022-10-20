@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import * as campaignActions from 'data/store/reducers/campaign/actions'
-import * as userActions from 'data/store/reducers/user/actions'
+import * as userActions from '../actions'
 
 import {
   UserActions,
@@ -72,7 +72,6 @@ const authorize = (
         )
 
         dispatch(userActions.setDashboardKey(decrypted_dashboard_key))
-
       }
 
       //

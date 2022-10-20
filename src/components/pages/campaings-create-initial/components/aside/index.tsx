@@ -89,17 +89,19 @@ const defineTotalTitle: TDefineTotalTitle = (
       }
       return id
     })
+    const uniqueIDs = Array.from(new Set(idsFormatted))
     if (!totalAmount.original_amount) {
       if (originalNativeTokensAmount === '0') {
-        return `ID's: ${idsFormatted.join(', ')}`
+        
+        return `ID's: ${uniqueIDs.join(', ')}`
       } else {
-        return `ID's: ${idsFormatted.join(', ')} + ${nativeTokenSymbol}`
+        return `ID's: ${uniqueIDs.join(', ')} + ${nativeTokenSymbol}`
       }
     } else {
       if (originalNativeTokensAmount === '0') {
-        return `ID's: ${idsFormatted.join(', ')}`
+        return `ID's: ${uniqueIDs.join(', ')}`
       } else {
-        return `ID's: ${idsFormatted.join(', ')} + ${nativeTokenSymbol}`
+        return `ID's: ${uniqueIDs.join(', ')} + ${nativeTokenSymbol}`
       }
     }
   }
