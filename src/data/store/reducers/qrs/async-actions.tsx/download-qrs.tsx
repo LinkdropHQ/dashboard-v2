@@ -6,8 +6,10 @@ import { downloadBase64FilesAsZip, sleep } from 'helpers'
 import { TQRItem } from "types"
 import QRCodeStyling from 'qr-code-styling'
 import { decrypt } from 'lib/crypto'
-import { CLAIM_APP_QR } from 'configs/app'
 import LedegerImage from 'images/ledger-logo.svg'
+const {
+  REACT_APP_CLAIM_APP
+} = process.env
 
 type tplotOptions = {
   [key: string]: any
@@ -40,7 +42,7 @@ const downloadQRs = ({
       for (let i = 0; i < qrsArray.length; i++) {
         const decrypted_qr_secret = decrypt(qrsArray[i].encrypted_qr_secret, dashboardKey)
         const currentQr = new QRCodeStyling({
-          data: `${CLAIM_APP_QR}/#/qr/${decrypted_qr_secret}`,
+          data: `${REACT_APP_CLAIM_APP}/#/qr/${decrypted_qr_secret}`,
           width,
           height,
           margin: 60,

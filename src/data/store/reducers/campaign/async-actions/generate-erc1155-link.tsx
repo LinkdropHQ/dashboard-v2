@@ -15,12 +15,16 @@ import {
   sleep
 } from 'helpers'
 import { wrap, Remote, proxy } from 'comlink';
-import { CLAIM_APP, CLAIM_APP_AURORA } from 'configs/app'
+import {  } from 'configs/app'
 import contracts from 'configs/contracts'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import Worker from 'worker-loader!web-workers/links-worker'
 import { LinksWorker } from 'web-workers/links-worker'
-const { REACT_APP_INFURA_ID } = process.env
+const {
+  REACT_APP_INFURA_ID,
+  REACT_APP_CLAIM_APP,
+  REACT_APP_CLAIM_APP_AURORA
+} = process.env
 
 const generateERC1155Link = ({
   callback,
@@ -69,8 +73,14 @@ const generateERC1155Link = ({
       if (!REACT_APP_INFURA_ID) {
         return alert('REACT_APP_INFURA_ID is not provided in .env file')
       }
+      if (!REACT_APP_CLAIM_APP_AURORA) {
+        return alert('REACT_APP_CLAIM_APP_AURORA is not provided in .env file')
+      }
+      if (!REACT_APP_CLAIM_APP) {
+        return alert('REACT_APP_CLAIM_APP is not provided in .env file')
+      }
 
-      const claimHost = chainId === 1313161554 ? CLAIM_APP_AURORA : CLAIM_APP
+      const claimHost = chainId === 1313161554 ? REACT_APP_CLAIM_APP_AURORA : REACT_APP_CLAIM_APP
       const contract = contracts[chainId]
       const networkName = defineNetworkName(chainId)
       const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })

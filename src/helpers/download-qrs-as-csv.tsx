@@ -1,6 +1,8 @@
 import { TQRItem } from "types"
 import { decrypt } from 'lib/crypto'
-import { CLAIM_APP_QR } from 'configs/app'
+const {
+  REACT_APP_CLAIM_APP
+} = process.env
 
 const downloadQRsAsCSV = (
   arr: TQRItem[],
@@ -10,7 +12,7 @@ const downloadQRsAsCSV = (
 ) => {
   const values = arr.map(item => {
     const updatedItem = {
-      ar_link: `${CLAIM_APP_QR}/#/qr/${decrypt(item.encrypted_qr_secret, dashboardKey)}`
+      ar_link: `${REACT_APP_CLAIM_APP}/#/qr/${decrypt(item.encrypted_qr_secret, dashboardKey)}`
     }
     return Object.values(updatedItem).join(",")
   })
