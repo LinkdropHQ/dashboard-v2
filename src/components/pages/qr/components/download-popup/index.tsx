@@ -18,13 +18,6 @@ const DownloadPopup: FC<TProps> = ({
 }) => {
   const history = useHistory()
   const [ formSize, setFormSize ] = useState('2')
-
-  const inputOnChange = (value: string) => {
-    if (/^[0-9/.]+$/.test(value) || value === '') {
-      setFormSize(value);
-    }
-    return value
-  }
   
   return <Popup
     title='Specify the size of the QR code'
@@ -39,13 +32,13 @@ const DownloadPopup: FC<TProps> = ({
         <InputComponent
           title='Width (inches)'
           value={String(formSize)}
-          onChange={inputOnChange}
+          onChange={value => { setFormSize(value); return value }}
           placeholder='Width (inches)'
         />
         <InputComponent
           title='Height (inches)'
           value={String(formSize)}
-          onChange={inputOnChange}
+          onChange={value => { setFormSize(value); return value }}
           placeholder='Height (inches)'
         />
       </PopupFormContent>

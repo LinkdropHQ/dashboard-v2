@@ -19,7 +19,6 @@ import {
 } from './styled-components'
 import { Select } from 'components/common'
 import * as asyncQRsActions from 'data/store/reducers/qrs/async-actions.tsx'
-import { downloadQRsAsCSV } from 'helpers'
 
 const mapStateToProps = ({
   campaigns: { campaigns },
@@ -150,6 +149,7 @@ const QR: FC<ReduxType> = ({
     {id && downloadPopup && <DownloadPopup
       id={id}  
       onClose={() => toggleDownloadPopup(false)}
+
     />}
 
 
@@ -168,7 +168,7 @@ const QR: FC<ReduxType> = ({
               }}
             />
             <WidgetButton
-              title='Download (images)'
+              title='Download'
               appearance='action'
               disabled={defineIfDisabled()}
               onClick={() => {

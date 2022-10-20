@@ -32,14 +32,12 @@ import decryptLinks from './decrypt-links'
 import sleep from './sleep'
 import defineContract from './define-contract'
 import metadataUrlResolve from './metadata-url-resolve'
-import downloadQRsAsCSV from './download-qrs-as-csv'
 
 export {
   shortenString,
   defineNetworkName,
   capitalize,
   defineContract,
-  downloadQRsAsCSV,
   defineJSONRpcUrl,
   copyToClipboard,
   checkRecipientsDataFormat,
