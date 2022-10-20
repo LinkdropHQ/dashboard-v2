@@ -4,6 +4,7 @@ import capitalize from './capitalize'
 import defineJSONRpcUrl from './define-json-rpc-url'
 import copyToClipboard from './copy-to-clipboard'
 import downloadLinksAsCSV from './download-links-as-csv'
+import downloadQRsAsCSV from './download-qrs-as-csv'
 import checkRecipientsDataFormat from './check-recipients-data-format'
 import hexlifyIpfsHash from './hexlify-ipfs-hash'
 import getValidImage from './get-valid-image'
@@ -32,14 +33,12 @@ import decryptLinks from './decrypt-links'
 import sleep from './sleep'
 import defineContract from './define-contract'
 import metadataUrlResolve from './metadata-url-resolve'
-import downloadQRsAsCSV from './download-qrs-as-csv'
 
 export {
   shortenString,
   defineNetworkName,
   capitalize,
   defineContract,
-  downloadQRsAsCSV,
   defineJSONRpcUrl,
   copyToClipboard,
   checkRecipientsDataFormat,
@@ -61,6 +60,7 @@ export {
   countAssetsTotalAmountERC721,
   checkERC1155AssetsData,
   parseERC1155AssetsData,
+  downloadQRsAsCSV,
   countAssetsTotalAmountERC1155,
   defineQRStatusName,
   mapQRsWithLinks,

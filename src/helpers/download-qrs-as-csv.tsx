@@ -28,4 +28,3 @@ const downloadQRsAsCSV = (
 }
 
 export default downloadQRsAsCSV
-
