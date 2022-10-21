@@ -51,15 +51,13 @@ const parseSingleDataERC20: (value: string, decimals: number) => TAsset[] = (val
   let result = []
   if (value.includes('(') && value.includes(')')) {
     const valueAndAmount = value.replace(/\)/i, '').split('(').map((item: string) => item.trim())
-    
-    for (let x = 0; x < Number(valueAndAmount[1]); x++) {
-      result.push({
-        amount: String(utils.parseUnits(String(valueAndAmount[0]), decimals)),
-        original_amount: String(valueAndAmount[0]),
-        native_tokens_amount: '0',
-        original_native_tokens_amount: '0'
-      })
-    }
+
+    result = new Array(Number(valueAndAmount[1])).fill({
+      amount: String(utils.parseUnits(String(valueAndAmount[0]), decimals)),
+      original_amount: String(valueAndAmount[0]),
+      native_tokens_amount: '0',
+      original_native_tokens_amount: '0'
+    })
   } else {
     result.push({
       amount: String(utils.parseUnits(String(value), decimals)),
@@ -75,16 +73,13 @@ const parseDoubleDataERC20: (value: string, decimals: number) => TAsset[] = (val
   let result = []
   if (value.includes('(') && value.includes(')')) {
     const valueAndAmount = value.replace(/\)/i, '').split('(').map((item: string) => item.trim())
-    
-    for (let x = 0; x < Number(valueAndAmount[1]); x++) {
-      const [ tokensValue, nativeTokensAmount ] = valueAndAmount[0].split(',').map(item => item.trim())
-      result.push({
-        amount: String(utils.parseUnits(String(tokensValue), decimals)),
-        original_amount: String(tokensValue),
-        native_tokens_amount: String(utils.parseUnits(String(nativeTokensAmount), 18)),
-        original_native_tokens_amount: String(nativeTokensAmount)
-      })
-    }
+    const [ tokensValue, nativeTokensAmount ] = valueAndAmount[0].split(',').map(item => item.trim())
+    result = new Array(Number(valueAndAmount[1])).fill({
+      amount: String(utils.parseUnits(String(tokensValue), decimals)),
+      original_amount: String(tokensValue),
+      native_tokens_amount: String(utils.parseUnits(String(nativeTokensAmount), 18)),
+      original_native_tokens_amount: String(nativeTokensAmount)
+    })
   } else {
     const [ tokensValue, nativeTokensAmount ] = value.split(',').map(item => item.trim())
     result.push({
