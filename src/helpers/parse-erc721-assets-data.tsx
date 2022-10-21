@@ -3,6 +3,7 @@ import {
   TAsset,
 } from 'types'
 import { utils } from 'ethers'
+import { getBignumberInterval } from 'helpers'
 
 type TResultERC721 = (data: string) => TAsset[] | null
 
@@ -44,22 +45,29 @@ const parseERC721AssetsData: TResultERC721 = (data) => {
 
 const parseSingleDataERC721: (value: string) => TAsset[] = (value) => {
   let result = []
-  console.log({ value })
   if (value.includes('[') && value.includes(']')) {
     const tokenIds = value
       .replace(/\]/i, '')
       .replace(/\[/i, '')
       .split('-')
       .map((item: string) => item.trim())
-    console.log({ tokenIds })
     
-    for (let x = Number(tokenIds[0]); x <= Number(tokenIds[1]); x++) {
-      result.push({
-        id: String(x),
-        native_tokens_amount: '0',
-        original_native_tokens_amount: '0'
-      })
-    }
+    const {
+      prefix,
+      suffix,
+      limit
+    } = getBignumberInterval(tokenIds[0], tokenIds[1])
+    console.log({
+      prefix,
+      suffix,
+      limit
+    })
+    result = Array.from({length: limit + 1}, (_, i) => ({
+      id: prefix + (Number(suffix) + i),
+      native_tokens_amount: '0',
+      original_native_tokens_amount: '0'
+    }))
+    console.log({ result })
   } else {
     result.push({
       id: String(value),

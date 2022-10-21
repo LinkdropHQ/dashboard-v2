@@ -33,9 +33,11 @@ import decryptLinks from './decrypt-links'
 import sleep from './sleep'
 import defineContract from './define-contract'
 import metadataUrlResolve from './metadata-url-resolve'
+import getBignumberInterval from './get-bignumber-interval'
 
 export {
   shortenString,
+  getBignumberInterval,
   defineNetworkName,
   capitalize,
   defineContract,
