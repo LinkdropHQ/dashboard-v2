@@ -177,7 +177,7 @@ const Erc721: FC<ReduxType > = ({
   }, [assetsValue])
 
   const defineIfButtonDisabled = () => {
-    if (tokenAddress.length !== 42) { return true }
+    if (tokenAddress.length !== 42 || title.length === 0) { return true }
     return !checkERC721AssetsData(assetsValue)
   }
 
