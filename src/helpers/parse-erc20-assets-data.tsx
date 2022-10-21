@@ -52,6 +52,7 @@ const parseSingleDataERC20: (value: string, decimals: number) => TAsset[] = (val
   if (value.includes('(') && value.includes(')')) {
     const valueAndAmount = value.replace(/\)/i, '').split('(').map((item: string) => item.trim())
     
+    
     for (let x = 0; x < Number(valueAndAmount[1]); x++) {
       result.push({
         amount: String(utils.parseUnits(String(valueAndAmount[0]), decimals)),
