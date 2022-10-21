@@ -56,7 +56,6 @@ const defineTotalTitle: TDefineTotalTitle = (
   totalAmount,
   nativeTokenSymbol
 ) => {
-  console.log({ totalAmount })
   if (totalAmount.original_amount && (!totalAmount.ids || totalAmount.ids.length === 0)) {
     const originalAmount = String(totalAmount.original_amount)
     const originalNativeTokensAmount = String(totalAmount.original_native_tokens_amount)
