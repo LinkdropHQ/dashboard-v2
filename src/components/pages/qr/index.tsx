@@ -168,7 +168,7 @@ const QR: FC<ReduxType> = ({
               }}
             />
             <WidgetButton
-              title='Download'
+              title='Download (images)'
               appearance='action'
               disabled={defineIfDisabled()}
               onClick={() => {
