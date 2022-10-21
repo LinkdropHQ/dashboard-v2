@@ -1,3 +1,5 @@
+import { getBignumberInterval } from 'helpers'
+
 const checkERC721Value: (value: string) => boolean = (value) => {
   const itemDivided = value.split(',')
         .map((item: string) => item.trim())
@@ -14,8 +16,6 @@ const checkERC721Value: (value: string) => boolean = (value) => {
     return itemDivided.every(checkERC721SingleValue)
   }
 
-
-
   // ['1, 0.001']
   // ['[1-5], 0.001']
   return false
@@ -25,15 +25,21 @@ const checkERC721SingleValue = (value: string): boolean => {
   console.log({ value })
   if (value.includes('[') && value.includes(']')) {
     const tokenIds = value
-    .replace(/\]/i, '')
-    .replace(/\[/i, '')
-    .split('-')
-    .map((item: string) => item.trim())
+      .replace(/\]/i, '')
+      .replace(/\[/i, '')
+      .split('-')
+      .map((item: string) => item.trim())
+      .filter(item => item)
     console.log({ tokenIds })
+    if (tokenIds.length < 2) { return false }
+    const {
+      diff
+    } = getBignumberInterval(tokenIds[0], tokenIds[1])
+    console.log({ diff })
     return tokenIds
-    .every(item => Boolean(Number(item))) &&
-    tokenIds.length === 2 &&
-    Number(tokenIds[0]) < Number(tokenIds[1])
+      .every(item => item === '0' || Boolean(Number(item))) &&
+      tokenIds.length === 2 &&
+      !diff.includes('-')
 
   } else {
     if (value === '') { return false }

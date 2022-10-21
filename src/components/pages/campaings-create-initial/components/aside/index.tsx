@@ -81,36 +81,16 @@ const defineTotalTitle: TDefineTotalTitle = (
     }
   }
   if (totalAmount.ids && totalAmount.ids.length > 0) {
-    const originalNativeTokensAmount = String(totalAmount.original_native_tokens_amount)
-    const idsFormatted = totalAmount.ids.map(id => {
-      if (String(id).length > 6) {
-        return shortenString(String(id))
-      }
-      return id
-    })
-    const uniqueIDs = Array.from(new Set(idsFormatted))
-    if (!totalAmount.original_amount) {
-      if (originalNativeTokensAmount === '0') {
-        
-        return `ID's: ${uniqueIDs.join(', ')}`
-      } else {
-        return `ID's: ${uniqueIDs.join(', ')} + ${nativeTokenSymbol}`
-      }
-    } else {
-      if (originalNativeTokensAmount === '0') {
-        return `ID's: ${uniqueIDs.join(', ')}`
-      } else {
-        return `ID's: ${uniqueIDs.join(', ')} + ${nativeTokenSymbol}`
-      }
-    }
+    
+    
   }
   return ''
 }
 
 const countAssetsTotalAmount: TDefineAssetsTotalAmount = (assets, type) => {
-  if (type === 'ERC20') {
+  if (type.toUpperCase() === 'ERC20') {
     return countAssetsTotalAmountERC20(assets)
-  } else if (type === 'ERC721') {
+  } else if (type.toUpperCase() === 'ERC721') {
     return countAssetsTotalAmountERC721(assets)
   } else {
     return countAssetsTotalAmountERC1155(assets)

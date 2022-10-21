@@ -9,7 +9,7 @@ export const WidgetComponent = styled(Widget)``
 
 export const WidgetInfo = styled.div`
   display: grid;
-  max-width: 600px;
+  max-width: 500px;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
   align-items: center;
@@ -34,6 +34,10 @@ export const Buttons = styled.div`
 
 export const WidgetButton = styled(Button)`
   margin-right: 10px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 `
 
 export const InputComponent = styled(Input)`

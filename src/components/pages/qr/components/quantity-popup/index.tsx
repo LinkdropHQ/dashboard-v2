@@ -25,7 +25,12 @@ const QuantityPopup: FC<TProps> = ({
       <PopupFormContent>
         <InputComponent
           value={String(formQuantity)}
-          onChange={value => { setFormQuantity(value); return value }}
+          onChange={value => {
+            if (/^[0-9]+$/.test(value) || value === '') {
+              setFormQuantity(value)
+            }
+            return value
+          }}
           placeholder='Quantity'
         />
       </PopupFormContent>
