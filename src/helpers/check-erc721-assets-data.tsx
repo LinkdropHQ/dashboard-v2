@@ -30,7 +30,7 @@ const checkERC721SingleValue = (value: string): boolean => {
       .split('-')
       .map((item: string) => item.trim())
       .filter(item => item)
-    console.log({ tokenIds })
+
     if (tokenIds.length < 2) { return false }
     const {
       diff
