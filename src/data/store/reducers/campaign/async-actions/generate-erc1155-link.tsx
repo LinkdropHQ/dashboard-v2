@@ -109,6 +109,8 @@ const generateERC1155Link = ({
         signerKey,
         dashboardKey
       )
+
+      console.log({ newLinks })
   
       if (!chainId || !proxyContractAddress || !signerKey || !tokenStandard || !address) { return }
   

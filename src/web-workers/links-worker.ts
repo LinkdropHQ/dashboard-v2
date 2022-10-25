@@ -63,6 +63,15 @@ export class LinksWorker {
     campaignId: string,
     signingKeyOrWallet: string
   ) {
+    console.log({
+      nftAddress: tokenAddress,
+      wallet,
+      expirationTime,
+      campaignId,
+      signingKeyOrWallet,
+      tokenId,
+      weiAmount
+    })
     return await this.sdk?.generateLinkERC721({
       nftAddress: tokenAddress,
       wallet,
@@ -84,7 +93,17 @@ export class LinksWorker {
     campaignId: string,
     signingKeyOrWallet: string
   ) {
-    return await this.sdk?.generateLinkERC1155({
+    console.log({
+      nftAddress: tokenAddress,
+      wallet,
+      expirationTime,
+      campaignId,
+      signingKeyOrWallet,
+      tokenId,
+      tokenAmount,
+      weiAmount
+    })
+    await this.sdk?.generateLinkERC1155({
       nftAddress: tokenAddress,
       wallet,
       expirationTime,
@@ -144,6 +163,7 @@ export class LinksWorker {
             signerKey
           )
         } else {
+          
           result = await this.createERC1155Link(
             assets[i].native_tokens_amount || '0',
             tokenAddress,
@@ -169,6 +189,7 @@ export class LinksWorker {
           }
         }
       }
+      console.log('this.newLinks', this.newLinks)
       return this.newLinks
     } catch (e) {
       console.log({ e })
