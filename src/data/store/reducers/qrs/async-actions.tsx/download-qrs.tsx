@@ -115,7 +115,7 @@ const downloadQRs = ({
         //   svg.appendChild(text)
         // })
 
-        const blob = await currentQr.getRawData('svg')
+        const blob = await currentQr.getRawData('png')
         if (!blob) { continue }
         qrs = [...qrs, blob]
         const percentageFinished = Math.round((i + 1) / qrsArray.length * 100) / 100
@@ -123,7 +123,7 @@ const downloadQRs = ({
         await sleep(1)
       }
 
-      downloadBase64FilesAsZip('svg', qrs, qrSetName)
+      downloadBase64FilesAsZip('png', qrs, qrSetName)
       dispatch(actionsQR.setDownloadItems([]))
       callback && callback()
     } catch (err) {
