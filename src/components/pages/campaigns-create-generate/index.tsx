@@ -72,6 +72,16 @@ const CampaignsCreateGenerate: FC<ReduxType> = ({
     }
   }, [])
 
+  useEffect(() => {
+    window.onbeforeunload = function(e) {
+      e.preventDefault()
+      const dialogText = 'Are you sure?'
+      e.returnValue = dialogText;
+      return dialogText
+    }
+    return () => { window.onbeforeunload = () => {} }
+  }, [])
+
   return <Container>
     <GenerateProgressBar
       max={100}
