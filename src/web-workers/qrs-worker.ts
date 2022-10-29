@@ -4,6 +4,7 @@ import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { ethers } from 'ethers'
 import { decrypt, encrypt } from 'lib/crypto'
 
+
 export class QRsWorker {
   private cb: (value: number) => void;
   private currentPercentageFinished: number = 0;
@@ -40,12 +41,9 @@ export class QRsWorker {
   }
 
   public async downloadQRs (
-    qrsArray: TQRItem[],
-    width: number,
-    height: number,
-    dashboardKey: string
+
   ) {
-    // work in progress
+
   }
 
   public mapQrsWithLinks (
