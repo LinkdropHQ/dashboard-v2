@@ -52,18 +52,12 @@ export class QRsWorker {
     dashboard_key: string
   ) {
     const qrArray: TQRItem[] = qrs
-
     for (let i = 0; i < qrArray.length; i++) {
       const decrypted_qr_secret = decrypt(qrArray[i].encrypted_qr_secret, dashboard_key)
       const claim_link = links[i].claim_link
       qrArray[i].encrypted_claim_link = encrypt(claim_link, decrypted_qr_secret)
       qrArray[i].claim_link_id = links[i].link_id
-      console.log({
-        i,
-        length: qrArray.length
-      })
       const percentageFinished = Math.round(i / qrArray.length * 100) / 100
-
       if (this.currentPercentageFinished < percentageFinished) {
         this.currentPercentageFinished = percentageFinished
         this.cb(this.currentPercentageFinished)

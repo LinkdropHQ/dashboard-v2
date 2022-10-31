@@ -43,21 +43,35 @@ const mapQRsWithLinksAction = ({
   
       const qrArrayMapped = await qrsWorker.mapQrsWithLinks(qrs, links, dashboardKey)
       const result = await qrsApi.mapLinks(setId, qrArrayMapped)
-      if (result.data.success) {
-        const qrsUpdated = qrSets.map(item => {
-          if (item.set_id === setId) {
-            return {
-              ...item,
-              links_uploaded: true
-            }
+      const qrsUpdated = qrSets.map(item => {
+        if (item.set_id === setId) {
+          return {
+            ...item,
+            links_uploaded: result.data.success
           }
-          return item
-        })
-        dispatch(actionsQR.updateQrs(qrsUpdated))
-        dispatch(actionsQR.setMappingLoader(0))
-        callback && callback()
+        }
+        return item
+      })
+      dispatch(actionsQR.updateQrs(qrsUpdated))
+      callback && callback()
+      if (!result.data.success) {
+        alert('Couldn’t connect links to QRs, please try again')
       }
+      dispatch(actionsQR.updateQrs(qrsUpdated))
+      dispatch(actionsQR.setMappingLoader(0))
     } catch (err) {
+      const qrsUpdated = qrSets.map(item => {
+        if (item.set_id === setId) {
+          return {
+            ...item,
+            links_uploaded: false
+          }
+        }
+        return item
+      })
+      dispatch(actionsQR.updateQrs(qrsUpdated))
+      alert('Couldn’t connect links to QRs, please try again')
+      dispatch(actionsQR.setMappingLoader(0))
       console.error(err)
     }
     dispatch(actionsQR.setLoading(false))
