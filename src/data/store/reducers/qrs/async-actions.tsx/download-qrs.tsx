@@ -6,6 +6,11 @@ import { downloadBase64FilesAsZip } from 'helpers'
 import { TQRItem } from "types"
 import QRCodeStyling from 'qr-code-styling-bigmac'
 import { decrypt } from 'lib/crypto'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import Worker from 'worker-loader!web-workers/qrs-worker'
+import { QRsWorker } from 'web-workers/qrs-worker'
+import { wrap, Remote, proxy } from 'comlink';
+
 const ledgerImage = `                                                                                                                                                                                            
   <svg width="60" height="51" viewBox="0 0 60 51" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="60" height="51" fill="black"/>
@@ -72,6 +77,18 @@ const downloadQRs = ({
           crossOrigin: 'anonymous',
         }
       })
+
+      // worker test
+      const updateProgressbar = async (value: number) => {
+        console.log(`value from callback: `, value)
+      }
+
+      const RemoteChannel = wrap<typeof QRsWorker>(new Worker())
+      const qrsWorker: Remote<QRsWorker> = await new RemoteChannel(proxy(updateProgressbar));
+  
+      const test = await qrsWorker.downloadQRs()
+      // worker test
+
       for (let i = 0; i < qrsArray.length; i++) {
         const decrypted_qr_secret = decrypt(qrsArray[i].encrypted_qr_secret, dashboardKey)
         initialQR.update({
