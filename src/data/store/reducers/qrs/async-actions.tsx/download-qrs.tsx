@@ -9,6 +9,14 @@ import Worker from 'worker-loader!web-workers/qrs-worker'
 import { QRsWorker } from 'web-workers/qrs-worker'
 import { wrap, Remote, proxy } from 'comlink';
 import { sleep } from 'helpers'
+const ledgerImage = `                                                                                                                                                                                            
+  <svg width="60" height="51" viewBox="0 0 60 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="60" height="51" fill="black"/>
+    <path d="M5.40002 34.3V46.4H23.9V43.7H8.10003V34.2H5.40002V34.3ZM51.9 34.3V43.8H36.1V46.5H54.6V34.3H51.9ZM24 15.8V34.3H36.1V31.9H26.6V15.9H24V15.8ZM5.40002 3.60001V15.7H8.10003V6.3H23.9V3.60001H5.40002ZM36.1 3.60001V6.3H51.9V15.8H54.6V3.60001H36.1Z" fill="white"/>
+  </svg>                                                                                                                                                                                                      
+`
+
+const ledgerImageUpdated = "data:image/svg+xml," + encodeURIComponent(ledgerImage)
 
 const {
   REACT_APP_CLAIM_APP
@@ -45,8 +53,32 @@ const downloadQRs = ({
       }
 
       const RemoteChannel = wrap<typeof QRsWorker>(new Worker())
-      const qrsWorker: Remote<QRsWorker> = await new RemoteChannel(proxy(updateProgressbar));
+      const qrsWorker: Remote<QRsWorker> = await new RemoteChannel(proxy(updateProgressbar))
+
+      const imageParams = {
+        image: ledgerImageUpdated,
+        imageOptions: {
+          margin: width / 60,
+          imageSize: 0.5,
+          crossOrigin: 'anonymous',
+        }
+      }
+
+      // const getImage: () => Promise<any> = () => new Promise((resolve, reject) => {
+      //   const image = new Image()
   
+      //   if (typeof imageParams.imageOptions.crossOrigin === "string") {
+      //     image.crossOrigin = imageParams.imageOptions.crossOrigin
+      //   }
+  
+      //   image.onload = (): void => {
+      //     resolve(image)
+      //   }
+      //   image.src = imageParams.image;
+      // })
+
+      // const image = await getImage()
+
       const qrs = await qrsWorker.downloadQRs(
         qrsArray,
         width,

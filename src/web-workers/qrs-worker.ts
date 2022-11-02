@@ -29,7 +29,6 @@ export class QRsWorker {
     quantity: number,
     dashboard_key: string
   ) {
-    console.log('prepare qrs start')
     const qrArray: TQRItem[] = []
     for (let i = 0; i < quantity; i++) {
       const newWallet = wccrypto.generateKeyPair()
@@ -58,7 +57,6 @@ export class QRsWorker {
     claimAppUrl?: string
   ) {
     let qrs: Blob[] = []
-
     for (let i = 0; i < qrsArray.length; i++) {
       const decrypted_qr_secret = decrypt(qrsArray[i].encrypted_qr_secret, dashboardKey)
       const qrCode = new QRCodeStyling({
@@ -81,7 +79,13 @@ export class QRsWorker {
         },
         backgroundOptions: {
           color: "#000",
-       }
+        },
+        image: ledgerImageUpdated,
+        imageOptions: {
+          margin: width / 60,
+          imageSize: 0.5,
+          crossOrigin: 'anonymous',
+        }
       })
 
       const blob = await qrCode.getRawData('png')
