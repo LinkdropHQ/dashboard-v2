@@ -4,7 +4,6 @@ import { QRsActions } from '../types'
 import { RootState } from 'data/store'
 import { TQRItem, TLinkDecrypted } from 'types'
 import { qrsApi } from 'data/api'
-import { mapQRsWithLinks } from 'helpers'
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import Worker from 'worker-loader!web-workers/qrs-worker'
 import { QRsWorker } from 'web-workers/qrs-worker'

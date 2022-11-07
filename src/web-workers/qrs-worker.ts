@@ -1,9 +1,11 @@
+/* gobal OffscreenCanvas */
+
 import { expose } from 'comlink';
-import { TQRItem, TLinkDecrypted } from 'types'
+import { TQRItem, TLinkDecrypted, TQRImageOptions } from 'types'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { ethers } from 'ethers'
 import { decrypt, encrypt } from 'lib/crypto'
-
+import QRCodeStyling from 'qr-code-styling-bigmac'
 
 export class QRsWorker {
   private cb: (value: number) => void;
@@ -19,7 +21,6 @@ export class QRsWorker {
     quantity: number,
     dashboard_key: string
   ) {
-    console.log('prepare qrs start')
     const qrArray: TQRItem[] = []
     for (let i = 0; i < quantity; i++) {
       const newWallet = wccrypto.generateKeyPair()
@@ -41,9 +42,56 @@ export class QRsWorker {
   }
 
   public async downloadQRs (
-
+    qrsArray: TQRItem[],
+    width: number,
+    height: number,
+    dashboardKey: string,
+    imageOptions: TQRImageOptions,
+    logoImageWidth: number,
+    logoImageHeight: number,
+    img: ImageBitmap,
+    claimAppUrl?: string
   ) {
+    let qrs: Blob[] = []
+    for (let i = 0; i < qrsArray.length; i++) {
+      const decrypted_qr_secret = decrypt(qrsArray[i].encrypted_qr_secret, dashboardKey)
+      const qrCode = new QRCodeStyling({
+        data: `${claimAppUrl}/#/qr/${decrypted_qr_secret}`,
+        width,
+        height,
+        margin: width / 60,
+        type: 'canvas',
+        cornersSquareOptions: {
+          color: "#FFF",
+          type: 'square'
+        },
+        cornersDotOptions: {
+          color: "#FFF",
+          type: 'square'
+        },
+        dotsOptions: {
+          color: "#FFF",
+          type: "dots"
+        },
+        backgroundOptions: {
+          color: "#000",
+        },
+        image: img,
+        imageOptions,
+        logoImageWidth,
+        logoImageHeight
+      })
 
+      const blob = await qrCode.getRawData('png')
+      if (!blob) { continue }
+      qrs.push(blob)
+      const percentageFinished = Math.round(i / qrsArray.length * 100) / 100
+      if (this.currentPercentageFinished < percentageFinished) {
+        this.currentPercentageFinished = percentageFinished
+        this.cb(this.currentPercentageFinished)
+      }
+    }
+    return qrs
   }
 
   public mapQrsWithLinks (

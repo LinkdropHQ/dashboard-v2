@@ -34,9 +34,11 @@ import sleep from './sleep'
 import defineContract from './define-contract'
 import metadataUrlResolve from './metadata-url-resolve'
 import getBignumberInterval from './get-bignumber-interval'
+import loadImage from './load-image'
 
 export {
   shortenString,
+  loadImage,
   getBignumberInterval,
   defineNetworkName,
   capitalize,
