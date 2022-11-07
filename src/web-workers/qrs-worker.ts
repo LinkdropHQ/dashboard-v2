@@ -1,19 +1,11 @@
 /* gobal OffscreenCanvas */
 
 import { expose } from 'comlink';
-import { TQRItem, TLinkDecrypted } from 'types'
+import { TQRItem, TLinkDecrypted, TQRImageOptions } from 'types'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { ethers } from 'ethers'
 import { decrypt, encrypt } from 'lib/crypto'
 import QRCodeStyling from 'qr-code-styling-bigmac'
-const ledgerImage = `                                                                                                                                                                                            
-  <svg width="60" height="51" viewBox="0 0 60 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="60" height="51" fill="black"/>
-    <path d="M5.40002 34.3V46.4H23.9V43.7H8.10003V34.2H5.40002V34.3ZM51.9 34.3V43.8H36.1V46.5H54.6V34.3H51.9ZM24 15.8V34.3H36.1V31.9H26.6V15.9H24V15.8ZM5.40002 3.60001V15.7H8.10003V6.3H23.9V3.60001H5.40002ZM36.1 3.60001V6.3H51.9V15.8H54.6V3.60001H36.1Z" fill="white"/>
-  </svg>                                                                                                                                                                                                      
-`
-
-const ledgerImageUpdated = "data:image/svg+xml," + encodeURIComponent(ledgerImage)
 
 export class QRsWorker {
   private cb: (value: number) => void;
@@ -54,6 +46,10 @@ export class QRsWorker {
     width: number,
     height: number,
     dashboardKey: string,
+    imageOptions: TQRImageOptions,
+    logoImageWidth: number,
+    logoImageHeight: number,
+    img: ImageBitmap,
     claimAppUrl?: string
   ) {
     let qrs: Blob[] = []
@@ -80,12 +76,10 @@ export class QRsWorker {
         backgroundOptions: {
           color: "#000",
         },
-        image: ledgerImageUpdated,
-        imageOptions: {
-          margin: width / 60,
-          imageSize: 0.5,
-          crossOrigin: 'anonymous',
-        }
+        image: img,
+        imageOptions,
+        logoImageWidth,
+        logoImageHeight
       })
 
       const blob = await qrCode.getRawData('png')

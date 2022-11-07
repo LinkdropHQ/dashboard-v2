@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: ENOSPC: no space left on device, copyfile '/Users/hazobaykulov/www/qr-code-styling/node_modules/jest-config/build/resolveConfigPath.d.ts' -> '/Users/hazobaykulov/Library/Caches/Yarn/v6/npm-qr-code-styling-bigmac-1.5.3-f1325264-914f-42d6-a0a4-199a08024f3b-1667404899868/node_modules/qr-code-styling-bigmac/node_modules/jest-config/build/resolveConfigPath.d.ts'
+  Error: ENOSPC: no space left on device, copyfile '/Users/hazobaykulov/www/qr-code-styling/node_modules/object-keys/test/index.js' -> '/Users/hazobaykulov/Library/Caches/Yarn/v6/npm-qr-code-styling-bigmac-1.5.3-440d2746-3468-446f-a549-4c4951f7a7b9-1667564425912/node_modules/qr-code-styling-bigmac/node_modules/object-keys/test/index.js'
 
 npm manifest: 
   {
