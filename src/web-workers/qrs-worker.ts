@@ -71,7 +71,7 @@ export class QRsWorker {
         },
         dotsOptions: {
           color: "#FFF",
-          type: "dots"
+          type: "diamond"
         },
         backgroundOptions: {
           color: "#000",

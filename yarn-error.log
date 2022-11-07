@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/hazobaykulov/.nvm/versions/node/v14.17.0/bin/node /usr/local/Cellar/yarn/1.19.2/libexec/bin/yarn.js add /Users/hazobaykulov/www/qr-code-styling
+  /Users/hazobaykulov/.nvm/versions/node/v14.17.0/bin/node /usr/local/Cellar/yarn/1.19.2/libexec/bin/yarn.js add qr-code-styling-bigmac@1.5.5
 
 PATH: 
   /Users/hazobaykulov/.nvm/versions/node/v14.17.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Applications/Postgres.app/Contents/Versions/latest/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: ENOSPC: no space left on device, copyfile '/Users/hazobaykulov/www/qr-code-styling/node_modules/object-keys/test/index.js' -> '/Users/hazobaykulov/Library/Caches/Yarn/v6/npm-qr-code-styling-bigmac-1.5.3-440d2746-3468-446f-a549-4c4951f7a7b9-1667564425912/node_modules/qr-code-styling-bigmac/node_modules/object-keys/test/index.js'
+  Error: ENOSPC: no space left on device, copyfile '/Users/hazobaykulov/Library/Caches/Yarn/v6/npm-url-parse-1.5.10-9d3c2f736c1d75dd3bd2be507dcc111f1e2ea9c1-integrity/node_modules/url-parse/dist/url-parse.min.js' -> '/Users/hazobaykulov/www/dashboard-v2/node_modules/url-parse/dist/url-parse.min.js'
 
 npm manifest: 
   {
@@ -58,7 +58,7 @@ npm manifest:
       "node-forge": "^1.3.0",
       "nth-check": "^2.0.1",
       "qr-code-styling": "^1.6.0-rc.1",
-      "qr-code-styling-bigmac": "/Users/hazobaykulov/www/qr-code-styling",
+      "qr-code-styling-bigmac": "1.5.4",
       "react": "^17.0.2",
       "react-dom": "^17.0.2",
       "react-error-overlay": "6.0.9",
@@ -11542,16 +11542,19 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
     integrity sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==
   
-  qr-code-styling-bigmac@/Users/hazobaykulov/www/qr-code-styling:
-    version "1.5.3"
+  qr-code-styling-bigmac@1.5.4:
+    version "1.5.4"
+    resolved "https://registry.yarnpkg.com/qr-code-styling-bigmac/-/qr-code-styling-bigmac-1.5.4.tgz#f82081e10730d3ef3d473136834892a618daf3ed"
+    integrity sha512-6v88ZbRRC/kbitW8BvpxzpitSo9idxrgbP11NWp2y6X2ZiIHYQQV6FpFv8E6XKr587AFgbSi8ba77W8jWzJjMg==
     dependencies:
       "@types/offscreencanvas" "^2019.7.0"
       qrcode-generator "^1.4.3"
   
-  "qr-code-styling-bigmac@file:../qr-code-styling":
-    version "1.5.3"
+  qr-code-styling@^1.6.0-rc.1:
+    version "1.6.0-rc.1"
+    resolved "https://registry.yarnpkg.com/qr-code-styling/-/qr-code-styling-1.6.0-rc.1.tgz#6c89e185fa50cc9135101085c12ae95b06f1b290"
+    integrity sha512-ModRIiW6oUnsP18QzrRYZSc/CFKFKIdj7pUs57AEVH20ajlglRpN3HukjHk0UbNMTlKGuaYl7Gt6/O5Gg2NU2Q==
     dependencies:
-      "@types/offscreencanvas" "^2019.7.0"
       qrcode-generator "^1.4.3"
   
   qrcode-generator@^1.4.3:

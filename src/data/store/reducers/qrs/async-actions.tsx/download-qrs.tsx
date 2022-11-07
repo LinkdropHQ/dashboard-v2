@@ -59,7 +59,6 @@ const downloadQRs = ({
         qrImageOptions,
         LedgerIcon
       )
-      console.log({ logoImageLoaded })
 
       const qrs = await qrsWorker.downloadQRs(
         qrsArray, // data to create qrs
