@@ -10,7 +10,7 @@ import { QRsWorker } from 'web-workers/qrs-worker'
 import { wrap, Remote, proxy } from 'comlink';
 import { sleep, loadImage } from 'helpers'
 import LedgerIcon from 'images/ledger-logo.png'
-const WORKERS_COUNT = 4 
+const WORKERS_COUNT = (navigator && navigator.hardwareConcurrency) || 4 
 
 const {
   REACT_APP_CLAIM_APP
