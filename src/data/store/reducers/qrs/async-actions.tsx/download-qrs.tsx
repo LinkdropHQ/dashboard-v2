@@ -10,7 +10,7 @@ import { QRsWorker } from 'web-workers/qrs-worker'
 import { wrap, Remote, proxy } from 'comlink';
 import { sleep, loadImage } from 'helpers'
 import LedgerIcon from 'images/ledger-logo.png'
-const WORKERS_COUNT = (navigator && navigator.hardwareConcurrency) || 4 
+const WORKERS_COUNT = 4 
 
 const {
   REACT_APP_CLAIM_APP
@@ -38,13 +38,13 @@ const createWorkers = async (
   linkGroups: TQRItem[][],
   cb: (value: number) => Promise<void>
 ) => {
-  const workers: { worker: Remote<QRsWorker>, links: TQRItem[], qr_id: number }[] = []
+  const workers: { worker: Remote<QRsWorker>, links: TQRItem[], worker_id: number }[] = []
   for (let x = 0; x < linkGroups.length; x++) {
     const worker = await createWorker(cb)
     workers.push({
       worker,
       links: linkGroups[x],
-      qr_id: x
+      worker_id: x
     })
   }
 
