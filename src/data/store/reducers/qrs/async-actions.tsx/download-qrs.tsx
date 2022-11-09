@@ -17,9 +17,13 @@ const {
 } = process.env
 
 const createWorker = async (cb: (value: number) => Promise<void>) => {
-  const RemoteChannel = wrap<typeof QRsWorker>(new Worker())
+  const workerInstance = new Worker()
+  const RemoteChannel = wrap<typeof QRsWorker>(workerInstance)
   const worker: Remote<QRsWorker> = await new RemoteChannel(proxy(cb))
-  return worker
+  return {
+    worker,
+    workerInstance
+  }
 }
 
 const createLinkGroups = (
@@ -38,13 +42,19 @@ const createWorkers = async (
   linkGroups: TQRItem[][],
   cb: (value: number) => Promise<void>
 ) => {
-  const workers: { worker: Remote<QRsWorker>, links: TQRItem[], worker_id: number }[] = []
+  const workers: {
+    worker: Remote<QRsWorker>,
+    links: TQRItem[],
+    worker_id: number,
+    workerInstance: Worker
+  }[] = []
   for (let x = 0; x < linkGroups.length; x++) {
-    const worker = await createWorker(cb)
+    const { worker, workerInstance } = await createWorker(cb)
     workers.push({
       worker,
       links: linkGroups[x],
-      worker_id: x
+      worker_id: x,
+      workerInstance
     })
   }
 
@@ -124,6 +134,9 @@ const downloadQRs = ({
 
       downloadBase64FilesAsZip('png', result.flat(), qrSetName)
       currentPercentage = 0
+      workers.forEach(({ workerInstance }) => {
+        workerInstance.terminate()
+      })
       dispatch(actionsQR.setDownloadLoader(0))
       dispatch(actionsQR.setDownloadItems([]))
       callback && callback()

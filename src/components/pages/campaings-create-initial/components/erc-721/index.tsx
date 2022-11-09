@@ -14,13 +14,16 @@ import {
   checkERC721AssetsData,
   defineAssetsTextareaPlaceholder,
   defineNativeTokenSymbol,
-  parseERC721AssetsData
+  parseERC721AssetsData,
+  checkERC721AssetsDataForMint,
+  parseERC721AssetsDataForMint
 } from 'helpers'
 import {
   UserAssets,
   UserAssetNative,
-  InputTokenAddress,
-  SelectComponent
+  WidgetInput,
+  SelectComponent,
+  WidgetInputTokenId
 } from './styled-components'
 import { RootState, IAppDispatch } from 'data/store';
 import { connect } from 'react-redux'
@@ -161,6 +164,7 @@ const Erc721: FC<ReduxType > = ({
     assetsParsed,
     setAssetsParsedValue
   ] = useState<TAssetsData>([])
+  console.log({ assetsParsed })
 
   const [ radio, setRadio ] = useState<TClaimPattern>(campaign ? campaign.claim_pattern : claimPattern)
 
@@ -171,13 +175,16 @@ const Erc721: FC<ReduxType > = ({
 
   useEffect(() => {
     if (!assetsValue ) { return }
-    let assets = parseERC721AssetsData(assetsValue)
+    let assets = radio === 'mint' ? parseERC721AssetsDataForMint(assetsValue) : parseERC721AssetsData(assetsValue)
     if (!assets) { return }
     setAssetsParsedValue(assets)
   }, [assetsValue])
 
   const defineIfButtonDisabled = () => {
     if (tokenAddress.length !== 42 || title.length === 0) { return true }
+    if (radio === 'mint') {
+      return !checkERC721AssetsDataForMint(assetsValue)
+    }
     return !checkERC721AssetsData(assetsValue)
   }
 
@@ -189,7 +196,7 @@ const Erc721: FC<ReduxType > = ({
     <WidgetContent>
       <WidgetOptions>
 
-        <InputTokenAddress
+        <WidgetInput
           value={title}
           onChange={value => {
             setTitle(value)
@@ -198,7 +205,7 @@ const Erc721: FC<ReduxType > = ({
           disabled={Boolean(campaign)}
           title='Title of campaign'
         />
-        <InputTokenAddress
+        <WidgetInput
           value={tokenAddress}
           placeholder='0x Address'
           disabled={Boolean(campaign)}
@@ -213,7 +220,7 @@ const Erc721: FC<ReduxType > = ({
             Balance: {nativeTokenAmountFormatted} {nativeTokenSymbol}
           </UserAssetNative>
         </UserAssets>
-        <WidgetTextarea
+        {radio !== 'mint' ? <WidgetTextarea
           value={assetsValue}
           placeholder={defineAssetsTextareaPlaceholder(
             'ERC721',
@@ -226,7 +233,16 @@ const Erc721: FC<ReduxType > = ({
             setAssetsValue(value)
             return value
           }}
-        />
+        /> : <WidgetInputTokenId
+          value={assetsValue}
+          placeholder='Max token id'
+          disabled={!symbol}
+          onChange={value => {
+            setAssetsValue(value)
+            return value
+          }}
+          title='Max token id'
+        />}
         <StyledRadio
           label='Claim pattern'
           disabled={Boolean(campaign)}
@@ -235,7 +251,10 @@ const Erc721: FC<ReduxType > = ({
             { label: 'Transfer (tokens should be preminted, and will be transferred to user address at claim)', value: 'transfer' }
           ]}
           value={radio}
-          onChange={value => setRadio(value)}
+          onChange={value => {
+            setAssetsValue('')
+            setRadio(value)
+          }}
         />
         <SelectComponent
           options={walletsOptions}
