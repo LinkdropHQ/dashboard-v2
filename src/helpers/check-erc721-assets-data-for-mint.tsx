@@ -21,7 +21,7 @@ const checkERC721Value: (value: string) => boolean = (value) => {
 }
 
 const checkERC721SingleValue = (value: string): boolean => {
-  if (value === '0') { return true }
+  if (value === '0') { return false }
   if (isNaN(Number(value))) { return false }
   const {
     diff

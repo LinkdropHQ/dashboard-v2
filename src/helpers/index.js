@@ -37,12 +37,21 @@ import metadataUrlResolve from './metadata-url-resolve'
 import getBignumberInterval from './get-bignumber-interval'
 import loadImage from './load-image'
 import checkERC721AssetsDataForMint from './check-erc721-assets-data-for-mint'
+import {
+  createDataGroups,
+  createWorkers,
+  terminateWorkers,
+  createQuantityGroups
+} from './create-workers'
 
 export {
   shortenString,
   checkERC721AssetsDataForMint,
   loadImage,
   getBignumberInterval,
+  createDataGroups,
+  createWorkers,
+  terminateWorkers,
   defineNetworkName,
   capitalize,
   defineContract,
@@ -50,6 +59,7 @@ export {
   copyToClipboard,
   checkRecipientsDataFormat,
   hexlifyIpfsHash,
+  createQuantityGroups,
   getValidImage,
   defineEtherscanUrl,
   toHex,

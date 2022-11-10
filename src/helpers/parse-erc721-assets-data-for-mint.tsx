@@ -35,7 +35,7 @@ const parseERC721AssetsData: TResultERC721 = (data) => {
 }
 
 const parseSingleDataERC721: (value: string) => TAsset[] = (value) => {
-  if (value === '0') {
+  if (value === '1') {
     return [
       {
         id: 0,
@@ -49,7 +49,7 @@ const parseSingleDataERC721: (value: string) => TAsset[] = (value) => {
     suffix,
     limit
   } = getBignumberInterval('0', value)
-  return Array.from({length: limit + 1}, (_, i) => ({
+  return Array.from({ length: limit }, (_, i) => ({
     id: prefix + (Number(suffix) + i),
     native_tokens_amount: '0',
     original_native_tokens_amount: '0'
@@ -60,10 +60,10 @@ const parseDoubleDataERC721: (value: string) => TAsset[] = (value) => {
   const idAndAmount = value
     .split(',')
     .map((item: string) => item.trim()) //['2', '0.001']
-  if (idAndAmount[0] === '0') {
+  if (idAndAmount[0] === '1') {
     return [
       {
-        id: idAndAmount[0],
+        id: 0,
         native_tokens_amount: String(utils.parseUnits(String(idAndAmount[1]), 18)),
         original_native_tokens_amount: idAndAmount[1]
       }
@@ -74,7 +74,7 @@ const parseDoubleDataERC721: (value: string) => TAsset[] = (value) => {
     suffix,
     limit
   } = getBignumberInterval('0', idAndAmount[0])
-  return Array.from({length: limit + 1}, (_, i) => ({
+  return Array.from({ length: limit }, (_, i) => ({
     id: prefix + (Number(suffix) + i),
     native_tokens_amount: String(utils.parseUnits(String(idAndAmount[1]), 18)),
     original_native_tokens_amount: idAndAmount[1]

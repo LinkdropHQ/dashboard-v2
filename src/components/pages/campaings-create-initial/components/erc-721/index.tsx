@@ -235,13 +235,13 @@ const Erc721: FC<ReduxType > = ({
           }}
         /> : <WidgetInputTokenId
           value={assetsValue}
-          placeholder='Max token id'
+          placeholder='NFTs amount'
           disabled={!symbol}
           onChange={value => {
             setAssetsValue(value)
             return value
           }}
-          title='Max token id'
+          title='NFTs amount'
         />}
         <StyledRadio
           label='Claim pattern'

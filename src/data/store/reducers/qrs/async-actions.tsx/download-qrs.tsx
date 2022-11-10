@@ -4,62 +4,20 @@ import { QRsActions } from '../types'
 import { RootState } from 'data/store'
 import { downloadBase64FilesAsZip } from 'helpers'
 import { TQRItem } from "types"
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import Worker from 'worker-loader!web-workers/qrs-worker'
-import { QRsWorker } from 'web-workers/qrs-worker'
-import { wrap, Remote, proxy } from 'comlink';
-import { sleep, loadImage } from 'helpers'
+import {
+  sleep,
+  loadImage,
+  createDataGroups,
+  createWorkers,
+  terminateWorkers
+} from 'helpers'
 import LedgerIcon from 'images/ledger-logo.png'
-const WORKERS_COUNT = (navigator && navigator.hardwareConcurrency) || 4 
+import { Remote } from 'comlink';
+import { QRsWorker } from 'web-workers/qrs-worker'
 
 const {
   REACT_APP_CLAIM_APP
 } = process.env
-
-const createWorker = async (cb: (value: number) => Promise<void>) => {
-  const workerInstance = new Worker()
-  const RemoteChannel = wrap<typeof QRsWorker>(workerInstance)
-  const worker: Remote<QRsWorker> = await new RemoteChannel(proxy(cb))
-  return {
-    worker,
-    workerInstance
-  }
-}
-
-const createLinkGroups = (
-  qrsArray: TQRItem[],
-  workersCount: number
-) => {
-  const result = []
-  const linksInGroup = qrsArray.length / workersCount
-  while(qrsArray.length) {
-    result.push(qrsArray.splice(0, Math.ceil(linksInGroup)))
-  }
-  return result
-}
-
-const createWorkers = async (
-  linkGroups: TQRItem[][],
-  cb: (value: number) => Promise<void>
-) => {
-  const workers: {
-    worker: Remote<QRsWorker>,
-    links: TQRItem[],
-    worker_id: number,
-    workerInstance: Worker
-  }[] = []
-  for (let x = 0; x < linkGroups.length; x++) {
-    const { worker, workerInstance } = await createWorker(cb)
-    workers.push({
-      worker,
-      links: linkGroups[x],
-      worker_id: x,
-      workerInstance
-    })
-  }
-
-  return workers
-}
 
 const downloadQRs = ({
   qrsArray,
@@ -80,15 +38,14 @@ const downloadQRs = ({
   ) => {
     dispatch(actionsQR.setLoading(true))
     dispatch(actionsQR.setDownloadItems([]))
-    const { user: { dashboardKey } } = getState()
+    const { user: { dashboardKey, workersCount } } = getState()
     let currentPercentage = 0
     try {
-      const workersCount = qrsArray.length <= 1000 ? 1 : WORKERS_COUNT
+      const neededWorkersCount = qrsArray.length <= 1000 ? 1 : workersCount
       if (!dashboardKey) { return alert('dashboardKey is not provided') }
       if (!qrsArray) { return alert('qrsArray is not provided') }
       const start = +(new Date())
       
-
       const updateProgressbar = async (value: number) => {
         if (value === currentPercentage || value < currentPercentage) { return }
         currentPercentage = value
@@ -111,15 +68,15 @@ const downloadQRs = ({
         LedgerIcon
       )
 
-      const linkGroups = createLinkGroups(qrsArray, workersCount)
+      const linkGroups = createDataGroups(qrsArray, neededWorkersCount)
       console.log({ linkGroups })
-      const workers = await createWorkers(linkGroups, updateProgressbar)
+      const workers = await createWorkers(linkGroups, 'qrs', updateProgressbar)
       console.log({ workers })
       const result = await Promise.all(workers.map(({
         worker,
-        links
-      }) => worker.downloadQRs(
-        links,
+        data
+      }) => (worker as Remote<QRsWorker>).downloadQRs(
+        data,
         width, // qr width
         height, // qr height
         dashboardKey,
@@ -134,9 +91,7 @@ const downloadQRs = ({
 
       downloadBase64FilesAsZip('png', result.flat(), qrSetName)
       currentPercentage = 0
-      workers.forEach(({ workerInstance }) => {
-        workerInstance.terminate()
-      })
+      terminateWorkers(workers)
       dispatch(actionsQR.setDownloadLoader(0))
       dispatch(actionsQR.setDownloadItems([]))
       callback && callback()
