@@ -100,11 +100,6 @@ const createDashboardKey: (signer: any, sig_message: string) => Promise<{ dashbo
   const signature_key_uint_8_array = new TextEncoder().encode(signature_key_32)
   const signature_key_as_base_16 = toString(signature_key_uint_8_array, 'base16')
 
-
-  // revert signature_key_32
-  // const signature_key_from_string = fromString(signature_key_as_base_16, 'base16')
-  // const signature_key_32_decoded = new TextDecoder().decode(signature_key_from_string)  
-
   const encrypted_dashboard_key = encrypt(dashboard_key, signature_key_as_base_16)
   return {
     dashboard_key,
@@ -131,10 +126,3 @@ const retrieveDashboardKey: (
 }
 
 export default authorize
-
-
-// get
-// 4223502431
-// 799be89db4a45876862dadb04f7b6afe546fc5d61b651208007eb906def5b045
-// encrypted ip6cv+Mdmr94FHNHbtYwsCeQjUYkju6HY26+CgMwvrVtDaMAxAI7Ug0vWqneK+f+7YOE29pnZ6+3NL2kyik3/nGb+bYWRs8sBPbYQwewsDIsFTOh0uirsFnT9WM=
-// 
