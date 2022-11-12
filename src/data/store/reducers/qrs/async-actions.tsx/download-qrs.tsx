@@ -89,7 +89,7 @@ const downloadQRs = ({
 
       console.log((+ new Date()) - start)
 
-      downloadBase64FilesAsZip('png', result.flat(), qrSetName)
+      await downloadBase64FilesAsZip('png', result.flat(), qrSetName)
       currentPercentage = 0
       terminateWorkers(workers)
       dispatch(actionsQR.setDownloadLoader(0))
