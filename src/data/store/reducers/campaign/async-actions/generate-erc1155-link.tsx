@@ -184,6 +184,7 @@ const generateERC1155Link = ({
       terminateWorkers(workers)
       dispatch(actionsCampaign.clearCampaign())
     } catch (err) {
+      alert('Error occured! Check console for more info')
       console.error('Some error occured', err)
     }
   }
