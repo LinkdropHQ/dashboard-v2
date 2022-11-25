@@ -10,12 +10,10 @@ import {
   BatchList,
   BatchTitle
 } from './styled-components'
-import { downloadLinksAsCSV } from 'helpers'
 import { useHistory } from 'react-router-dom'
-import { getCampaignBatches } from 'data/store/reducers/campaigns/async-actions'
+import { getCampaignBatches, downloadLinks } from 'data/store/reducers/campaigns/async-actions'
 import {
-  formatDate,
-  decryptLinks
+  formatDate
 } from 'helpers'
 import { IProps } from './types'
 import { IAppDispatch } from 'data/store'
@@ -38,6 +36,11 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       dispatch(
         getCampaignBatches({ campaign_id })
       )
+    },
+    downloadLinks: (batch_id: string | number, campaign_id: string | number, title: string) => {
+      dispatch(
+        downloadLinks(batch_id, campaign_id, title)
+      )
     }
   }
 }
@@ -45,7 +48,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const CampaignDetails: FC<ReduxType & IProps & RouteComponentProps> = (props) => {
-  const { campaigns, dashboardKey, match: { params }, getCampaignBatches, loading } = props
+  const { campaigns, dashboardKey, match: { params }, getCampaignBatches, loading, downloadLinks } = props
   const history = useHistory()
   useEffect(() => {
     getCampaignBatches(params.id)
@@ -65,19 +68,13 @@ const CampaignDetails: FC<ReduxType & IProps & RouteComponentProps> = (props) =>
           const dateFormatted = formatDate(batch.created_at || '')
           return <>
             <BatchTitle>
-            {batch.batch_description} / {batch.claim_links.length} link(s). Created {dateFormatted} {batch.sponsored ? '(sponsored)' : ''}
+            {batch.batch_description} / {batch.claim_links_count} link(s). Created {dateFormatted} {batch.sponsored ? '(sponsored)' : ''}
             </BatchTitle>
             <WidgetButton
               appearance='action'
               title='Download CSV'
               onClick={() => {
-                if (!dashboardKey) { return alert ('dashboardKey is not provided') }
-                const decryptedLinks = decryptLinks(batch.claim_links, dashboardKey)
-                downloadLinksAsCSV(
-                  decryptedLinks,
-                  title,
-                  batch.created_at || ''
-                )
+                return downloadLinks(batch.batch_id, campaign_id, title)
               }}
             />
           </>

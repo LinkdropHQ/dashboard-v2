@@ -41,6 +41,7 @@ const QuantityPopup: FC<TProps> = ({
       />}
 
       <WidgetButton
+        disabled={loading}
         title='Change'
       />
     </PopupForm>
