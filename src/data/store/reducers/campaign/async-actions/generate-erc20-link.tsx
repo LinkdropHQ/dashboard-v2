@@ -187,6 +187,7 @@ const generateERC20Link = ({
       dispatch(actionsCampaign.clearCampaign())
     } catch (err) {
       alert('Error occured! Check console for more info')
+      dispatch(actionsCampaign.clearCampaign())
       if (callback) { callback('') }
       console.error('Some error occured', err)
     }
