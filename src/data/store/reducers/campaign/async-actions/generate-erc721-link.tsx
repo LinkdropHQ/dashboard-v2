@@ -185,6 +185,7 @@ const generateERC721Link = ({
       
     } catch (err) {
       alert('Error occured! Check console for more info')
+      if (callback) { callback('') }
       console.error('Some error occured', err)
     }
   }
