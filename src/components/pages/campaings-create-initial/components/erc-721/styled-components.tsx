@@ -14,13 +14,9 @@ export const UserAssetNative = styled(UserAsset)`
   margin-right: auto;
 `
 
-export const WidgetInput = styled(Input)`
-  margin-bottom: 6px;
-`
 
-export const WidgetInputTokenId = styled(Input)`
-  margin-bottom: 20px;
-  margin-top: 10px;
+export const InputTokenAddress = styled(Input)`
+  margin-bottom: 6px;
 `
 
 export const SelectComponent = styled(Select)`

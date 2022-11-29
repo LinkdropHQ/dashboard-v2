@@ -26,14 +26,15 @@ async function switchNetwork (
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: toHex(chainId) }],
     })
-    // dispatch(userActions.setChainId(chainId))
-    // dispatch(initialization(chainId, address))
-    // await getNativeTokenAmount(
-    //   dispatch,
-    //   chainId,
-    //   address,
-    //   provider
-    // )
+    dispatch(userActions.setChainId(chainId))
+    dispatch(initialization(chainId, address))
+    await getNativeTokenAmount(
+      dispatch,
+      chainId,
+      address,
+      provider
+    )
+    console.log({ provider })
     callback && callback()
     
   } catch (err) {
@@ -56,14 +57,14 @@ async function switchNetwork (
               params: [data],
             })
 
-            // dispatch(userActions.setChainId(chainId))
-            // dispatch(initialization(chainId, address))
-            // await getNativeTokenAmount(
-            //   dispatch,
-            //   chainId,
-            //   address,
-            //   provider
-            // )
+            dispatch(userActions.setChainId(chainId))
+            dispatch(initialization(chainId, address))
+            await getNativeTokenAmount(
+              dispatch,
+              chainId,
+              address,
+              provider
+            )
             callback && callback()
           }
         } catch (addError) {

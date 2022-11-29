@@ -3,14 +3,11 @@ import * as actionsQR from '../actions'
 import { QRsActions } from '../types'
 import { RootState } from 'data/store'
 import { qrsApi } from 'data/api'
-import {
-  sleep,
-  createQuantityGroups,
-  createWorkers,
-  terminateWorkers
-} from 'helpers'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import Worker from 'worker-loader!web-workers/qrs-worker'
 import { QRsWorker } from 'web-workers/qrs-worker'
-import { Remote } from 'comlink';
+import { wrap, Remote, proxy } from 'comlink';
+import { sleep } from 'helpers'
 
 const updateQRSetQuantity = ({
   setId,
@@ -25,38 +22,20 @@ const updateQRSetQuantity = ({
     dispatch: Dispatch<QRsActions>,
     getState: () => RootState
   ) => {
-    const { qrs: { qrs }, user: { dashboardKey, workersCount } } = getState()
+    const { qrs: { qrs }, user: { dashboardKey } } = getState()
     try {
-      const start = +(new Date())
-      let currentPercentage = 0
-      const neededWorkersCount = quantity <= 1000 ? 1 : workersCount
       if (!dashboardKey) { throw new Error('No dashboardKey found') }
       dispatch(actionsQR.setLoading(true))
       const updateProgressbar = async (value: number) => {
-        if (value === currentPercentage || value < currentPercentage) { return }
-        currentPercentage = value
-        dispatch(actionsQR.setUploadLoader(currentPercentage))
+        dispatch(actionsQR.setUploadLoader(value))
         await sleep(1)
       }
 
-      const quantityGroups = createQuantityGroups(quantity, neededWorkersCount)
-      const workers = await createWorkers(
-        quantityGroups,
-        'qrs',
-        updateProgressbar
-      )
+      const RemoteChannel = wrap<typeof QRsWorker>(new Worker())
+      const qrsWorker: Remote<QRsWorker> = await new RemoteChannel(proxy(updateProgressbar));
       
-      const qrArray = await Promise.all(workers.map(({
-        worker,
-        data
-      }) => (worker as Remote<QRsWorker>).prepareQRs(data as number, dashboardKey)))
-      console.log({ qrArray })
-
-      console.log((+ new Date()) - start)
-      terminateWorkers(workers)
-
-      const result = await qrsApi.updateQuantity(setId, qrArray.flat(), quantity)
-      
+      const qrArray = await qrsWorker.prepareQRs(quantity, dashboardKey)
+      const result = await qrsApi.updateQuantity(setId, qrArray, quantity)
       if (result && result.data && result.data.success) {
         const qrsUpdated = qrs.map(item => {
           if (item.set_id === setId) {

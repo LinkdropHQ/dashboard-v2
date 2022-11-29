@@ -70,7 +70,6 @@ const LinksPopup: FC<TProps> = ({
       />}
 
       <WidgetButton
-        disabled={loading}
         type='submit'
         title='Upload'
       />

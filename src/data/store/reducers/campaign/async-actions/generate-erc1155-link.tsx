@@ -12,14 +12,13 @@ import { encrypt } from 'lib/crypto'
 import {
   defineNetworkName,
   defineJSONRpcUrl,
-  sleep,
-  createDataGroups,
-  createWorkers,
-  terminateWorkers
+  sleep
 } from 'helpers'
-import { Remote } from 'comlink';
+import { wrap, Remote, proxy } from 'comlink';
 import {  } from 'configs/app'
 import contracts from 'configs/contracts'
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import Worker from 'worker-loader!web-workers/links-worker'
 import { LinksWorker } from 'web-workers/links-worker'
 const {
   REACT_APP_INFURA_ID,
@@ -38,15 +37,14 @@ const generateERC1155Link = ({
     
     let {
       user: {
+        sdk,
         chainId,
         address,
-        dashboardKey,
-        workersCount
+        dashboardKey
       },
       campaign,
       campaigns: { campaigns }
     } = getState()
-    let currentPercentage = 0
     try {
       const {
         id,
@@ -69,7 +67,7 @@ const generateERC1155Link = ({
       if (!id) { return alert('campaign id is not provided') }
       if (!signerKey) { return alert('signerKey is not provided') }
       if (!signerAddress) { return alert('signerAddress is not provided') }
-      if (!dashboardKey || dashboardKey === null) { return alert('dashboardKey is not provided') }
+      if (!dashboardKey) { return alert('dashboardKey is not provided') }
       if (!chainId) { return alert('chainId is not provided') }
       if (!tokenStandard) { return alert('tokenStandard is not provided') }
       if (!REACT_APP_INFURA_ID) {
@@ -81,8 +79,6 @@ const generateERC1155Link = ({
       if (!REACT_APP_CLAIM_APP) {
         return alert('REACT_APP_CLAIM_APP is not provided in .env file')
       }
-      const neededWorkersCount = assets.length <= 1000 ? 1 : workersCount
-      const start = +(new Date())
 
       const claimHost = chainId === 1313161554 ? REACT_APP_CLAIM_APP_AURORA : REACT_APP_CLAIM_APP
       const contract = contracts[chainId]
@@ -90,23 +86,14 @@ const generateERC1155Link = ({
       const jsonRpcUrl = defineJSONRpcUrl({ chainId, infuraPk: REACT_APP_INFURA_ID })
 
       const updateProgressbar = async (value: number) => {
-        if (value === currentPercentage || value < currentPercentage) { return }
-        currentPercentage = value
-        dispatch(actionsCampaign.setLinksGenerateLoader(currentPercentage))
+        dispatch(actionsCampaign.setLinksGenerateLoader(value))
         await sleep(1)
       }
 
-      const assetsGroups = createDataGroups(assets, neededWorkersCount)
-      console.log({ assetsGroups })
-      const workers = await createWorkers(assetsGroups, 'links', updateProgressbar)
-      console.log({ workers })
-
+      const RemoteChannel = wrap<typeof LinksWorker>(new Worker())
+      const webWorker: Remote<LinksWorker> = await new RemoteChannel(proxy(updateProgressbar));
       
-      console.log({ assets })
-      const newLinks = await Promise.all(workers.map(({
-        worker,
-        data
-      }) => (worker as Remote<LinksWorker>).generateLink(
+      const newLinks = await webWorker.generateLink(
         tokenStandard,
         address,
         contract.factory,
@@ -114,17 +101,16 @@ const generateERC1155Link = ({
         jsonRpcUrl,
         `https://${networkName}.linkdrop.io`,
         claimHost,
-        data,
+        assets,
         sponsored,
         tokenAddress,
         wallet,
         id,
         signerKey,
-        dashboardKey !== null ? dashboardKey : ''
-      )))
+        dashboardKey
+      )
 
       console.log({ newLinks })
-      console.log((+ new Date()) - start)
   
       if (!chainId || !proxyContractAddress || !signerKey || !tokenStandard || !address) { return }
   
@@ -139,7 +125,7 @@ const generateERC1155Link = ({
       if (updatingCampaign && currentCampaignId) {
         const result = await campaignsApi.saveBatch(
           currentCampaignId,
-          newLinks.flat(),
+          newLinks,
           sponsored,
           batchPreviewContents
         )
@@ -153,7 +139,7 @@ const generateERC1155Link = ({
   
       } else {
         const batch = {
-          claim_links: newLinks.flat(),
+          claim_links: newLinks,
           sponsored,
           batch_description: batchPreviewContents
         }
@@ -181,12 +167,8 @@ const generateERC1155Link = ({
           if (callback) { callback(campaign.campaign_id) }
         }
       }
-      terminateWorkers(workers)
       dispatch(actionsCampaign.clearCampaign())
     } catch (err) {
-      alert('Error occured! Check console for more info')
-      dispatch(actionsCampaign.clearCampaign())
-      if (callback) { callback('') }
       console.error('Some error occured', err)
     }
   }

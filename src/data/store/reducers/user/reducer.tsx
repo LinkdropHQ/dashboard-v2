@@ -11,8 +11,7 @@ const initialState: UserState = {
   nativeTokenAmountFormatted: null,
   tokenAmountFormatted: null,
   sdk: null,
-  dashboardKey: null,
-  workersCount: (navigator && navigator.hardwareConcurrency) || 4 
+  dashboardKey: null
 };
 
 export function userReducer(

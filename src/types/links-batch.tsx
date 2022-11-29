@@ -4,9 +4,7 @@ type TLinksBatch = {
   claim_links: TLink[],
   sponsored?: boolean,
   batch_description: string,
-  created_at?: string,
-  claim_links_count: number,
-  batch_id: string
+  created_at?: string
 }
 
 export default TLinksBatch

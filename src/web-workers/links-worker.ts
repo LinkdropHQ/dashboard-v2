@@ -144,6 +144,7 @@ export class LinksWorker {
             signerKey
           )
         } else {
+          
           result = await this.createERC1155Link(
             assets[i].native_tokens_amount || '0',
             tokenAddress,

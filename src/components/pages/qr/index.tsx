@@ -215,8 +215,8 @@ const QR: FC<ReduxType> = ({
       <WidgetInfo>
         <WidgetSubtitle>
           Claimable links:
-          <LinksIndicator mapped={qr.links_uploaded}>
-            {qr.links_uploaded ? `${qr.qr_quantity} link(s) <--> ${(qr.qr_array || []).length} QR(s)` : 'No links uploaded'}
+          <LinksIndicator>
+            {qr.links_uploaded ? `${qr.qr_quantity} link(s) <--> ${qr.qr_array?.length} QR(s)` : 'No links uploaded'}
           </LinksIndicator>
         </WidgetSubtitle>
         <WidgetValue>

@@ -16,13 +16,13 @@ import {
 
 async function connectWallet (dispatch: Dispatch<UserActions> & IAppDispatch) {
   const providerOptions = {
-    // walletconnect: {
-    //   package: WalletConnectProvider,
-    //   options: {
-    //     infuraId: REACT_APP_INFURA_ID,
-    //     qrcode: true
-    //   }
-    // }
+    walletconnect: {
+      package: WalletConnectProvider,
+      options: {
+        infuraId: REACT_APP_INFURA_ID,
+        qrcode: true
+      }
+    }
   };
   const web3Modal = new Web3Modal({
     cacheProvider: false, // optional
@@ -30,7 +30,7 @@ async function connectWallet (dispatch: Dispatch<UserActions> & IAppDispatch) {
   })
   const provider = await web3Modal.connect();
 
-  const providerWeb3 = new Web3Provider(provider)
+  const providerWeb3 = new Web3Provider(provider, 'any')
   
   let { chainId } = await providerWeb3.getNetwork()
   // if (chainId !== 4) {
@@ -80,16 +80,15 @@ async function connectWallet (dispatch: Dispatch<UserActions> & IAppDispatch) {
   
   // Subscribe to chainId change
   provider.on("chainChanged", async (chainId: string) => {
-    window.location.reload()
-    // let chainIdConverted = parseInt(chainId, 16);
-    // dispatch(actions.setChainId(chainIdConverted))
-    // dispatch(initialization(Number(chainId), address))
-    // await getNativeTokenAmount(
-    //   dispatch,
-    //   chainIdConverted,
-    //   address,
-    //   providerWeb3
-    // )
+    let chainIdConverted = parseInt(chainId, 16);
+    dispatch(actions.setChainId(chainIdConverted))
+    dispatch(initialization(Number(chainId), address))
+    await getNativeTokenAmount(
+      dispatch,
+      chainIdConverted,
+      address,
+      providerWeb3
+    )
   })
 }
 

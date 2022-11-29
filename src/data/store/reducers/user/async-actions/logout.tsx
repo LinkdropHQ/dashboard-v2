@@ -10,11 +10,11 @@ import {
 import { authorizationApi } from 'data/api'
 
 const logout = () => {
-  return async (dispatch: Dispatch<UserActions> & Dispatch<CampaignActions>) => {   
+  return async (dispatch: Dispatch<UserActions>  & Dispatch<CampaignActions>) => {   
     dispatch(userActions.setLoading(true))
     try {
       const logout = await authorizationApi.logout()
-      if (logout.status === 200) {
+      if (logout.statusText === 'OK') {
         window.location.reload()
       }
       

@@ -26,12 +26,10 @@ import TBase64File from './base64-file'
 import TCampaignNew from './campaign-new'
 import TLinkDecrypted from './link-decrypted'
 import TClaimPattern from './claim-pattern'
-import TQRImageOptions from './qr-image-options'
 
 export {
   TCampaign,
   TClaimPattern,
-  TQRImageOptions,
   TTokenType,
   TCampaignStatus,
   TAssetsData,

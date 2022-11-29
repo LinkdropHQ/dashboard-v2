@@ -4,8 +4,7 @@ import {
   QRItemAmount,
   QRItemStatus,
   QRItemControls,
-  QRItemButton,
-  QRItemLinks
+  QRItemButton
 } from './styled-components'
 
 import { FC } from 'react'
@@ -14,10 +13,10 @@ import { defineQRStatusName } from 'helpers'
 
 const QR: FC<TQRProps> = ({
   set_name,
+  set_id,
   qr_quantity,
   status,
   className,
-  links_uploaded,
   onManage
 }) => {
   return <QRItem className={className}>
@@ -30,9 +29,6 @@ const QR: FC<TQRProps> = ({
     <QRItemStatus>
       {defineQRStatusName(status)}
     </QRItemStatus>
-    <QRItemLinks>
-      {links_uploaded ? 'Links uploaded' : 'No links uploaded'}
-    </QRItemLinks>
     <QRItemControls>
       <QRItemButton
         title='Manage'

@@ -13,8 +13,7 @@ export interface UserState {
   tokenAmount: string | null,
   tokenAmountFormatted: string | null,
   sdk: LinkdropSDK | null,
-  dashboardKey: null | string,
-  workersCount: number
+  dashboardKey: null | string
 }
 
 export type UserActions = ActionType<typeof actions>;
