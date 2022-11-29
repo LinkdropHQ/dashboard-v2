@@ -5,7 +5,7 @@ export const QRItem = styled.div`
   display: grid;
   align-items: center;
   border: 1px solid ${props => props.theme.primaryBorderColor};
-  grid-template-columns: 2fr 1fr 2fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   padding: 20px;
   border-radius: 8px;
   background: ${props => props.theme.backgroundColor};
@@ -38,4 +38,8 @@ export const QRItemControls = styled.div`
 
 export const QRItemButton = styled(Button)`
   padding: 10px 20px;
+`
+
+export const QRItemLinks = styled.p`
+
 `

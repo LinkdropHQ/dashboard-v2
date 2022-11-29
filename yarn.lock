@@ -1946,17 +1946,17 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@linkdrop/contracts@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@linkdrop/contracts/-/contracts-1.2.2.tgz#bcf96b4b202e6494ef42511f99dc8555ed412bb7"
-  integrity sha512-FAirU7EHCy0Kiz/AmaJg+lCVffRWhLhyQ58rgZAHGO2712LbeNy+nSIpBPzCWSEEo2J3XGexcdQ+rv40YPD0Ug==
+"@linkdrop/contracts@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@linkdrop/contracts/-/contracts-1.2.5.tgz#beb761a4f4f8d815067b15921b6131bc00c36a4d"
+  integrity sha512-6XtyUAr+k5A5avTpPn4SGe6RV4jmw9PHaxBGYMlTI4k0tPrA2Shvb8fSSEz1NN764SjpcNwdEIxcWRIIgXKMjQ==
 
-"@linkdrop/sdk@1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@linkdrop/sdk/-/sdk-1.2.4.tgz#9e3260f9b79697e1f15682ab4f8043260df85a84"
-  integrity sha512-fCPQw6Aa1P2tY0EQDtwUxnZWUncfbWarX4Osf5CXaCSVs8KuqPyS/xKrnIZ8Em+Sdz67vVbiw+XyU0s2Fz+gLw==
+"@linkdrop/sdk@1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@linkdrop/sdk/-/sdk-1.2.5.tgz#8eff55ef8ee6c810c2d418c91eb4a2604cb3823b"
+  integrity sha512-AZ3UqqLzG9t2FXnBbZw76AXI6IoOpZ830LFZ3svvNPIspNvpuIJXI/nlabo8yrHMdI92y7LsxP8q3WobAXY3rw==
   dependencies:
-    "@linkdrop/contracts" "^1.2.2"
+    "@linkdrop/contracts" "^1.2.5"
     "@stablelib/x25519" "1.0.2"
     axios "0.27.2"
     ethereumjs-wallet "^0.6.3"
@@ -2617,6 +2617,11 @@
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
+
+"@types/offscreencanvas@^2019.7.0":
+  version "2019.7.0"
+  resolved "https://registry.yarnpkg.com/@types/offscreencanvas/-/offscreencanvas-2019.7.0.tgz#e4a932069db47bb3eabeb0b305502d01586fa90d"
+  integrity sha512-PGcyveRIpL1XIqK8eBsmRBt76eFgtzuPiSTyKHZxnGemp2yzGzWpjYKAfK3wIMiU7eH+851yEpiuP8JZerTmWg==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -11404,6 +11409,14 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==
+
+qr-code-styling-bigmac@1.5.5:
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/qr-code-styling-bigmac/-/qr-code-styling-bigmac-1.5.5.tgz#fd191f3d59cf2cd77bed79f898553792c95f533a"
+  integrity sha512-SL09NEazAWid+M9L6NuX65TtwX1YlVDUqP1RKkeMskINFYE4+8XcTHco1kYw4eGRKZ8eqNHqLb8GsgGRBox1pQ==
+  dependencies:
+    "@types/offscreencanvas" "^2019.7.0"
+    qrcode-generator "^1.4.3"
 
 qr-code-styling@^1.6.0-rc.1:
   version "1.6.0-rc.1"

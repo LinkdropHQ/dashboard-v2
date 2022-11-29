@@ -1,8 +1,11 @@
+/* gobal OffscreenCanvas */
+
 import { expose } from 'comlink';
-import { TQRItem, TLinkDecrypted } from 'types'
+import { TQRItem, TLinkDecrypted, TQRImageOptions } from 'types'
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { ethers } from 'ethers'
 import { decrypt, encrypt } from 'lib/crypto'
+import QRCodeStyling from 'qr-code-styling-bigmac'
 
 export class QRsWorker {
   private cb: (value: number) => void;
@@ -18,7 +21,6 @@ export class QRsWorker {
     quantity: number,
     dashboard_key: string
   ) {
-    console.log('prepare qrs start')
     const qrArray: TQRItem[] = []
     for (let i = 0; i < quantity; i++) {
       const newWallet = wccrypto.generateKeyPair()
@@ -43,9 +45,53 @@ export class QRsWorker {
     qrsArray: TQRItem[],
     width: number,
     height: number,
-    dashboardKey: string
+    dashboardKey: string,
+    imageOptions: TQRImageOptions,
+    logoImageWidth: number,
+    logoImageHeight: number,
+    img: ImageBitmap,
+    claimAppUrl?: string
   ) {
-    // work in progress
+    let qrs: Blob[] = []
+    for (let i = 0; i < qrsArray.length; i++) {
+      const decrypted_qr_secret = decrypt(qrsArray[i].encrypted_qr_secret, dashboardKey)
+      const qrCode = new QRCodeStyling({
+        data: `${claimAppUrl}/#/qr/${decrypted_qr_secret}`,
+        width,
+        height,
+        margin: width / 60,
+        type: 'canvas',
+        cornersSquareOptions: {
+          color: "#FFF",
+          type: 'square'
+        },
+        cornersDotOptions: {
+          color: "#FFF",
+          type: 'square'
+        },
+        dotsOptions: {
+          color: "#FFF",
+          type: "dots"
+        },
+        backgroundOptions: {
+          color: "#000",
+        },
+        image: img,
+        imageOptions,
+        logoImageWidth,
+        logoImageHeight
+      })
+
+      const blob = await qrCode.getRawData('png')
+      if (!blob) { continue }
+      qrs.push(blob)
+      const percentageFinished = Math.round(i / qrsArray.length * 100) / 100
+      if (this.currentPercentageFinished < percentageFinished) {
+        this.currentPercentageFinished = percentageFinished
+        this.cb(this.currentPercentageFinished)
+      }
+    }
+    return qrs
   }
 
   public mapQrsWithLinks (
@@ -54,18 +100,12 @@ export class QRsWorker {
     dashboard_key: string
   ) {
     const qrArray: TQRItem[] = qrs
-
     for (let i = 0; i < qrArray.length; i++) {
       const decrypted_qr_secret = decrypt(qrArray[i].encrypted_qr_secret, dashboard_key)
       const claim_link = links[i].claim_link
       qrArray[i].encrypted_claim_link = encrypt(claim_link, decrypted_qr_secret)
       qrArray[i].claim_link_id = links[i].link_id
-      console.log({
-        i,
-        length: qrArray.length
-      })
       const percentageFinished = Math.round(i / qrArray.length * 100) / 100
-
       if (this.currentPercentageFinished < percentageFinished) {
         this.currentPercentageFinished = percentageFinished
         this.cb(this.currentPercentageFinished)

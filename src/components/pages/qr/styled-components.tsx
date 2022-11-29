@@ -1,5 +1,5 @@
 import { Widget, Button, Input, ProgressBar } from "components/common"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export const Container = styled.div`
   position: relative;
@@ -51,7 +51,14 @@ export const PopupFormContent = styled.div`
 export const PopupForm = styled.form`
 `
 
-export const LinksIndicator = styled.div`
+
+type TLinksIndicator = {
+  mapped?: boolean
+}
+export const LinksIndicator = styled.div<TLinksIndicator>`
+  ${props => !props.mapped && css`
+    color: ${props.theme.tagWarning};
+  `}
 `
 
 export const StyledProgressBar = styled(ProgressBar)`

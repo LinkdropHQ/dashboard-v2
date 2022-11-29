@@ -32,6 +32,7 @@ const themes = {
 		tagErrorColor: '#FF2C2C',
 		tagInfoColor: '#0025ff',
 		tagSuccessColor: '#21F142',
+		tagWarning: '#F6B40A',
 
 		noteDefaultBackgroundColor: 'rgba(0, 37, 255, .2)',
 

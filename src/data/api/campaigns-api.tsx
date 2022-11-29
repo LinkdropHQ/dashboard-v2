@@ -41,6 +41,12 @@ const requests = {
     campaign_id: string | number
   ) => {
     return campaignsApi.get(`/linkdrop/campaigns/${campaign_id}/batches`, { withCredentials: true })
+  },
+  getBatch: (
+    campaign_id: string | number,
+    batch_id: string | number
+  ) => {
+    return campaignsApi.get(`/linkdrop/campaigns/${campaign_id}/batches/${batch_id}`, { withCredentials: true })
   }
 }
 

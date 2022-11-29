@@ -5,7 +5,7 @@
   "dependencies": {
     "@craco/craco": "^6.4.0",
     "@drop-protocol/drop-sdk": "^0.2.1",
-    "@linkdrop/sdk": "1.2.4",
+    "@linkdrop/sdk": "1.2.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
     "@progress/kendo-file-saver": "^1.1.1",
     "@reduxjs/toolkit": "^1.6.2",
@@ -39,6 +39,7 @@
     "node-forge": "^1.3.0",
     "nth-check": "^2.0.1",
     "qr-code-styling": "^1.6.0-rc.1",
+    "qr-code-styling-bigmac": "1.5.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-error-overlay": "6.0.9",
