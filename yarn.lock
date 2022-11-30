@@ -1946,17 +1946,17 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@linkdrop/contracts@^1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@linkdrop/contracts/-/contracts-1.2.5.tgz#beb761a4f4f8d815067b15921b6131bc00c36a4d"
-  integrity sha512-6XtyUAr+k5A5avTpPn4SGe6RV4jmw9PHaxBGYMlTI4k0tPrA2Shvb8fSSEz1NN764SjpcNwdEIxcWRIIgXKMjQ==
+"@linkdrop/contracts@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@linkdrop/contracts/-/contracts-1.2.6.tgz#7dae84ee39517410a95fbc08bddc0e3ee3186e4e"
+  integrity sha512-YHuqr/+657cFMys10WPgiWg1Xsdryp9hrt+CwS8Lxa4V9mhk+3gZdiTOK0doH4/DZ5U7SIF5FW4iFx3c2FXTAg==
 
-"@linkdrop/sdk@1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@linkdrop/sdk/-/sdk-1.2.5.tgz#8eff55ef8ee6c810c2d418c91eb4a2604cb3823b"
-  integrity sha512-AZ3UqqLzG9t2FXnBbZw76AXI6IoOpZ830LFZ3svvNPIspNvpuIJXI/nlabo8yrHMdI92y7LsxP8q3WobAXY3rw==
+"@linkdrop/sdk@1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@linkdrop/sdk/-/sdk-1.2.6.tgz#732eef85867a31507dda5b8d1e3a6d9ec731862b"
+  integrity sha512-oXD+VY3APbTCIA2aSWGQt1yFJ445G5pTnABvJue9/yEuEJ5xizODUBBKCyczShm92YwEXnuaIn2vG/7S+GEFIA==
   dependencies:
-    "@linkdrop/contracts" "^1.2.5"
+    "@linkdrop/contracts" "^1.2.6"
     "@stablelib/x25519" "1.0.2"
     axios "0.27.2"
     ethereumjs-wallet "^0.6.3"

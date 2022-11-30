@@ -5,7 +5,7 @@
   "dependencies": {
     "@craco/craco": "^6.4.0",
     "@drop-protocol/drop-sdk": "^0.2.1",
-    "@linkdrop/sdk": "1.2.5",
+    "@linkdrop/sdk": "1.2.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
     "@progress/kendo-file-saver": "^1.1.1",
     "@reduxjs/toolkit": "^1.6.2",
