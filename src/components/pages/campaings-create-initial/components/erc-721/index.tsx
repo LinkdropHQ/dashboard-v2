@@ -33,6 +33,7 @@ import * as campaignAsyncActions from 'data/store/reducers/campaign/async-action
 import * as campaignActions from 'data/store/reducers/campaign/actions'
 import { CampaignActions } from 'data/store/reducers/campaign/types'
 import { Dispatch } from 'redux'
+const { REACT_APP_LINKS_LIMIT } = process.env
 
 const mapStateToProps = ({
   user: {
@@ -266,6 +267,9 @@ const Erc721: FC<ReduxType > = ({
           title='Next'
           appearance='action'
           onClick={() => {
+            if (REACT_APP_LINKS_LIMIT && Number(REACT_APP_LINKS_LIMIT) < assetsParsed.length) {
+              return alert(`Links limit is ${REACT_APP_LINKS_LIMIT}`)
+            }
             setAssetsData(
               'ERC721',
               assetsParsed,
