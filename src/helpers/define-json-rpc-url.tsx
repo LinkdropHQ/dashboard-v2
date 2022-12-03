@@ -9,7 +9,7 @@ const defineJSONRpcUrl = ({ chainId, infuraPk } : { chainId: number, infuraPk: s
   } else if (String(chainId) === '56') {
     return 'https://bsc-dataseed.binance.org'
   } else if (String(chainId) === '137') {
-    return 'https://rpc-mainnet.maticvigil.com/v1/ad4cd2ea018ddb1ccd0418ffa43c27b3d99fbd55'
+    return 'https://polygon-mainnet.infura.io/v3/426ee194f31a4bcd91bb967032f6429c'
   } else if (String(chainId) === '80001') {
     return 'https://rpc-mumbai.maticvigil.com/v1/f592ae2e5afb3bebe39314e9bd0949de5b74cd2f'
   }
