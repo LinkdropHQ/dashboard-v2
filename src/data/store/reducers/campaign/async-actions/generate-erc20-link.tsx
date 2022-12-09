@@ -83,7 +83,7 @@ const generateERC20Link = ({
         return alert('REACT_APP_CLAIM_APP is not provided in .env file')
       }
       const start = +(new Date())
-      const neededWorkersCount = assets.length <= 1000 ? 1 : workersCount
+      const neededWorkersCount = assets.length <= 10000 ? 1 : workersCount
 
       const claimHost = chainId === 1313161554 ? REACT_APP_CLAIM_APP_AURORA : REACT_APP_CLAIM_APP
       const contract = contracts[chainId]
