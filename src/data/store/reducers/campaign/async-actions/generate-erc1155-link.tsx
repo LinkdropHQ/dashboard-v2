@@ -81,7 +81,7 @@ const generateERC1155Link = ({
       if (!REACT_APP_CLAIM_APP) {
         return alert('REACT_APP_CLAIM_APP is not provided in .env file')
       }
-      const neededWorkersCount = assets.length <= 1000 ? 1 : workersCount
+      const neededWorkersCount = assets.length <= 10000 ? 1 : workersCount
       const start = +(new Date())
 
       const claimHost = chainId === 1313161554 ? REACT_APP_CLAIM_APP_AURORA : REACT_APP_CLAIM_APP

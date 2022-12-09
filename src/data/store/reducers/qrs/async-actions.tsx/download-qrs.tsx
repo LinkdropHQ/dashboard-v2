@@ -41,7 +41,7 @@ const downloadQRs = ({
     const { user: { dashboardKey, workersCount } } = getState()
     let currentPercentage = 0
     try {
-      const neededWorkersCount = qrsArray.length <= 1000 ? 1 : workersCount
+      const neededWorkersCount = qrsArray.length <= 10000 ? 1 : workersCount
       if (!dashboardKey) { return alert('dashboardKey is not provided') }
       if (!qrsArray) { return alert('qrsArray is not provided') }
       const start = +(new Date())
