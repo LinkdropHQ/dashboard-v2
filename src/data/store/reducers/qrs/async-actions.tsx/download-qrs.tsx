@@ -87,10 +87,15 @@ const downloadQRs = ({
         REACT_APP_CLAIM_APP
       )))
 
+      for (let y = 0; y < result.length; y++) {
+        console.log(`started download of ${y + 1} part of result`)
+        await downloadBase64FilesAsZip('png', result[y], `${qrSetName}-${y + 1}`)
+        console.log(`finished download of ${y + 1} part of result`)
+      }
+
       console.log((+ new Date()) - start)
       terminateWorkers(workers)
 
-      await downloadBase64FilesAsZip('png', result.flat(), qrSetName)
       currentPercentage = 0
       
       dispatch(actionsQR.setDownloadLoader(0))
