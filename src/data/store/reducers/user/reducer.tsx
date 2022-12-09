@@ -1,6 +1,8 @@
 import { UserState, UserActions } from './types';
 import { Constants } from './constants';
 
+const maxWorkersCount = (navigator && navigator.hardwareConcurrency) || 4
+
 const initialState: UserState = {
   address: '',
   loading: false,
@@ -12,7 +14,7 @@ const initialState: UserState = {
   tokenAmountFormatted: null,
   sdk: null,
   dashboardKey: null,
-  workersCount: (navigator && navigator.hardwareConcurrency) || 4 
+  workersCount: maxWorkersCount > 4 ? 4 : maxWorkersCount
 };
 
 export function userReducer(
