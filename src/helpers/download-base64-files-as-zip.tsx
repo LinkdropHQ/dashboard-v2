@@ -18,12 +18,11 @@ const defineFileExtension: (type: TBase64File) => string = (type) => {
 const downloadBase64FilesAsZip = async (
   type: TBase64File,
   base64Files: Blob[],
-  zipFileName: string = 'example',
-  index: number
+  zipFileName: string = 'example'
 ) : Promise<void> => {
   const jszip = new JSZip();
   for(let i = 0; i < base64Files.length; i++) {
-    jszip.file(`qr-${index + i}.${defineFileExtension(type)}`, base64Files[i])
+    jszip.file(`qr-${i}.${defineFileExtension(type)}`, base64Files[i])
   }
   const content = await jszip.generateAsync({ type: 'blob' })
     // see FileSaver.js
