@@ -1,6 +1,6 @@
 {
   "name": "@drop-protocol/drop-dashboard",
-  "version": "0.1.0",
+  "version": "2.0.0-beta",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.0",
