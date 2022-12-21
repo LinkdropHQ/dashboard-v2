@@ -2,7 +2,7 @@ import { checkERC721AssetsData } from './index'
 import {
   TAsset,
 } from 'types'
-import { utils } from 'ethers'
+import { utils, BigNumber } from 'ethers'
 import { getBignumberInterval } from 'helpers'
 
 type TResultERC721 = (data: string) => TAsset[] | null
@@ -53,20 +53,19 @@ const parseSingleDataERC721: (value: string) => TAsset[] = (value) => {
       .map((item: string) => item.trim())
     
     const {
-      prefix,
       suffix,
-      limit
+      limit,
+      prefixOffset
     } = getBignumberInterval(tokenIds[0], tokenIds[1])
-    console.log({
-      prefix,
-      suffix,
-      limit
-    })
-    result = Array.from({length: limit + 1}, (_, i) => ({
-      id: prefix + (Number(suffix) + i),
-      native_tokens_amount: '0',
-      original_native_tokens_amount: '0'
-    }))
+
+    result = Array.from({length: limit + 1}, (_, i) => {
+      const additional = BigNumber.from(suffix).add(BigNumber.from(i))
+      const final = BigNumber.from(prefixOffset).add(additional)
+      return {
+        id: String(final),
+        native_tokens_amount: '0',
+        original_native_tokens_amount: '0'
+      }})
     console.log({ result })
   } else {
     result.push({
