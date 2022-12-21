@@ -2,7 +2,7 @@ import { checkERC721AssetsDataForMint } from './index'
 import {
   TAsset,
 } from 'types'
-import { utils } from 'ethers'
+import { utils, BigNumber } from 'ethers'
 import { getBignumberInterval } from 'helpers'
 
 type TResultERC721 = (data: string) => TAsset[] | null
@@ -45,15 +45,20 @@ const parseSingleDataERC721: (value: string) => TAsset[] = (value) => {
     ]
   }
   const {
-    prefix,
     suffix,
-    limit
+      limit,
+      prefixOffset
   } = getBignumberInterval('0', value)
-  return Array.from({ length: limit }, (_, i) => ({
-    id: prefix + (Number(suffix) + i),
-    native_tokens_amount: '0',
-    original_native_tokens_amount: '0'
-  }))
+
+  return Array.from({ length: limit }, (_, i) => {
+    const additional = BigNumber.from(suffix).add(BigNumber.from(i))
+    const final = BigNumber.from(prefixOffset).add(additional)
+    return {
+      id: String(final),
+      native_tokens_amount: '0',
+      original_native_tokens_amount: '0'
+    }
+  })
 }
 
 const parseDoubleDataERC721: (value: string) => TAsset[] = (value) => {
@@ -69,16 +74,21 @@ const parseDoubleDataERC721: (value: string) => TAsset[] = (value) => {
       }
     ]
   }
+
   const {
-    prefix,
     suffix,
-    limit
+    limit,
+    prefixOffset
   } = getBignumberInterval('0', idAndAmount[0])
-  return Array.from({ length: limit }, (_, i) => ({
-    id: prefix + (Number(suffix) + i),
-    native_tokens_amount: String(utils.parseUnits(String(idAndAmount[1]), 18)),
-    original_native_tokens_amount: idAndAmount[1]
-  }))
+  return Array.from({ length: limit }, (_, i) => {
+    const additional = BigNumber.from(suffix).add(BigNumber.from(i))
+    const final = BigNumber.from(prefixOffset).add(additional)
+    return {
+      id: String(final),
+      native_tokens_amount: String(utils.parseUnits(String(idAndAmount[1]), 18)),
+      original_native_tokens_amount: idAndAmount[1]
+    }
+  })
 }
 
 export default parseERC721AssetsData
