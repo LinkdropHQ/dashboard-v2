@@ -50,7 +50,7 @@ const parseSingleDataERC721: (value: string) => TAsset[] = (value) => {
       prefixOffset
   } = getBignumberInterval('0', value)
 
-  return Array.from({ length: limit + 1 }, (_, i) => {
+  return Array.from({ length: limit }, (_, i) => {
     const additional = BigNumber.from(suffix).add(BigNumber.from(i))
     const final = BigNumber.from(prefixOffset).add(additional)
     return {
@@ -80,7 +80,7 @@ const parseDoubleDataERC721: (value: string) => TAsset[] = (value) => {
     limit,
     prefixOffset
   } = getBignumberInterval('0', idAndAmount[0])
-  return Array.from({ length: limit + 1 }, (_, i) => {
+  return Array.from({ length: limit }, (_, i) => {
     const additional = BigNumber.from(suffix).add(BigNumber.from(i))
     const final = BigNumber.from(prefixOffset).add(additional)
     return {
