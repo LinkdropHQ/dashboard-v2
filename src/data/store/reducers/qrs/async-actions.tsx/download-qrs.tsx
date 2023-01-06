@@ -4,6 +4,10 @@ import { QRsActions } from '../types'
 import { RootState } from 'data/store'
 import { downloadBase64FilesAsZip } from 'helpers'
 import { TQRItem } from "types"
+import {  TQROption, TLinkDecrypted, TQRImageOptions } from 'types'
+import { decrypt, encrypt } from 'lib/crypto'
+import QRCodeStyling from 'qr-code-styling'
+
 import {
   sleep,
   loadImage,
@@ -47,10 +51,11 @@ const downloadQRs = ({
       const start = +(new Date())
       
       const updateProgressbar = async (value: number) => {
+        console.log({ value })
         if (value === currentPercentage || value < currentPercentage) { return }
         currentPercentage = value
         dispatch(actionsQR.setDownloadLoader(currentPercentage))
-        await sleep(1)
+        sleep(1)
       }
 
       const qrOption = qrOptions[REACT_APP_QR_OPTIONS || 'ledger']
@@ -65,15 +70,15 @@ const downloadQRs = ({
         qrOption.icon
       )
 
-      const linkGroups = createDataGroups(qrsArray, neededWorkersCount)
-      console.log({ linkGroups })
-      const workers = await createWorkers(linkGroups, 'qrs', updateProgressbar)
-      console.log({ workers })
-      const result = await Promise.all(workers.map(({
-        worker,
-        data
-      }) => (worker as Remote<QRsWorker>).downloadQRs(
-        data,
+
+
+      
+
+
+
+
+      const result = await createQRs(
+        qrsArray,
         width, // qr width
         height, // qr height
         dashboardKey,
@@ -81,19 +86,18 @@ const downloadQRs = ({
         logoImageLoaded.height,
         img, // image bitmap to render in canvas
         qrOption,
-        REACT_APP_CLAIM_APP
-      )))
+        updateProgressbar,
+        REACT_APP_CLAIM_APP,
+      )
 
       console.log((+ new Date()) - start)
 
-      for (let y = 0; y < result.length; y++) {
-        console.log(`started download of ${y + 1} part of result`)
-        await downloadBase64FilesAsZip('png', result[y], `${qrSetName}-${y + 1}`, y * result[0].length)
-        console.log(`finished download of ${y + 1} part of result`)
-      }
+      console.log(`started download of 1 part of result`)
+      await downloadBase64FilesAsZip('png', result, `${qrSetName}-1`, 0)
+      console.log(`finished download of 1 part of result`)
+  
   
       currentPercentage = 0
-      terminateWorkers(workers)
       dispatch(actionsQR.setDownloadLoader(0))
       callback && callback()
     } catch (err) {
@@ -105,6 +109,59 @@ const downloadQRs = ({
     }
     dispatch(actionsQR.setLoading(false))
   }
+}
+
+const createQRs = async (
+  qrsArray: TQRItem[],
+  width: number,
+  height: number,
+  dashboardKey: string,
+  logoImageWidth: number,
+  logoImageHeight: number,
+  img: ImageBitmap,
+  qrOption: TQROption,
+  updateProgressbar: any,
+  claimAppUrl?: string
+) => {
+
+  console.log({ qrOption })
+  let qrs: Blob[] = []
+  for (let i = 0; i < qrsArray.length; i++) {
+    const decrypted_qr_secret = decrypt(qrsArray[i].encrypted_qr_secret, dashboardKey)
+    const qrCode = new QRCodeStyling({
+      data: `${claimAppUrl}/#/qr/${decrypted_qr_secret}`,
+      width,
+      height,
+      margin: width / 60,
+      type: 'svg',
+      cornersSquareOptions: qrOption.cornersSquareOptions,
+      cornersDotOptions: qrOption.cornersDotOptions,
+      backgroundOptions: qrOption.backgroundOptions,
+      imageOptions: qrOption.imageOptions
+    })
+    // const qrCode = new QRCodeStyling({
+    //   data: `${claimAppUrl}/#/qr/${decrypted_qr_secret}`,
+    //   width,
+    //   height,
+    //   margin: width / 60,
+    //   type: 'canvas',
+    //   cornersSquareOptions: qrOption.cornersSquareOptions,
+    //   cornersDotOptions: qrOption.cornersDotOptions,
+    //   dotsOptions: qrOption.dotsOptions,
+    //   backgroundOptions: qrOption.backgroundOptions,
+    //   image: img,
+    //   imageOptions: qrOption.imageOptions,
+    //   logoImageWidth,
+    //   logoImageHeight
+    // })
+
+    const blob = await qrCode.getRawData('png')
+    if (!blob) { continue }
+    qrs.push(blob)
+    const percentageFinished = Math.round(i / qrsArray.length * 100) / 100
+    updateProgressbar(percentageFinished)
+  }
+  return qrs
 }
 
 export default downloadQRs

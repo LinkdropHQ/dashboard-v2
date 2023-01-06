@@ -15,7 +15,6 @@ export class QRsWorker {
   ) {
     this.cb = cb
   }
-
   public prepareQRs (
     quantity: number,
     dashboard_key: string
