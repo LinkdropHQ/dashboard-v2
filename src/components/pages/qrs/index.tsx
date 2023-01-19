@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Popup, Loader } from 'components/common'
+import { Popup } from 'components/common'
 import { useHistory } from 'react-router-dom'
 import {
   QRItem,
@@ -54,7 +54,6 @@ const QRs: FC<ReduxType> = ({
   }
 
   return <Container>
-    {loading && <Loader withOverlay />}
     {popup && <Popup
       title='Add new set of QR codes'
       onClose={() => togglePopup(false)}
