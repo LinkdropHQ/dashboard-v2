@@ -54,7 +54,6 @@ const QRs: FC<ReduxType> = ({
   }
 
   return <Container>
-    {loading && <Loader withOverlay />}
     {popup && <Popup
       title='Add new set of QR codes'
       onClose={() => togglePopup(false)}
