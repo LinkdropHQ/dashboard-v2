@@ -1,7 +1,7 @@
 # Ledger Dashboard
 
 ## 2.0.2-rc.0
-- Removed aold-styled loader from QR-set create page
+- Removed an old-styled loader from QR-set create page
 - Filenames in batches of downloaded QR-codes in zip-folders are numbered
 
 ## 2.0.0-beta.hotfix-0
