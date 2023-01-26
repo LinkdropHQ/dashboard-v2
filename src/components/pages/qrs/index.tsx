@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Popup, Loader } from 'components/common'
+import { Popup } from 'components/common'
 import { useHistory } from 'react-router-dom'
 import {
   QRItem,
