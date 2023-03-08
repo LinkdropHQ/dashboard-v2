@@ -1,5 +1,8 @@
 # Ledger Dashboard
 
+## 2.0.3-rc.0
+- Updated mainnet factory address
+
 ## 2.0.2
 - Removed an old-styled loader from QR-set create page
 - Filenames in batches of downloaded QR-codes in zip-folders are numbered
