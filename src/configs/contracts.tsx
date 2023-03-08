@@ -11,7 +11,7 @@ const contracts: TContracts = {
     minter_role: '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6'
   }, // rinkeby
   1: {
-    factory: '0x926923238FE6f4866E7FB29a05538e7C4C118a53',
+    factory: '0xc5271d9Df75c0FBE241730F2Fbc9e2480359Cf77',
     minter_role: '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6'
   }, // mainnet
   137: {
