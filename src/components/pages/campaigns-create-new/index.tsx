@@ -269,16 +269,25 @@ const CampaignsCreateNew: FC<ReduxType> = ({
                   return alertError('No tokens of provided contract found')
                 }
                 setTokenAddress(value)
-              } else if (currentType !== 'ERC20' && currentType && chainId) {
+              } else if (currentType !== 'ERC20' && chainId) {
                 const tokenType = await defineTokenType(value, signer)
-                const tokenOwnership = await defineIfUserOwnsContract(address, value, chainId)
+                if (!tokenType) {
+                  return alertError('No tokenType provided')
+                }
+                const tokenOwnership = await defineIfUserOwnsContract(
+                  address,
+                  value,
+                  chainId,
+                  tokenType,
+                  signer
+                )
                 if (!tokenOwnership) {
                   return alertError('No tokens of provided contract found')
                 }
                 setCurrentType(tokenType)
                 setTokenAddress(value)
               } else {
-                alertError('No token standard provided')
+                alertError('No chainId provided')
               }
             } else {
               setCurrentType(String(value.tokenType))
