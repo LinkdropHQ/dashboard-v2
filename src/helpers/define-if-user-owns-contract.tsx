@@ -25,11 +25,11 @@ const defineIfUserOwnsContract: TDefineIfUserOwnsContract = async (
       apiKey: REACT_APP_ALCHEMY_API_KEY,
       network: defineAlchemyNetwork(chainId)
     })
-    return await alchemy.nft.verifyNftOwnership(userAddress, tokenAddress)
+    const result = await alchemy.nft.verifyNftOwnership(userAddress, tokenAddress)
+    // if (mint) { return false }
+    return result
   } catch (err) {
-    console.log({
-      err
-    })
+    console.log({ tokenType })
     if (tokenType === 'ERC721') {
       const contractInstance = new ethers.Contract(tokenAddress, ERC721Contract.abi, signer)
       const balance = await contractInstance.balanceOf(userAddress)
