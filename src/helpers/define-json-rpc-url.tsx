@@ -1,4 +1,5 @@
 import defineNetworkName from './define-network-name'
+const { REACT_APP_INFURA_ID } = process.env
 
 const defineJSONRpcUrl = ({ chainId, infuraPk } : { chainId: number, infuraPk: string }) => {
   const networkName = defineNetworkName(chainId)
@@ -9,7 +10,7 @@ const defineJSONRpcUrl = ({ chainId, infuraPk } : { chainId: number, infuraPk: s
   } else if (String(chainId) === '56') {
     return 'https://bsc-dataseed.binance.org'
   } else if (String(chainId) === '137') {
-    return 'https://polygon-mainnet.infura.io/v3/426ee194f31a4bcd91bb967032f6429c'
+    return `https://polygon-mainnet.infura.io/v3/${REACT_APP_INFURA_ID}`
   } else if (String(chainId) === '80001') {
     return 'https://rpc-mumbai.maticvigil.com/v1/f592ae2e5afb3bebe39314e9bd0949de5b74cd2f'
   }
