@@ -1,5 +1,10 @@
 # Ledger Dashboard
 
+## 2.0.3
+- Updated mainnet factory address
+- Updated library for QR-CODES
+- Updated infura id for json-rpc-url
+
 ## 2.0.2
 - Removed an old-styled loader from QR-set create page
 - Filenames in batches of downloaded QR-codes in zip-folders are numbered

@@ -11410,19 +11410,12 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==
 
-qr-code-styling-bigmac@1.5.5:
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/qr-code-styling-bigmac/-/qr-code-styling-bigmac-1.5.5.tgz#fd191f3d59cf2cd77bed79f898553792c95f533a"
-  integrity sha512-SL09NEazAWid+M9L6NuX65TtwX1YlVDUqP1RKkeMskINFYE4+8XcTHco1kYw4eGRKZ8eqNHqLb8GsgGRBox1pQ==
+qr-code-styling-bigmac@1.5.8:
+  version "1.5.8"
+  resolved "https://registry.yarnpkg.com/qr-code-styling-bigmac/-/qr-code-styling-bigmac-1.5.8.tgz#8bf3c53564992a92029e7bbdfd656d7e6e18481f"
+  integrity sha512-w2ceLUpJui8EqU+mMLCb2j/bgdeP5xb03vTJ6xCD7Ol+fzS1jSClKYKc8kHPQ+BsbZoL7HI3g/07KZPGD5CoFA==
   dependencies:
     "@types/offscreencanvas" "^2019.7.0"
-    qrcode-generator "^1.4.3"
-
-qr-code-styling@^1.6.0-rc.1:
-  version "1.6.0-rc.1"
-  resolved "https://registry.yarnpkg.com/qr-code-styling/-/qr-code-styling-1.6.0-rc.1.tgz#6c89e185fa50cc9135101085c12ae95b06f1b290"
-  integrity sha512-ModRIiW6oUnsP18QzrRYZSc/CFKFKIdj7pUs57AEVH20ajlglRpN3HukjHk0UbNMTlKGuaYl7Gt6/O5Gg2NU2Q==
-  dependencies:
     qrcode-generator "^1.4.3"
 
 qrcode-generator@^1.4.3:
