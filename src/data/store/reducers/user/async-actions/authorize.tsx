@@ -93,8 +93,6 @@ const createDashboardKey: (signer: any, sig_message: string) => Promise<{ dashbo
   const signature = await signer.signMessage(sig_message)
   const signature_key = await ethers.utils.id(signature)
   const { privateKey: dashboard_key } = generateKeyPair()
-  console.log({ dashboard_key })
-
 
   const signature_key_32 = signature_key.slice(0, 32)
   const signature_key_uint_8_array = new TextEncoder().encode(signature_key_32)
@@ -117,7 +115,6 @@ const retrieveDashboardKey: (
   sig_message
 ) => {
   const signature = await signer.signMessage(sig_message)
-  console.log({ signature, sig_message })
   const signature_key = await ethers.utils.id(signature)
   const signature_key_32 = signature_key.slice(0, 32)
   const signature_key_uint_8_array = new TextEncoder().encode(signature_key_32)
