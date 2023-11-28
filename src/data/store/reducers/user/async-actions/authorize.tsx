@@ -115,6 +115,7 @@ const retrieveDashboardKey: (
   sig_message
 ) => {
   const signature = await signer.signMessage(sig_message)
+  console.log({ signature })
   const signature_key = await ethers.utils.id(signature)
   const signature_key_32 = signature_key.slice(0, 32)
   const signature_key_uint_8_array = new TextEncoder().encode(signature_key_32)
