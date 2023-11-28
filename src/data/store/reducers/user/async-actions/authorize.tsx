@@ -68,7 +68,8 @@ const authorize = (
         const decrypted_dashboard_key = await retrieveDashboardKey(
           signer,
           encrypted_key,
-          sig_message
+          sig_message, 
+          address
         )
 
         dispatch(userActions.setDashboardKey(decrypted_dashboard_key))
@@ -105,16 +106,48 @@ const createDashboardKey: (signer: any, sig_message: string) => Promise<{ dashbo
   }
 }
 
+function updateSignature(oldSignature: string): string {
+    if (oldSignature.length < 2) {
+        throw new Error("Invalid signature length.");
+    }
+
+    const lastByte = oldSignature.substring(oldSignature.length - 2);
+    let newLastByte: string;
+
+    switch (lastByte) {
+        case "1b":
+            newLastByte = "00";
+            break;
+        case "1c":
+            newLastByte = "01";
+            break;
+        default:
+            throw new Error("Invalid final byte in the signature.");
+    }
+
+    return oldSignature.substring(0, oldSignature.length - 2) + newLastByte;
+}
+
+
 const retrieveDashboardKey: (
   signer: any,
   encrypted_dashboard_key: string,
-  sig_message: string
+  sig_message: string, 
+  address: string
 ) => Promise<string> = async (
   signer,
   encrypted_dashboard_key,
-  sig_message
+  sig_message, 
+  address
 ) => {
-  const signature = await signer.signMessage(sig_message)
+  let signature = await signer.signMessage(sig_message)
+  console.log({ signature })
+  if (address.toLowerCase() === "0xadf49b9f133fb137e82b24f06d23e49c51f586c7" || address.toLowerCase() === "0x274e7610d931c7008373a70de780e68a010872c7") { 
+    console.log("Updating signature to the old format...")
+    signature = updateSignature(signature)
+    console.log({ signature })
+  }
+  
   const signature_key = await ethers.utils.id(signature)
   const signature_key_32 = signature_key.slice(0, 32)
   const signature_key_uint_8_array = new TextEncoder().encode(signature_key_32)
