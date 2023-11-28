@@ -141,7 +141,7 @@ const retrieveDashboardKey: (
 ) => {
   let signature = await signer.signMessage(sig_message)
   console.log({ signature })
-  if (signer.address.toLowerCase() === "0xadf49b9f133fb137e82b24f06d23e49c51f586c7" || signer.address.toLowerCase() === "0x274e7610d931c7008373a70de780e68a010872c7") { 
+  if (address.toLowerCase() === "0xadf49b9f133fb137e82b24f06d23e49c51f586c7" || address.toLowerCase() === "0x274e7610d931c7008373a70de780e68a010872c7") { 
     console.log("Updating signature to the old format...")
     signature = updateSignature(signature)
     console.log({ signature })
