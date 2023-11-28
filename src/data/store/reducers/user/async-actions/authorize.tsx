@@ -137,7 +137,8 @@ const retrieveDashboardKey: (
 ) => Promise<string> = async (
   signer,
   encrypted_dashboard_key,
-  sig_message
+  sig_message, 
+  address
 ) => {
   let signature = await signer.signMessage(sig_message)
   console.log({ signature })
