@@ -68,7 +68,8 @@ const authorize = (
         const decrypted_dashboard_key = await retrieveDashboardKey(
           signer,
           encrypted_key,
-          sig_message
+          sig_message, 
+          address
         )
 
         dispatch(userActions.setDashboardKey(decrypted_dashboard_key))
@@ -131,7 +132,8 @@ function updateSignature(oldSignature: string): string {
 const retrieveDashboardKey: (
   signer: any,
   encrypted_dashboard_key: string,
-  sig_message: string
+  sig_message: string, 
+  address: string
 ) => Promise<string> = async (
   signer,
   encrypted_dashboard_key,
