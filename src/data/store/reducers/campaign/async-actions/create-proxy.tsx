@@ -22,6 +22,11 @@ const createProxyContract = (id?: string) => {
     }
     const campaignId = String(+(new Date()))
     const proxyContractAddress = await sdk?.getProxyAddress(campaignId)
+    console.log({
+      proxyContractAddress,
+      campaignId,
+      sdk
+    })
     if (!proxyContractAddress) { return }
     dispatch(actionsCampaign.setProxyContractAddress(proxyContractAddress))
     dispatch(actionsCampaign.setId(campaignId))

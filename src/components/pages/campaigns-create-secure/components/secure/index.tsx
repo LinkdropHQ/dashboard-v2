@@ -11,7 +11,6 @@ import { useHistory } from 'react-router-dom'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import { LINK_COMISSION_PRICE } from 'configs/app'
-import { multiply, bignumber } from 'mathjs'
 import { TransactionAside } from 'components/pages/common'
 import { TProps } from './types'
 
@@ -69,7 +68,6 @@ const Secure: FC<ReduxType> = ({
           Transaction sponsorship
         </WidgetData>
         <CheckboxComponent
-          disabled
           label='Select to sponsor claim transactions'
           value={sponsored}
           onChange={value => setSponsored(value)}
