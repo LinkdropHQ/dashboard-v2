@@ -46,11 +46,7 @@ const decryptLinks: TDecryptLink = ({
         const decryptedClaimCode = decrypt(encryptedClaimCode, dashboardKey)
         const claimUrl = defineUrlSchema(
           decryptedClaimCode,
-          chainId,
-          claimAppURL,
-          3, // version
-          wallet,
-          availableWallets
+          claimAppURL
         )
         decryptedLinks.push({
           link_id: links[i].link_id,
