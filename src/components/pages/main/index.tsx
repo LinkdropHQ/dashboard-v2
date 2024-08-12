@@ -220,7 +220,10 @@ const Main: FC<ReduxType> = ({
   const signer = useEthersSigner()
   const { open } = useWeb3Modal()
   const isCoinbase = connector ? connector.id === "coinbaseWalletSDK" : false
-
+  console.log({
+    isCoinbase,
+    connector
+  })
   const title = defineTitle(authorizationStep)
   const text = defineText(authorizationStep, isCoinbase)
   useEffect(() => {
