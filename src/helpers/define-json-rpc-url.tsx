@@ -2,10 +2,8 @@ import defineNetworkName from './define-network-name'
 const {
   REACT_APP_JSON_RPC_POLYGON,
   REACT_APP_JSON_RPC_MAINNET,
-  REACT_APP_JSON_RPC_GOERLI,
-  REACT_APP_JSON_RPC_MUMBAI,
   REACT_APP_JSON_RPC_BASE,
-  REACT_APP_JSON_RPC_BASEGOERLI
+  REACT_APP_JSON_RPC_IMMUTABLE_ZKEVM
 } = process.env
 
 const defineJSONRpcUrl = ({ chainId, infuraPk } : { chainId: number, infuraPk: string }) => {
@@ -13,16 +11,12 @@ const defineJSONRpcUrl = ({ chainId, infuraPk } : { chainId: number, infuraPk: s
 
   if (networkName === 'polygon') {
     return REACT_APP_JSON_RPC_POLYGON
-  } else if (networkName === 'mumbai') {
-    return REACT_APP_JSON_RPC_MUMBAI
-  } else if (networkName === 'goerli') {
-    return REACT_APP_JSON_RPC_GOERLI
   } else if (networkName === 'mainnet') {
     return REACT_APP_JSON_RPC_MAINNET
   } else if (networkName === 'base') {
     return REACT_APP_JSON_RPC_BASE
-  } else if (networkName === 'baseGoerli') {
-    return REACT_APP_JSON_RPC_BASEGOERLI
+  } else if (networkName === 'immutableZkevm') {
+    return REACT_APP_JSON_RPC_IMMUTABLE_ZKEVM
   }
   
   return `https://${networkName}.infura.io/v3/${infuraPk}`

@@ -54,43 +54,6 @@ const chains: TChains = {
       'https://etherscan.io'
     ]
   },
-  5: {
-    chainName: 'Goerli',
-    displayName: 'Goerli',
-    testnet: true,
-    alchemySupport: true,
-    mnemonicSupport: false,
-    nativeCurrency: {
-      name: 'GoerliETH',
-      symbol: 'GoerliETH',
-      decimals: 18
-    },
-    rpcUrls: [
-      `https://goerli.infura.io/v3/${REACT_APP_INFURA_ID}`
-    ],
-    blockExplorerUrls: [
-      'https://goerli.etherscan.io'
-    ]
-  },
-  80001: {
-    chainName: 'Mumbai',
-    displayName: 'Mumbai',
-    alchemySupport: true,
-    mnemonicSupport: false,
-    testnet: true,
-    nativeCurrency: {
-      
-      name: 'MATIC',
-      symbol: 'MATIC',
-      decimals: 18
-    },
-    rpcUrls: [
-      'https://endpoints.omniatech.io/v1/matic/mumbai/public'
-    ],
-    blockExplorerUrls: [
-      'https://mumbai.polygonscan.com'
-    ]
-  },
   8453: {
     chainName: 'Base',
     displayName: 'Base',
@@ -107,24 +70,6 @@ const chains: TChains = {
     ],
     blockExplorerUrls: [
       'https://basescan.org'
-    ]
-  },
-  84531: {
-    chainName: 'Base Goerli Testnet',
-    displayName: 'BaseGoerli',
-    testnet: true,
-    alchemySupport: true,
-    mnemonicSupport: false,
-    nativeCurrency: {
-      name: 'ETH',
-      symbol: 'ETH',
-      decimals: 18
-    },
-    rpcUrls: [
-      'https://base-goerli.public.blastapi.io'
-    ],
-    blockExplorerUrls: [
-      'https://goerli.basescan.org'
     ]
   }
 }

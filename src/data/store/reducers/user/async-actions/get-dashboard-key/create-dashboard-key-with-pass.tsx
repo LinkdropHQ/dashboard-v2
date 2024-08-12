@@ -2,8 +2,7 @@ import { plausibleApi } from 'data/api'
 import { ethers } from 'ethers'
 import { encrypt, generateKeyPair } from 'lib/crypto' 
 import { toString } from "uint8arrays/to-string"
-import { createWalletClient, custom } from 'viem'
-import { defineWagmiNetwork, buf2hex } from 'helpers'
+import { buf2hex } from 'helpers'
 
 const createDashboardKeyWithPass: (
   sig_message: string,
@@ -17,9 +16,6 @@ const createDashboardKeyWithPass: (
   account,
   chain_id
 ) => {
-
-  const network = defineWagmiNetwork(chain_id)
-
   try {
 
     const challenge = Uint8Array.from(sig_message, c => c.charCodeAt(0))

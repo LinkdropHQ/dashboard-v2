@@ -34,6 +34,10 @@ function createTokenERC1155 (
     try {
       const networkName = defineThirdwebNetworkName(chainId)
 
+      if (!networkName) {
+        return alertError('Network is not supported')
+      }
+
       const sdk = ThirdwebSDK.fromSigner(signer, networkName, {
         clientId: REACT_APP_THIRDWEB_CLIENT_ID as string
       })

@@ -4,7 +4,7 @@ import * as actionsCollections from '../actions'
 import { CollectionsActions } from '../types'
 import { UserActions } from '../../user/types'
 import { IAppDispatch } from 'data/store'
-import {  defineThirdwebNetworkName, alertError } from 'helpers'
+import { defineThirdwebNetworkName, alertError } from 'helpers'
 import { RootState } from 'data/store'
 import { ThirdwebSDK } from '@thirdweb-dev/sdk'
 import { collectionsApi } from 'data/api'
@@ -30,6 +30,10 @@ function createCollectionERC1155(
 
     try {
       const networkName = defineThirdwebNetworkName(chainId)
+
+      if (!networkName) {
+        return alertError('Network is not supported')
+      }
 
       const sdk = ThirdwebSDK.fromSigner(signer, networkName, {
         clientId: REACT_APP_THIRDWEB_CLIENT_ID as string

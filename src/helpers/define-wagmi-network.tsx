@@ -1,9 +1,8 @@
 import {
   mainnet,
   polygon,
-  sepolia,
   base,
-  baseGoerli
+  immutableZkEvm
 } from 'wagmi/chains'
 
 const defineWagmiNetwork = (
@@ -16,10 +15,8 @@ const defineWagmiNetwork = (
       return polygon
     case 8453:
       return base
-    case 84531:
-      return baseGoerli
-    case 11155111:
-      return sepolia
+    case 13371:
+      return immutableZkEvm
     default:
       return base
   }
