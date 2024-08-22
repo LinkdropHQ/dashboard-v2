@@ -399,6 +399,8 @@ const CampaignsCreateApprove: FC<ReduxType> = ({
   const history = useHistory()
   const { type, id } = useParams<TLinkParams>()
   const queryParams = useQuery()
+
+  // @ts-ignore
   const currentCampaign = id ? campaigns.find(campaign => campaign.campaign_id === id) : null
   const currentTokenAddress = currentCampaign ? currentCampaign.token_address : tokenAddress
   const currentCampaignChainId = currentCampaign ? currentCampaign.chain_id : chainId
@@ -604,12 +606,15 @@ const CampaignsCreateApprove: FC<ReduxType> = ({
           const callback = () => {
             history.push(defineRedirectUrl())
           }
+
           if (whitelisted && REACT_APP_PRO_PLAN_LINKS_LIMIT && assetsParsed.length > Number(REACT_APP_PRO_PLAN_LINKS_LIMIT as string)) {
             return alertError(`Pro plan is limited to ${REACT_APP_PRO_PLAN_LINKS_LIMIT} links per batch. Contact us if you need to increase limits.`)
           }
+
           if (!whitelisted && REACT_APP_STARTER_PLAN_LINKS_LIMIT && assetsParsed.length > Number(REACT_APP_STARTER_PLAN_LINKS_LIMIT as string)) {
             return alertError(`Starter plan is limited to ${REACT_APP_STARTER_PLAN_LINKS_LIMIT} links per batch. Upgrade your plan to increase limits.`)
           }
+
           if (claimPattern === 'mint') {
             return grantRole(
               assetsCurrent,

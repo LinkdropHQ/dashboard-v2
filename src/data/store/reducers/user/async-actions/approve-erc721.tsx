@@ -10,10 +10,12 @@ import {
 import { ethers } from 'ethers'
 import { IAppDispatch, RootState } from 'data/store'
 import { ERC721Contract } from 'abi'
+import { utils } from 'ethers'
 import { TAssetsData, TLinkContent } from 'types'
 import { plausibleApi } from 'data/api'
 import { defineNetworkName, alertError } from 'helpers'
 import * as actionsAsyncCampaigns from '../../campaigns/async-actions'
+
 
 const approve = (
   assets: TAssetsData,
@@ -45,6 +47,7 @@ const approve = (
         tokenStandard,
         claimPattern
       }
+      // @ts-ignore
     } = getState()
 
     if (approved) {
@@ -72,7 +75,7 @@ const approve = (
         return alertError('No user address provided')
       }
       dispatch(campaignActions.setLoading(true))
-      const contractInstance = await new ethers.Contract(tokenAddress, ERC721Contract.abi, signer)
+      const contractInstance = new ethers.Contract(tokenAddress, ERC721Contract.abi, signer)
       plausibleApi.invokeEvent({
         eventName: 'camp_step3_filled',
         data: {
@@ -83,7 +86,19 @@ const approve = (
           sponsorship: sponsored ? 'sponsored' : 'non sponsored'
         }
       })
-      await contractInstance.setApprovalForAll(proxyContractAddress, true)
+
+      let iface = new utils.Interface(ERC721Contract.abi)
+
+      const data = iface.encodeFunctionData('setApprovalForAll', [
+        proxyContractAddress, true
+      ])
+
+      await signer.sendTransaction({
+        to: tokenAddress,
+        from: address,
+        value: 0,
+        data: data
+      })
   
       const checkTransaction = async function (): Promise<boolean> {
         return new Promise((resolve, reject) => {

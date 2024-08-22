@@ -31,6 +31,7 @@
     "linkdrop-ui": "^0.0.55",
     "mathjs": "^10.5.0",
     "moment": "^2.29.4",
+    "permissionless": "^0.1.45",
     "plausible-tracker-linkdrop": "^0.3.9",
     "qr-code-styling": "^1.6.0-rc.1",
     "qr-code-styling-bigmac": "^1.5.8",

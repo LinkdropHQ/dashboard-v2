@@ -85,26 +85,6 @@ const getERC20Contracts = () => {
               if (token.tokenBalance && parseInt(token.tokenBalance, 16) === 0) {
                 continue
               }
-              // commented for now, possible to use later
-              // const contractInstance = await new ethers.Contract(token.contractAddress, ERC20Contract.abi, signer)
-              // const decimals = await contractInstance.decimals()
-              // const symbol = await contractInstance.symbol()
-  
-              
-              // const tokenWithMetadata: TERC20Contract = {
-              //   address: token.contractAddress,
-              //   totalBalance: !token.tokenBalance ? '0' : String(
-              //     ethers.utils.formatUnits(
-              //       BigNumber.from(
-              //         token.tokenBalance.toString()
-              //       ).toString(),
-              //       decimals
-              //     )
-              //   ),
-              //   tokenType: 'ERC20',
-              //   symbol
-              // }
-
   
               if (!tokenListERC20) {
                 continue
