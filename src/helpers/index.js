@@ -50,7 +50,6 @@ import alertError from './alert-error'
 import prepareERC20Url from './prepare-erc20-list'
 import defineIfUserHasEnoughERC20Tokens from './define-if-user-has-enough-erc20-token'
 import defineQROptions from './define-qr-options'
-import defineIfQRIsDeeplink from './define-if-qr-is-deeplink'
 import defineDispenserAppUrl from './define-dispenser-app-url'
 import defineDispenserStatus from './define-dispenser-status'
 import defineDispenserStatusName from './define-dispenser-status-name'
@@ -87,10 +86,12 @@ import defineWagmiNetwork from './define-wagmi-network'
 import getNextDayData from './get-next-day-data'
 import buf2hex from '../helpers/buffer-to-hex'
 import defineIfWalletIsAvailableForClient from './define-if-wallet-is-available-for-client'
+import defineCoinbaseInstance from './define-coinbase-instance'
 
 export {
   buf2hex,
   defineThirdwebNetworkName,
+  defineCoinbaseInstance,
   defineCollectionQuantityTag,
   defineIfWalletIsAvailableForClient,
   defineCollectionStatusName,
@@ -126,7 +127,6 @@ export {
   defineDispenserStatus,
   defineDispenserStatusName,
   defineQROptions,
-  defineIfQRIsDeeplink,
   prepareERC20Url,
   defineIfUserHasEnoughERC20Tokens,
   shortenString,

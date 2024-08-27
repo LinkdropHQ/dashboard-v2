@@ -1,7 +1,7 @@
 import { ActionType } from 'typesafe-actions';
 import * as actions from './actions'
 import { Dispatch } from 'redux'
-import LinkdropSDK from 'linkdrop-sdk'
+import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 import { TAuthorizationStep, TNFTContract, TNFTToken, TERC20Contract, TERC20TokenList, TCountry } from 'types'
 import { BigNumber } from 'ethers'
 
@@ -14,7 +14,7 @@ export interface UserState {
   chainId: number | null
   nativeTokenAmount: BigNumber | null
   tokenAmount: BigNumber | null
-  sdk: LinkdropSDK | null
+  sdk: LinkdropBatchSDK | null
   dashboardKey: null | string
   workersCount: number
   authorizationStep: TAuthorizationStep
@@ -24,8 +24,11 @@ export interface UserState {
   tokenListERC20: TERC20TokenList
   nfts: TNFTToken[]
   whitelisted: boolean | null
-  comission: string,
+  comission: string
   countries: TCountry[]
+  connectorId: null | string
+  dashboardKeyPopup: boolean
+  dashboardKeyPopupCallback: ((dashboardKey: string) => void) | null
 }
 
 export type UserActions = ActionType<typeof actions>;

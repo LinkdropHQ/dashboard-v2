@@ -1,6 +1,6 @@
 {
   "name": "linkdrop-dashboard",
-  "version": "2.1.38-rc.0",
+  "version": "2.1.39-rc.0",
   "private": true,
   "dependencies": {
     "@craco/craco": "^7.1.0",
@@ -27,7 +27,7 @@
     "is-ios": "^2.1.0",
     "jest": "26.6.0",
     "jszip": "^3.10.0",
-    "linkdrop-sdk": "^2.1.8",
+    "linkdrop-batch-sdk": "^2.1.9",
     "linkdrop-ui": "^0.0.55",
     "mathjs": "^10.5.0",
     "moment": "^2.29.4",

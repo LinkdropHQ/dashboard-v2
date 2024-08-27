@@ -1,7 +1,7 @@
 import { TCampaign, TDispenser } from "types"
 
 export type TProps = {
-  claimUrl: string
+  claimUrl?: string
   redirectUrl?: string | null
   loading: boolean
   campaignData: TCampaign | null

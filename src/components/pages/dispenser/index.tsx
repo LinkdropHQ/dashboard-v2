@@ -11,8 +11,9 @@ import {
   WidgetComponentStyled,
   CopyContainerStyled,
   Text,
-  DynamicQRImage,
-  MainContent
+  QRImage,
+  MainContent,
+  Overlay
 } from './styled-components'
 import {
   Statistics,
@@ -21,11 +22,10 @@ import {
   ClaimLinks,
   QRCode
 } from './components'
+import QRCodePreview from 'images/QR-code-preview.png'
 import DynamicQRImageSrc from 'images/dynamic-qr.png'
 import {
-  defineDispenserStatus,
-  alertError,
-  defineDispenserAppUrl
+  defineDispenserStatus
 } from 'helpers'
 import { Redirect, useParams } from 'react-router-dom'
 import {
@@ -34,12 +34,10 @@ import {
   TLinkDecrypted,
   TDispenserWhitelistType
 } from 'types'
+import { Loader } from 'components/common'
 import { connect } from 'react-redux'
 import * as asyncDispensersActions from 'data/store/reducers/dispensers/async-actions'
-import { decrypt, encrypt } from 'lib/crypto'
-import { ethers } from 'ethers'
-import { defineClaimAppURL, defineNetworkName } from 'helpers'
-
+import * as dispensersActions from 'data/store/reducers/dispensers/actions'
 
 const mapStateToProps = ({
   campaigns: { campaigns },
@@ -70,7 +68,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       encryptedMultiscanQREncCode: string,
       linksCount: number,
       currentStatus: TDispenserStatus,
-      callback?: () => void,
+      successCallback?: () => void,
 
     // @ts-ignore
     ) => dispatch(asyncDispensersActions.addLinksToDispenser({
@@ -79,7 +77,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       encryptedMultiscanQREncCode,
       linksCount,
       currentStatus,
-      callback
+      successCallback
     })),
     downloadQR: (
       size: number,
@@ -89,7 +87,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       qrDispenserName: string,
       whitelistOn: boolean,
       dynamic: boolean,
-      callback?: () => void
+      successCallback?: () => void
     ) => dispatch(asyncDispensersActions.downloadDispenserQR({
       multiscan_qr_id,
       encrypted_multiscan_qr_secret,
@@ -99,17 +97,17 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       height: size,
       whitelist_on: whitelistOn,
       dynamic,
-      callback
+      successCallback
     })),
     
-    getDispenserStats: (
-      dispenser_id: string,
-      multiscan_qr_id: string,
-      callback?: () => void
-    ) => dispatch(asyncDispensersActions.getDispenserStats({
-      dispenser_id,
-      multiscan_qr_id,
-      callback
+    getDispenserData: (
+      multiscan_qr_id: string
+    ) => dispatch(asyncDispensersActions.getDispenserData({
+      multiscan_qr_id
+    })),
+
+    removeCurrentDispenserData: () => dispatch(dispensersActions.setCurrentDispenserData({
+      campaign: null
     })),
   
     pauseDispenser: (
@@ -153,6 +151,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       successCallback,
       errorCallback
     })),
+
     updateRedirectURL: (
       dispenser_id: string,
       redirect_url: string,
@@ -166,6 +165,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       successCallback,
       errorCallback
     })),
+
     toggleWhitelist: (
       dispenser_id: string,
       whitelist_on: boolean,
@@ -177,12 +177,12 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       successCallback,
       errorCallback
     })),
+
     downloadReport: (
       dispenser_id: string,
     ) => dispatch(asyncDispensersActions.downloadReport(
       dispenser_id
     )),
-
 
     createAddressWhitelist: (
       dispenserId: string,
@@ -197,6 +197,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       successCallback,
       errorCallback
     })),
+
     updateAddressWhitelist: (
       dispenserId: string,
       whitelist: string[],
@@ -211,6 +212,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       successCallback,
       errorCallback
     })),
+
     getDispenserWhitelist: (
       dispenser_id: string,
       callback?: () => void
@@ -232,6 +234,14 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       // duration,
       callback
     })),
+
+    decryptDispenserData: (
+      dispenser_id: string
+    ) => {
+      dispatch(asyncDispensersActions.decryptDispenserData(
+        { dispenser_id }
+      ))
+    }
   }
 }
 
@@ -253,8 +263,18 @@ const defineSubtitle = (
 const renderMainButton = (
   dynamic: boolean,
   toggleDownloadPopup: (downloadPopup: boolean) => void,
-  redirectUrl?: string
+  decryptDispenserData: () => void,
+  dispenser_url?: string,
+  dashboardKey?: string | null
 ) => {
+
+  if (!dashboardKey) {
+    return <WidgetButton
+      title='Show QR code'
+      appearance='action'
+      onClick={decryptDispenserData}
+    /> 
+  }
   const title = !dynamic ? 'Download PNG' : 'Launch Dynamic QR App'
   return <WidgetButton
     title={title}
@@ -263,9 +283,9 @@ const renderMainButton = (
         toggleDownloadPopup(true)
         return
       }
-
-      if (redirectUrl) {
-        window.open(redirectUrl, '_blank')
+    console.log({ dispenser_url })
+      if (dispenser_url) {
+        window.open(dispenser_url, '_blank')
         return 
       }
 
@@ -277,15 +297,26 @@ const renderMainButton = (
 
 const defineQRItem = (
   dynamic: boolean,
-  link: string,
-  address: string
+  address: string,
+  dispenser_url?: string,
+  dashboard_key?: string | null
 ) => {
-
-  if (dynamic) {
-    return <DynamicQRImage src={DynamicQRImageSrc} />
+  console.log({ 
+    dashboard_key,
+    dynamic,
+    dispenser_url
+  })
+  if (!dashboard_key) {
+    return <QRImage src={QRCodePreview} />
   }
 
-  return <QRCode link={link} address={address} />
+  if (dynamic) {
+    return <QRImage src={DynamicQRImageSrc} />
+  }
+
+  if (dispenser_url) {
+    return <QRCode link={dispenser_url} address={address} />
+  }
 }
 
 const defineQRCodeDescription = () => {
@@ -311,24 +342,20 @@ const Dispenser: FC<ReduxType> = ({
   updateRedirectURL,
   toggleRedirectURL,
   toggleTimeframe,
-  getDispenserStats,
+  getDispenserData,
   downloadReport,
   toggleWhitelist,
-  chainId,
   updateAddressWhitelist,
   currentDispenserData,
+  removeCurrentDispenserData,
   updateDispenser,
-  getDispenserWhitelist
-
+  getDispenserWhitelist,
+  decryptDispenserData
 }) => {
   const { id } = useParams<{id: string}>()
   // @ts-ignore
   const dispenser: TDispenser | undefined = dispensers.find(dispenser => String(dispenser.dispenser_id) === id)
 
-  const [
-    statsLoading,
-    setStatsLoading
-  ] = useState<boolean>(true)
 
   const [
     downloadPopup,
@@ -336,70 +363,40 @@ const Dispenser: FC<ReduxType> = ({
   ] = useState<boolean>(false)
 
 
-  useEffect(() => {
+  if (!dispenser) {
+    return <Redirect to='/dispensers' />
+  }
 
-    if (!dispenser || !dispenser?.updated_at) { return }
-    getDispenserStats(
-      dispenser.dispenser_id as string,
-      dispenser.multiscan_qr_id as string,
-      () => setStatsLoading(false)
+  useEffect(() => {
+    if (
+      !dispenser ||
+      !dispenser?.updated_at ||
+      dispenser?.links_count === 0
+    ) { return }
+    console.log('getDispenserData')
+
+    getDispenserData(
+      dispenser.multiscan_qr_id as string
     )
+
+    return () => {
+      removeCurrentDispenserData()
+    }
   }, [dispenser?.updated_at])
 
-  const claimAppURL = defineClaimAppURL(
-    address
-  )
+  useEffect(() => {
+    if (!dashboardKey) { return }
+    console.log('decrypting')
+    decryptDispenserData(id)
+  }, [
+    dashboardKey,
+    dispenser?.whitelist_on,
+    dispenser?.redirect_on
+  ])
 
   const qrCodeDescription = defineQRCodeDescription()
 
-  const {
-    claimURLDecrypted,
-    redirectURLDecrypted
-  } = useMemo<{claimURLDecrypted: string, redirectURLDecrypted: string}>(() => {
-    if (!dispenser || !dashboardKey) { return { claimURLDecrypted: '', redirectURLDecrypted: '' } }
-      const {
-        redirect_url,
-        encrypted_multiscan_qr_enc_code,
-        encrypted_multiscan_qr_secret,
-        whitelist_on,
-        dynamic
-      } = dispenser 
-      const multiscanQREncCode = decrypt(encrypted_multiscan_qr_enc_code, dashboardKey)
-      const decryptedMultiscanQRSecret = decrypt(encrypted_multiscan_qr_secret, dashboardKey)
-      // 
-      const claimURLDecrypted = defineDispenserAppUrl(
-        claimAppURL,
-        decryptedMultiscanQRSecret,
-        multiscanQREncCode,
-        Boolean(whitelist_on),
-        Boolean(dynamic)
-      )
-
-      const linkKey = ethers.utils.id(multiscanQREncCode)
-      try {
-        const redirectURLDecrypted = redirect_url ? decrypt(redirect_url, linkKey.replace('0x', '')) : ''
-        return {
-          claimURLDecrypted,
-          redirectURLDecrypted
-        }
-      } catch (e) {
-        console.log({ e })
-        alertError('Some error occured. Please check console for more info')
-        return {
-          claimURLDecrypted,
-          redirectURLDecrypted: ''
-        }
-      }
-  }, dispenser ? [
-    dispenser.encrypted_multiscan_qr_enc_code,
-    dispenser.encrypted_multiscan_qr_secret,
-    dispenser.redirect_url,
-    dispenser.whitelist_on
-  ] : []) 
-
-  if (!dispenser || !dashboardKey) {
-    return <Redirect to='/dispensers' />
-  }
+  console.log({ dispenser })
 
   const {
     dispenser_id,
@@ -418,7 +415,9 @@ const Dispenser: FC<ReduxType> = ({
     whitelist_on,
     dynamic,
     claim_finish,
-    timeframe_on
+    timeframe_on,
+    dispenser_url,
+    decrypted_redirect_url
   } = dispenser
 
   const currentStatus = defineDispenserStatus(
@@ -434,13 +433,16 @@ const Dispenser: FC<ReduxType> = ({
   const mainButton = renderMainButton(
     dynamic as boolean,
     toggleDownloadPopup,
-    claimURLDecrypted
+    () => decryptDispenserData(id),
+    dispenser_url,
+    dashboardKey
   )
 
   const qrCodeContainer = defineQRItem(
     Boolean(dynamic),
-    claimURLDecrypted,
-    address
+    address,
+    dispenser_url,
+    dashboardKey
   )
 
   return <Container>
@@ -461,6 +463,9 @@ const Dispenser: FC<ReduxType> = ({
     />}
 
     <MainContent>
+      {loading && <Overlay>
+        <Loader />  
+      </Overlay>}
       <WidgetComponentStyled title={defineTitle(Boolean(dynamic))}>
         <WidgetSubtitle>
           {defineSubtitle(Boolean(dynamic))}
@@ -470,9 +475,9 @@ const Dispenser: FC<ReduxType> = ({
 
         {qrCodeDescription}
 
-        <CopyContainerStyled
-          text={claimURLDecrypted}
-        />
+        {dispenser_url && <CopyContainerStyled
+          text={dispenser_url}
+        />}
         
         <Buttons>
           {mainButton}
@@ -513,8 +518,8 @@ const Dispenser: FC<ReduxType> = ({
 
 
       <Settings
-        redirectUrl={redirectURLDecrypted}
-        claimUrl={claimURLDecrypted}
+        redirectUrl={decrypted_redirect_url}
+        claimUrl={dispenser_url}
         loading={loading}
         campaignData={currentDispenserData.campaign}
         getDispenserWhitelist={getDispenserWhitelist}
@@ -614,4 +619,5 @@ const Dispenser: FC<ReduxType> = ({
   </Container>
 }
 
+// @ts-ignore
 export default connect(mapStateToProps, mapDispatcherToProps)(Dispenser)

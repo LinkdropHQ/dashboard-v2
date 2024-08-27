@@ -40,6 +40,8 @@ function connectWallet (
         provider.on("accountsChanged", async () => {
           dispatch(asyncActions.logout())
         })
+
+        const connectorId: string = connector.id
       
         provider.on("chainChanged", async (newChain: any) => {
           if (newChain !== connectorChainID) {
@@ -50,6 +52,7 @@ function connectWallet (
         dispatch(actions.setProvider(provider))
         dispatch(actions.setAddress(connectorAddress))
         dispatch(actions.setChainId(connectorChainID))
+        dispatch(actions.setConnectorId(connectorId))
 
         dispatch(actions.setAuthorizationStep('login'))
 

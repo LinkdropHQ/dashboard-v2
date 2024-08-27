@@ -1,13 +1,13 @@
 import contracts from 'configs/contracts'
 import { Dispatch } from 'redux'
 import { CampaignActions } from '../types'
-import LinkdropSDK from 'linkdrop-sdk'
+import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 import * as actionsCampaign from '../actions'
 
 const createProxyAddress = async (
   dispatch: Dispatch<CampaignActions>,
   chainId: number,
-  sdk: LinkdropSDK | null,
+  sdk: LinkdropBatchSDK | null,
   address: string
 ) => {
   const contract = contracts[chainId]

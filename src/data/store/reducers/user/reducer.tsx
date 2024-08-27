@@ -16,6 +16,7 @@ const initialState: UserState = {
   nativeTokenAmount: BigNumber.from('0'),
   tokenAmount: null,
   sdk: null,
+  connectorId: null,
   dashboardKey: null,
   workersCount: (navigator && navigator.hardwareConcurrency) || 4,
   authorizationStep: 'initial',
@@ -26,7 +27,9 @@ const initialState: UserState = {
   whitelisted: null,
   comission: '0',
   tokenListERC20: {},
-  countries: []
+  countries: [],
+  dashboardKeyPopup: false,
+  dashboardKeyPopupCallback: null
 };
 
 export function userReducer(
@@ -36,8 +39,14 @@ export function userReducer(
     switch (action.type) {
       case Constants.USER_SET_ADDRESS:
         return { ...state, address: action.payload.address }
+      case Constants.USER_SET_DASHBOARD_KEY_POPUP_CALLBACK:
+        return { ...state, dashboardKeyPopupCallback: action.payload.dashboardKeyPopupCallback }
+      case Constants.USER_SET_DASHBOARD_KEY_POPUP:
+        return { ...state, dashboardKeyPopup: action.payload.dashboardKeyPopup }
       case Constants.USER_SET_COUNTRIES:
         return { ...state, countries: action.payload.countries }
+      case Constants.USER_SET_CONNECTOR_ID:
+        return { ...state, connectorId: action.payload.connectorId }
       case Constants.USER_SET_LOADING:
         return {...state, loading: action.payload.loading }
       case Constants.USER_SET_PROVIDER:

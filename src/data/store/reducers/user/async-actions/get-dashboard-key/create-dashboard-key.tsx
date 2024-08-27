@@ -1,4 +1,3 @@
-import { plausibleApi } from 'data/api'
 import { ethers } from 'ethers'
 import { encrypt, generateKeyPair } from 'lib/crypto' 
 import { toString } from "uint8arrays/to-string"
@@ -28,16 +27,11 @@ const createDashboardKey: (
       transport: custom(provider)
     })
 
-    console.log({
-      sig_message
-    })
-
     let signature = await walletClient.signMessage({ 
       account: account as `0x${string}`,
       message: sig_message
     })
 
-    console.log({ signature })
     const signature_key = ethers.utils.id(signature)
     const { privateKey: dashboard_key } = generateKeyPair()
     const signature_key_32 = signature_key.slice(0, 32)
@@ -51,12 +45,6 @@ const createDashboardKey: (
     }
   } catch (err) {
     console.error({ err })
-    plausibleApi.invokeEvent({
-      eventName: 'sign_in_signature_reject',
-      data: {
-        signature: 'create_dashboard_key'
-      }
-    })
   }
 }
 

@@ -11,7 +11,8 @@ import {
 } from './styled-components'
 import {
   Button,
-  Tag
+  Tag,
+  Loader
 } from 'components/common'
 import {
   NewDispenser
@@ -41,7 +42,8 @@ const mapStateToProps = ({
   campaigns: { campaigns },
   user: { address, chainId },
   qrManager: {
-    loading, items
+    loading,
+    items
   }
 }: RootState) => ({
   campaigns,
@@ -206,6 +208,13 @@ const Dispensers: FC<ReduxType> = ({
     setShowPopup
   ] = useState<boolean>(false)
 
+
+  if (
+    loading &&
+    items.length === 0
+  ) {
+    return <Loader size='large' />
+  }
 
   if (items.length === 0) {
     return <>

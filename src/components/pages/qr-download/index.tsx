@@ -18,14 +18,13 @@ import * as asyncQRsActions from 'data/store/reducers/qrs/async-actions.tsx'
 const mapStateToProps = ({
   campaigns: { campaigns },
   qrs: { qrs, loading, downloadItems, downloadLoader },
-  user: { address, chainId, dashboardKey },
+  user: { address, chainId },
 }: RootState) => ({
   campaigns,
   address,
   chainId,
   qrs,
   loading,
-  dashboardKey,
   downloadItems,
   downloadLoader
 })
@@ -37,8 +36,8 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       qrSetName: string,
       width: number,
       height: number,
-      callback: () => void
-    ) => dispatch(asyncQRsActions.downloadQRs({ qrsArray, qrSetName, width, height, callback }))
+      successCallback: () => void
+    ) => dispatch(asyncQRsActions.downloadQRs({ qrsArray, qrSetName, width, height, successCallback }))
   }
 }
 
@@ -90,4 +89,5 @@ const QR: FC<ReduxType> = ({
   </Container>
 }
 
+// @ts-ignore
 export default connect(mapStateToProps, mapDispatcherToProps)(QR)

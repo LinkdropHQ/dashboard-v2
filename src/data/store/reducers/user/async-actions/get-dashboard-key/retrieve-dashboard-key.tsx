@@ -1,9 +1,7 @@
-import { plausibleApi } from 'data/api'
 import { ethers } from 'ethers'
 import { decrypt } from 'lib/crypto' 
 import { toString } from "uint8arrays/to-string"
 import { createWalletClient, custom } from 'viem'
-import { mainnet } from 'viem/chains'
 import { defineWagmiNetwork } from 'helpers'
 
 const retrieveDashboardKey: (
@@ -27,10 +25,6 @@ const retrieveDashboardKey: (
       transport: custom(provider),
     })
 
-    console.log({
-      sig_message
-    })
-
     // const signature = await signer.signMessage(String(sig_message))
     let signature = await walletClient.signMessage({ 
       account: account as `0x${string}`,
@@ -49,12 +43,6 @@ const retrieveDashboardKey: (
     return decrypt(encrypted_dashboard_key, signature_key_as_base_16) 
   } catch (err) {
     console.error({ err })
-    plausibleApi.invokeEvent({
-      eventName: 'sign_in_signature_reject',
-      data: {
-        signature: 'retrieve_dashboard_key'
-      }
-    })
   }
 }
 

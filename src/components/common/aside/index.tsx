@@ -79,7 +79,7 @@ const AsideComponent: FC<TProps & ReduxType> = ({
 
       <AsideMenuItem to='/collections' active={location.pathname.includes('/collections')}>
         <Icons.NFTsIcon />
-        <AsideMenuItemTitle className={AsideMenuItemTitleClassName}>NFT Minter</AsideMenuItemTitle>
+        <AsideMenuItemTitle className={AsideMenuItemTitleClassName}>Soulbounds</AsideMenuItemTitle>
       </AsideMenuItem>
     </AsideMenu>
 
@@ -93,7 +93,7 @@ const AsideComponent: FC<TProps & ReduxType> = ({
               component: 'aside'
             }
           })
-          window.open('https://docs.linkdrop.io/how-tos/main-guide/setting-up-a-campaign', '_blank')
+          window.open('https://github.com/LinkdropHQ/linkdrop-sdk', '_blank')
         }}>
           <Icons.CodeIcon />
           <AsideMenuItemTitle className={AsideMenuItemTitleClassName}>SDK</AsideMenuItemTitle>

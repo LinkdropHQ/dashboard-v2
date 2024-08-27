@@ -23,6 +23,12 @@ export const Container = styled.div`
 export const TagStyled = styled(Tag)`
 `
 
+export const LoaderContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`
+
 export const WidgetComponentStyled = styled(WidgetComponent)`
   max-width: 1100px;
 `

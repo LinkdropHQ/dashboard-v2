@@ -18,7 +18,6 @@ export type TDispenserWhitelistItemAddress = {
   type: TDispenserWhitelistType
 }
 export type TDispenser = {
-  encrypted_multiscan_qr_secret: string
   multiscan_qr_id: string
   dispenser_id?: string  
   links_count?: number
@@ -36,10 +35,21 @@ export type TDispenser = {
   updated_at?: string
   title: string
   dynamic?: boolean
+
   encrypted_multiscan_qr_enc_code: string
+  decrypted_multiscan_qr_enc_code?: string
+
+  encrypted_multiscan_qr_secret: string
+  decrypted_multiscan_qr_secret?: string
+
+  redirect_url?: string | null
+  decrypted_redirect_url?: string
+
   active?: boolean
   redirect_on?: boolean
-  redirect_url?: string | null
+
+  dispenser_url?: string
+
   links_claimed?: number
   links_assigned?: number
   whitelist_type?: TDispenserWhitelistType

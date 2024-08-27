@@ -4,7 +4,6 @@ type TAddressConfig = Record<
   string,
   {
     qrConfig?: string
-    qrDeeplink?: string
     betaFeaturesAvailable?: TFeatureName[]
     claimAppUrl?: string
   }

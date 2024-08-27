@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { TProps } from './types'
 import contracts from 'configs/contracts'
 import {
@@ -9,17 +9,29 @@ import {
 } from 'components/pages/common'
 import { NoteStyled } from '../../styled-components'
 import { SecretString } from 'linkdrop-ui'
+import { decrypt } from 'lib/crypto'
 
 const CampaignParameters: FC<TProps> = ({
   masterAddress,
   campaignId,
   encryptionKey,
-  signingKey,
+  encryptedSignerKey,
   chainId,
   sdk
 }) => {
   if (!sdk) { return null }
   const contract = contracts[chainId]
+
+  const [ signingKey, setSigningKey ] = useState('FIX NEEDED')
+
+  useEffect(() => {
+    // const init = async () => {
+
+    //   decrypt(encryptedSignerKey, dashboardKey)
+
+    // }
+  }, [])
+  
   return <WidgetComponent
     title='Campaign parameters'
   >

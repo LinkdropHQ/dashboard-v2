@@ -13,7 +13,6 @@ import {
   InputContainer,
   InputSubtitle
 } from 'components/pages/common'
-import { TFileFormat } from 'types'
 
 const ThumbnailUpload: FC<TProps> = ({
   thumbnail,

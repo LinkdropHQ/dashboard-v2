@@ -59,7 +59,9 @@ const authorize = (
         throw new Error(ERROR_DASHBOARD_AUTH_REJECTED)
       }
       
-      dispatch(userActions.setAuthorizationStep('store-key'))
+      dispatch(userActions.setAuthorizationStep('authorized'))
+
+
       dispatch(initialization())
 
       plausibleApi.invokeEvent({
@@ -70,7 +72,6 @@ const authorize = (
         }
       })
 
-      // dispatch(getDashboardKey())
       dispatch(userActions.setLoading(false))
 
 

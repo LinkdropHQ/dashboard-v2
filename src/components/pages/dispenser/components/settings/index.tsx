@@ -8,14 +8,13 @@ import {
   ButtonStyled,
   NoteStyled,
   TextLinkStyled,
-  WidgetLoaderStyled,
   TableTextStyled
 } from './styled-components'
 import {
   TProps,
   TSettingItem
 } from './types'
-import { Loader, Tooltip } from 'components/common'
+import { Tooltip } from 'components/common'
 import {
   TableRow,
   
@@ -75,7 +74,6 @@ const definePopup = (
   setting: TSettingItem,
   onClose: () => void,
 
-  claimUrl: string,
   redirectSubmit: (value: any, onSuccess?: () => void, onError?: () => void) => void,
 
   timeframeSubmit: (value: any, onSuccess?: () => void, onError?: () => void) => void,
@@ -100,7 +98,8 @@ const definePopup = (
 
 
   campaignId?: string,
-  currentDispenser?: TDispenser
+  currentDispenser?: TDispenser,
+  claimUrl?: string
 ) => {
   switch (setting.id) {
     case 'redirect':
@@ -197,31 +196,22 @@ const Settings: FC<TProps> = ({
   const popup = currentSetting ? definePopup(
     currentSetting,
     () => setCurrentSetting(null),
-
-    claimUrl,
-
     redirectSubmit,
-
     timeframeSubmit,
     whitelistSubmit,
-
     getDispenserWhitelist,
     loading,
-
     redirectUrl,
-
     redirectToggleAction,
     redirectToggleValue,
-
     whitelistValue,
     whitelistToggleAction,
     whitelistToggleValue,
-
-
     timeframeToggleAction,
     timeframeToggleValue,
     campaignData.campaign_id,
     currentDispenser,
+    claimUrl
   ) : null
 
   // if (loading) {

@@ -40,13 +40,12 @@ import {
 
 const mapStateToProps = ({
   collections: { collections, loading },
-  user: { address, chainId, dashboardKey },
+  user: { address, chainId },
 }: RootState) => ({
   address,
   chainId,
   collections,
-  loading,
-  dashboardKey
+  loading
 })
 
 const renderTokens = (
@@ -91,7 +90,6 @@ type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispa
 const Collection: FC<ReduxType> = ({
   collections,
   loading,
-  dashboardKey,
   chainId,
   getCollectionData,
   address
@@ -107,7 +105,7 @@ const Collection: FC<ReduxType> = ({
     }
   }, [])
 
-  if (!collection || !dashboardKey) {
+  if (!collection) {
     return <Redirect to='/collections' />
   }
 

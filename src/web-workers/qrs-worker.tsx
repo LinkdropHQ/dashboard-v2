@@ -1,11 +1,10 @@
 /* gobal OffscreenCanvas */
 import { expose } from 'comlink'
-import { TQRItem, TQROption, TLinkDecrypted, TQRImageOptions } from 'types'
+import { TQRItem, TQROption, TLinkDecrypted } from 'types'
 import * as wccrypto from '@walletconnect/utils'
 import { ethers } from 'ethers'
 import { decrypt, encrypt } from 'lib/crypto'
 import QRCodeStyling from 'qr-code-styling-bigmac'
-
 
 export class QRsWorker {
   private cb: (value: number) => void;
@@ -48,7 +47,6 @@ export class QRsWorker {
     logoImageHeight: number,
     img: ImageBitmap,
     qrOption: TQROption,
-    isDeeplink?: string,
     claimAppUrl?: string
   ) {
     const qrs: Blob[] = []
@@ -56,9 +54,8 @@ export class QRsWorker {
     for (let i = 0; i < qrsArray.length; i++) {
       const decrypted_qr_secret = decrypt(qrsArray[i].encrypted_qr_secret, dashboardKey)
       const originalLink = `${claimAppUrl}/#/qr/${decrypted_qr_secret}`
-      const QRLink = isDeeplink ? isDeeplink.replace('%URL%', encodeURIComponent(originalLink)) : originalLink
       const qrCode = new QRCodeStyling({
-        data: QRLink,
+        data: originalLink,
         width,
         height,
         margin: width / 60,
@@ -75,7 +72,7 @@ export class QRsWorker {
       const blob = await qrCode.getRawData('png')
       if (!blob) { continue }
       qrs.push(blob)
-      data.push({ link: QRLink })
+      data.push({ link: originalLink })
       const percentageFinished = Math.round(i / qrsArray.length * 100) / 100
       if (this.currentPercentageFinished < percentageFinished) {
         this.currentPercentageFinished = percentageFinished

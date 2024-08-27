@@ -9,13 +9,13 @@ import { RootState } from 'data/store'
 import { ThirdwebSDK } from '@thirdweb-dev/sdk'
 import { collectionsApi } from 'data/api'
 import { TCollection } from 'types'
+import CollectionPlaceholder from 'images/collection-placeholder.png'
 
 const { REACT_APP_THIRDWEB_CLIENT_ID } = process.env
 
 function createCollectionERC1155(
   title: string,
   symbol: string,
-  sbt: boolean,
   file?: File,
   base64File?: string,
   callback?: (collection_id: string) => void 
@@ -50,8 +50,8 @@ function createCollectionERC1155(
       const result: { data: { success: boolean, collection: TCollection } } = await collectionsApi.create({
         title,
         symbol,
-        thumbnail: base64File,
-        sbt,
+        thumbnail: base64File || CollectionPlaceholder,
+        sbt: true,
         token_standard: 'ERC1155',
         token_address: contract,
         chain_id: String(chainId)

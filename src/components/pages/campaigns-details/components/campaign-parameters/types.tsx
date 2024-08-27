@@ -1,6 +1,6 @@
 export type TProps = {
   masterAddress: string
-  signingKey: string
+  encryptedSignerKey: string
   encryptionKey: string
   campaignId: string
   chainId: number

@@ -57,10 +57,8 @@ import {
 } from 'data/store/reducers/campaigns/async-actions'
 import { IProps } from './types'
 import { IAppDispatch } from 'data/store'
-import { decrypt } from 'lib/crypto'
 import { plausibleApi } from 'data/api'
 import { TClaimPattern, TCountry, TTokenType } from 'types'
-import wallets from 'configs/wallets'
 
 const mapStateToProps = ({
   campaigns: {
@@ -98,6 +96,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
         getCampaignBatches({ campaign_id, callback })
       )
     },
+
     downloadReport: (
       campaign_id: string
     ) => {
@@ -255,9 +254,9 @@ const CampaignDetails: FC<ReduxType & IProps & RouteComponentProps> = ({
     getCampaignBatches(
       params.id,
       async () => {
-        await defineCampaignStatus(
+        const status = await defineCampaignStatus(
           proxy_contract_address,
-          signer
+          signer,
         )
         setStatus(status)
       }
@@ -278,7 +277,7 @@ const CampaignDetails: FC<ReduxType & IProps & RouteComponentProps> = ({
   // @ts-ignore
   const currentCampaign = campaigns.find(campaign => campaign.campaign_id === params.id)
 
-  if (!currentCampaign || !dashboardKey) {
+  if (!currentCampaign) {
     return null
   }
 
@@ -310,9 +309,9 @@ const CampaignDetails: FC<ReduxType & IProps & RouteComponentProps> = ({
   } = currentCampaign
 
   const encryptionKey = createEncryptionKey(
-    dashboardKey,
     signer_address,
-    campaign_number
+    campaign_number,
+    dashboardKey
   )
 
   const tokenUrl = defineExplorerUrl(Number(chain_id), `/address/${token_address || ''}`)
@@ -533,7 +532,7 @@ const CampaignDetails: FC<ReduxType & IProps & RouteComponentProps> = ({
         encryptionKey={encryptionKey}
         sdk={sdk}
         masterAddress={creator_address}
-        signingKey={decrypt(encrypted_signer_key, dashboardKey)}
+        encryptedSignerKey={encrypted_signer_key}
       />
       <HowToUseSDK sdk={sdk} />
     </WidgetContainer>

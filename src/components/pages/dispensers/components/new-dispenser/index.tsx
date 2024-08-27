@@ -1,11 +1,11 @@
 import { FC, ReactNode } from 'react'
 import {
   AsidePopupStyled,
-  DispenserType,
-  DispenserText,
-  DispenserTitle,
-  DispenserImage,
-  DispenserContent
+  Option,
+  OptionText,
+  OptionTitle,
+  OptionImage,
+  OptionContent
 } from './styled-components'
 import { TProps } from './types'
 
@@ -37,20 +37,20 @@ const defineDispenser = (
   image: JSX.Element,
   href: string
 ) => {
-  return <DispenserType to={href}>
-    <DispenserImage>
+  return <Option to={href}>
+    <OptionImage>
       {image}
-    </DispenserImage>
-    <DispenserContent>
-      <DispenserTitle>
+    </OptionImage>
+    <OptionContent>
+      <OptionTitle>
         {title}
         <Icons.ArrowRightIcon />
-      </DispenserTitle>
-      <DispenserText>
+      </OptionTitle>
+      <OptionText>
         {text}
-      </DispenserText>
-    </DispenserContent>
-  </DispenserType>
+      </OptionText>
+    </OptionContent>
+  </Option>
 }
 
 const NewDispenser: FC<TProps> = ({

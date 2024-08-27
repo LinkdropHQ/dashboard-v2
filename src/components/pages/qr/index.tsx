@@ -1,9 +1,18 @@
 import { FC, useEffect, useState } from 'react'
 import { useParams, Redirect } from 'react-router-dom'
-import { TLinkParams, TQRSet, TQRStatus, TSelectOption, TQRItem, TLinkDecrypted } from 'types'
+import {
+  TLinkParams, 
+  TQRSet,
+  TQRStatus,
+  TSelectOption,
+  TQRItem,
+  TLinkDecrypted
+} from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
-import { defineQRStatusName, defineIfQRIsDeeplink, downloadQRsAsCSV } from 'helpers'
+import {
+  defineQRStatusName
+} from 'helpers'
 import qrStatus from 'configs/qr-status'
 import { QuantityPopup } from './components'
 import { TextLink } from 'components/common'
@@ -33,14 +42,13 @@ import { useHistory } from 'react-router-dom'
 const mapStateToProps = ({
   campaigns: { campaigns },
   qrs: { qrs, loading, mappingLoader, uploadLoader },
-  user: { address, chainId, dashboardKey, whitelisted },
+  user: { address, chainId, whitelisted },
 }: RootState) => ({
   campaigns,
   address,
   chainId,
   qrs,
   loading,
-  dashboardKey,
   mappingLoader, uploadLoader, whitelisted
 })
 
@@ -56,14 +64,22 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       setId: string | number,
       quantity: number,
       callback: () => void
-    ) => dispatch(asyncQRsActions.updateQRSetQuantity({ setId, quantity, callback })),
+    ) => dispatch(asyncQRsActions.updateQRSetQuantity({ setId, quantity, successCallback: callback })),
 
     mapQRsToLinks: (
       setId: string,
       links: TLinkDecrypted[],
       qrs: TQRItem[],
       callback?: () => void,
-    ) => dispatch(asyncQRsActions.mapQRsWithLinks({ setId, links, qrs, callback })),
+    ) => dispatch(asyncQRsActions.mapQRsWithLinks({ setId, links, qrs, successCallback: callback })),
+
+    downloadQRsAsCSV: (
+      id: string
+    ) => {
+      dispatch(asyncQRsActions.downloadQRsAsCSV(
+        id
+      ))
+    },
 
     getQRsArray: (setId: string | number) => dispatch(asyncQRsActions.getQRs({ setId })),
   }
@@ -81,11 +97,12 @@ const QR: FC<ReduxType> = ({
   getQRsArray,
   mappingLoader,
   uploadLoader,
-  dashboardKey,
-  address,
+  downloadQRsAsCSV,
   whitelisted
 }) => {
   const { id } = useParams<TLinkParams>()
+
+  // @ts-ignore
   const qr: TQRSet | undefined = qrs.find(qr => String(qr.set_id) === id)
   const [ status, setStatus ] = useState<TSelectOption | null>(null)
   const history = useHistory()
@@ -127,7 +144,7 @@ const QR: FC<ReduxType> = ({
   }
 
   const defineIfDisabled = () => {
-    return !qr.qr_array || !dashboardKey || loading
+    return !qr.qr_array || loading
   }
 
   const defineAsideContent = (uploaded?: boolean) => {
@@ -257,15 +274,9 @@ const QR: FC<ReduxType> = ({
           appearance='action'
           disabled={defineIfDisabled()}
           onClick={() => {
-            if (!qr.qr_array || !dashboardKey) { return }
-            const isDeeplink = defineIfQRIsDeeplink(address)
+            if (!qr.qr_array) { return }
             downloadQRsAsCSV(
-              qr.qr_array,
-              qr.set_name,
-              dashboardKey,
-              address,
-              isDeeplink,
-              qr.created_at
+              id as string
             )
           }}
         />
@@ -286,4 +297,5 @@ const QR: FC<ReduxType> = ({
   </Container>
 }
 
+// @ts-ignore
 export default connect(mapStateToProps, mapDispatcherToProps)(QR)

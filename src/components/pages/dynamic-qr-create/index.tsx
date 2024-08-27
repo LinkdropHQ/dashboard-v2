@@ -34,11 +34,11 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
     addDispenser: (
       title: string,
       dynamic: boolean,
-      callback: (id: string | number) => void
+      successCallback: (id: string | number) => void
     ) => dispatch(asyncDispensersActions.createDispenser({
       title,
       dynamic,
-      callback
+      successCallback
     }))
   }
 }
@@ -97,4 +97,5 @@ const QRCreate: FC<ReduxType> = ({
   </Container>
 }
 
+// @ts-ignore
 export default connect(mapStateToProps, mapDispatcherToProps)(QRCreate)

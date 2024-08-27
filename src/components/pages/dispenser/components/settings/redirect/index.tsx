@@ -11,6 +11,7 @@ import { InputStyled } from './styled-components'
 import { isURL } from 'helpers'
 
 const defineError = (currentRedirectUrl: string, claimUrl?: string | null) => {
+  if (!claimUrl) { return }
   if (currentRedirectUrl === claimUrl) {
     return 'Cannot set current dispenser link as redirect link'
   }
@@ -48,7 +49,6 @@ const Redirect: FC<TProps> = ({
       setCurrentRedirectUrl(redirectUrl)
     }
   }, [ redirectUrl ])
-
 
   const error = defineError(currentRedirectUrl, claimUrl)
 

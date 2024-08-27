@@ -32,7 +32,7 @@ const updatePreferredWallet = (
           if (campaign.campaign_id === campaign_id) {
             return {
               ...campaign,
-              preferredWallet
+              wallet: preferredWallet
             }
           }
           return campaign

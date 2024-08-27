@@ -124,10 +124,7 @@ const defineContractsOptions = (contracts: TNFTContract[], contractsERC20: TERC2
     }
   })
 
-  return [{
-    label: `Create NFT`,
-    value: `create_nft`
-  }, ...contractOptions]
+  return contractOptions
 }
 
 // @ts-ignore
@@ -334,7 +331,7 @@ const CampaignsCreateNew: FC<ReduxType> = ({
         <InformationContainer
           id="create_nft_hint"
         >
-          💡 Create NFT <TextLink to='/collections'>here</TextLink> first if you don’t have it yet
+          💡 Create Soulbound <TextLink to='/collections'>here</TextLink> first if you don’t have it yet
         </InformationContainer>
       </WidgetComponent>
 

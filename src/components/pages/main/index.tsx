@@ -11,25 +11,21 @@ import {
 } from './styled-components'
 import Image from 'images/connect-image.png'
 import {
-  CheckListItem,
-  TextLink
+  CheckListItem
 } from 'components/common'
-import { RootState } from 'data/store'
+import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import * as asyncUserActions from 'data/store/reducers/user/async-actions'
 import { UserActions } from 'data/store/reducers/user/types'
 import { Redirect } from 'react-router-dom'
 import { TAuthorizationStep, TSystem } from 'types'
-import { IAppDispatch } from 'data/store'
 import { useAccount, useChainId, useConnect } from 'wagmi'
 import { useEthersSigner } from 'hooks'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { SiweMessage } from 'siwe'
 import { nonceApi, dashboardKeyApi } from 'data/api'
 import { defineSystem } from 'helpers'
-
-type TCoinbaseInstance = 'coinbase_extension' | 'coinbase_smart_wallet' | false
 
 const {
   REACT_APP_CHAINS,
@@ -57,28 +53,29 @@ const defineTitle = (
       return 'Connect Wallet'
     case 'login':
       return 'Login'
-    case 'store-key':
     default:
-      return 'Store Data Securely'
+      return ''
   }
 } 
 
 const defineText = (
   authorizationStep: TAuthorizationStep,
-  coinbaseInstance: TCoinbaseInstance
 ) => {
   switch (authorizationStep) {
     case 'connect':
       return 'Enable Linkdrop to view your address and suggest transactions for approval'
     case 'login':
       return 'Sign a message in your wallet to log in securely to Linkdrop Dashboard'
-    case 'store-key':
-    default: {
-      if (coinbaseInstance === 'coinbase_smart_wallet') {
-        return 'Create a passkey for Linkdrop Dashboard to store your data securely and encrypted'
-      }
-      return 'Sign a message in your wallet to store your data securely and encrypted'
-    }
+
+    default:
+      return ''
+    // case 'store-key':
+    // default: {
+    //   if (coinbaseInstance === 'coinbase_smart_wallet') {
+    //     return 'Create a passkey for Linkdrop Dashboard to store your data securely and encrypted'
+    //   }
+    //   return 'Sign a message in your wallet to store your data securely and encrypted'
+    // }
 
   }
 } 
@@ -106,17 +103,6 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<UserActions>) =>
     ) => dispatch(asyncUserActions.authorize(
       message,
       timestamp
-    )),
-    getDashboardKey: (
-      message: string,
-      key_id: string,
-      is_coinbase: boolean,
-      encrypted_key?: string
-    ) => dispatch(asyncUserActions.getDashboardKey(
-      message,
-      key_id,
-      is_coinbase,
-      encrypted_key
     )),
     initialLoad: () => dispatch(asyncUserActions.initialLoad())
   }
@@ -163,8 +149,6 @@ const defineButtonTitle = (
       return 'Connect'
     case 'login':
       return 'Sign in'
-    case 'store-key':
-      return 'Sign'
     default:
       return 'Loading'
   }
@@ -224,16 +208,6 @@ const createSigMessage = (
     nonce
   })
 }
-const defineCoinbaseInstance = (
-  connector?: any
-) => {
-  if (window.ethereum && window.ethereum.isCoinbaseWallet) {
-    return 'coinbase_extension'
-  } else if (connector && connector.id === 'coinbaseWalletSDK') {
-    return 'coinbase_smart_wallet'
-  }
-  return false
-}
 
 const Main: FC<ReduxType> = ({
   chainId,
@@ -243,7 +217,6 @@ const Main: FC<ReduxType> = ({
   loading,
   authorizationStep,
   initialLoad,
-  getDashboardKey,
   chainsAvailable
 }) => {
   const { address: connectorAddress, connector } = useAccount()
@@ -252,12 +225,13 @@ const Main: FC<ReduxType> = ({
   const injectedProvider = connectors.find(connector => connector.id === "injected")
   const signer = useEthersSigner()
   const { open } = useWeb3Modal()
-  const coinbaseInstance: TCoinbaseInstance = defineCoinbaseInstance(connector)
   const system = defineSystem()
 
-
   const title = defineTitle(authorizationStep)
-  const text = defineText(authorizationStep, coinbaseInstance)
+  const text = defineText(
+    authorizationStep,
+    // coinbaseInstance
+  )
   useEffect(() => {
     initialLoad()
   }, [])
@@ -325,9 +299,8 @@ const Main: FC<ReduxType> = ({
       {title}
     </Title>
     <Contents>
-      <CheckListItem id='connect' checked={authorizationStep === 'login' || authorizationStep === 'store-key' || authorizationStep === 'authorized'} />
-      <CheckListItem id='login' checked={authorizationStep === 'store-key' || authorizationStep === 'authorized'} />
-      <CheckListItem id='store-key' checked={authorizationStep === 'authorized'} />
+      <CheckListItem id='connect' checked={authorizationStep === 'login' || authorizationStep === 'authorized'} />
+      <CheckListItem id='login' checked={authorizationStep === 'authorized'} />
     </Contents>
     <Text>
       {text}
@@ -364,17 +337,6 @@ const Main: FC<ReduxType> = ({
           )
         }
 
-        // for store key
-        if (authorizationStep === 'store-key') {
-          const dashboardKeyData = await dashboardKeyApi.get()
-          const { encrypted_key, sig_message, key_id } = dashboardKeyData.data
-          return getDashboardKey(
-            sig_message,
-            key_id,
-            coinbaseInstance === 'coinbase_smart_wallet',
-            encrypted_key
-          )
-        }
         return alert('PLEASE TRY AGAIN...')
 
       }}

@@ -15,7 +15,11 @@ import Worker from 'worker-loader!web-workers/qrs-worker'
 import { QRsWorker } from 'web-workers/qrs-worker'
 import { wrap, Remote, proxy } from 'comlink'
 import { plausibleApi } from 'data/api'
-import { decrypt, encrypt } from 'lib/crypto'
+import { decrypt } from 'lib/crypto'
+import * as actionsAsyncUser from '../../user/async-actions'
+import * as actionsCampaigns from '../actions'
+import * as actionsUser from '../../user/actions'
+import { UserActions } from '../../user/types'
 
 const downloadQR = ({
   multiscan_qr_id,
@@ -26,7 +30,7 @@ const downloadQR = ({
   height,
   whitelist_on,
   dynamic,
-  callback
+  successCallback
 }: {
   multiscan_qr_id: string,
   encrypted_multiscan_qr_secret: string,
@@ -36,75 +40,96 @@ const downloadQR = ({
   height: number,
   whitelist_on: boolean,
   dynamic: boolean,
-  callback?: () => void
+  successCallback?: () => void
 }) => {
   return async (
-    dispatch: Dispatch<DispensersActions>,
+    dispatch: Dispatch<DispensersActions> & Dispatch<UserActions>,
     getState: () => RootState
   ) => {
     dispatch(actionsQR.setLoading(true))
-    const { user: { dashboardKey, address } } = getState()
-    try {
-      if (!dashboardKey) { return alertError('dashboardKey is not provided') }
-      if (!encrypted_multiscan_qr_secret) { return alertError('encrypted_multiscan_qr_secret is not provided') }
-      if (!multiscan_qr_id) { return alertError('multiscan_qr_id is not provided') }
-      const claimAppURL = defineClaimAppURL(address)
-      const qrOption = defineQROptions(address)
-      const resp = await fetch(qrOption.icon)
-      const blob = await resp.blob()
-      const img = await createImageBitmap(blob as ImageBitmapSource)
-      const logoImageLoaded = await loadImage(
-        qrOption.imageOptions,
-        qrOption.icon
-      )
-
-      const RemoteChannel = wrap<typeof QRsWorker>(new Worker())
-      const qrsWorker: Remote<QRsWorker> = await new RemoteChannel(proxy(() => console.log('QR created')))
-
-      const decryptedQrSecret = decrypt(encrypted_multiscan_qr_secret, dashboardKey)
-      const decryptedQrEncCode = decrypt(encrypted_multiscan_qr_enc_code, dashboardKey)
-      const claimURLDecrypted = defineDispenserAppUrl(
-        claimAppURL,
-        decryptedQrSecret,
-        decryptedQrEncCode,
-        whitelist_on,
-        dynamic
-      )
-    
-      const result = await qrsWorker.downloadMultiQR(
-        claimURLDecrypted,
-        width, // qr width
-        height, // qr height
-        logoImageLoaded.width,
-        logoImageLoaded.height,
-        img, // image bitmap to render in canvas
-        qrOption
-      )
-
-      await downloadBase64FilesAsZip('png', result, null, qrDispenserName, 0)
+    let {
+      user: {
+        address
+      }
+    } = getState()
+    const callback = async (
+      dashboardKey: string
+    ) => {
+      try {
+        if (!encrypted_multiscan_qr_secret) { return alertError('encrypted_multiscan_qr_secret is not provided') }
+        if (!multiscan_qr_id) { return alertError('multiscan_qr_id is not provided') }
+        const claimAppURL = defineClaimAppURL(address)
+        const qrOption = defineQROptions(address)
+        const resp = await fetch(qrOption.icon)
+        const blob = await resp.blob()
+        const img = await createImageBitmap(blob as ImageBitmapSource)
+        const logoImageLoaded = await loadImage(
+          qrOption.imageOptions,
+          qrOption.icon
+        )
   
-      plausibleApi.invokeEvent({
-        eventName: 'multiqr_download',
-        data: {
-          success: 'yes',
-          format: 'png',
-          address,
-        }
-      })
-      callback && callback()
-    } catch (err) {
-      plausibleApi.invokeEvent({
-        eventName: 'multiqr_download',
-        data: {
-          success: 'no',
-          format: 'png',
-          address
-        }
-      })
-      callback && callback()
-      alertError('check console for more information')
-      console.error(err)
+        const RemoteChannel = wrap<typeof QRsWorker>(new Worker())
+        const qrsWorker: Remote<QRsWorker> = await new RemoteChannel(proxy(() => console.log('QR created')))
+  
+        const decryptedQrSecret = decrypt(encrypted_multiscan_qr_secret, dashboardKey as string)
+        const decryptedQrEncCode = decrypt(encrypted_multiscan_qr_enc_code, dashboardKey as string)
+        const claimURLDecrypted = defineDispenserAppUrl(
+          claimAppURL,
+          decryptedQrSecret,
+          decryptedQrEncCode,
+          whitelist_on,
+          dynamic
+        )
+      
+        const result = await qrsWorker.downloadMultiQR(
+          claimURLDecrypted,
+          width, // qr width
+          height, // qr height
+          logoImageLoaded.width,
+          logoImageLoaded.height,
+          img, // image bitmap to render in canvas
+          qrOption
+        )
+  
+        await downloadBase64FilesAsZip('png', result, null, qrDispenserName, 0)
+    
+        plausibleApi.invokeEvent({
+          eventName: 'multiqr_download',
+          data: {
+            success: 'yes',
+            format: 'png',
+            address,
+          }
+        })
+        successCallback && successCallback()
+      } catch (err) {
+        plausibleApi.invokeEvent({
+          eventName: 'multiqr_download',
+          data: {
+            success: 'no',
+            format: 'png',
+            address
+          }
+        })
+        successCallback && successCallback()
+        alertError('check console for more information')
+        console.error(err)
+      }
+
     }
+    
+    let dashboardKey = actionsAsyncUser.useDashboardKey(
+      getState
+    )
+
+    if (!dashboardKey) {
+      dispatch(actionsQR.setLoading(false))
+      dispatch(actionsUser.setDashboardKeyPopup(true))
+      dispatch(actionsUser.setDashboardKeyPopupCallback(callback))
+      return
+    }
+    
+    callback(dashboardKey)
     dispatch(actionsQR.setLoading(false))
   }
 }

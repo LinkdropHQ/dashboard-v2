@@ -1,11 +1,11 @@
-import LinkdropSDK from 'linkdrop-sdk'
+import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 import { expose } from 'comlink'
 import { TLink, TAssetsData, TTokenType } from 'types'
 const { REACT_APP_SERVER_URL, REACT_APP_ZUPLO_API_KEY } = process.env
 
 export class LinksWorker {
   private newLinks: Array<TLink> = [];
-  private sdk?: LinkdropSDK | null
+  private sdk?: LinkdropBatchSDK | null
   private cb: (value: number) => void;
   private currentPercentageFinished: number = 0;
   public constructor(
@@ -16,7 +16,7 @@ export class LinksWorker {
   private createSDK (
     claimHost: string
   ) {
-    const sdk = new LinkdropSDK({
+    const sdk = new LinkdropBatchSDK({
       claimHostUrl: claimHost,
       apiHost: REACT_APP_SERVER_URL,
       apiKey: REACT_APP_ZUPLO_API_KEY as string

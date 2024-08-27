@@ -64,6 +64,7 @@ const updateStatus = ({
         })
         dispatch(actionsDispensers.setDispensers(dispensersUpdated))
         dispatch(qrManagerActions.setItems(qrManagerItemsUpdated))
+        dispatch(actionsDispensers.setLoading(false))
 
         if (callback) { callback() }
       } else {

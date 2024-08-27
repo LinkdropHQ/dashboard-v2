@@ -67,8 +67,14 @@ import { ReactComponent as DynamicQRPreviewIcon } from './dynamic-qr-preview-ico
 import { ReactComponent as InformationIcon } from './information-icon.svg'
 import { ReactComponent as SunnyCloudIcon } from 'icons/sunny-cloud-icon.svg'
 
+
+import { ReactComponent as SBTTokensIcon } from './sbt-tokens-icon.svg'
+import { ReactComponent as NFTTokensIcon } from './nft-tokens-icon.svg'
+
 const Icons = {
   EthereumLogo,
+  SBTTokensIcon,
+  NFTTokensIcon,
   SunnyCloudIcon,
   InformationIcon,
   QRSetPreviewIcon,

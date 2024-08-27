@@ -454,6 +454,7 @@ const CampaignsCreateSecure: FC<ReduxType> = ({
         disabled: loading,
         loading
       }}
+      loading={loading}
       title="Summary"
       subtitle="Check and confirm details"
     >

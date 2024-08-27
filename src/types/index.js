@@ -16,6 +16,7 @@ import TFormatDate from './format-date'
 import TFormatTime from './format-time'
 import TLinkParams from './link-params'
 import TFileFormat from './file-format'
+import TCoinbaseInstance from './coinbase-instance'
 import { TSystem } from './system'
 import {
   TQRStatus,
@@ -132,5 +133,6 @@ export {
   TLinkDecrypted,
   TDistributionPattern,
   TCollection,
-  TCollectionToken
+  TCollectionToken,
+  TCoinbaseInstance
 }

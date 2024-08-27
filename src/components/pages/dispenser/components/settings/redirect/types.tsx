@@ -6,7 +6,7 @@ export type TProps = {
   toggleAction?: (value: boolean) => void
   toggleValue?: boolean
   redirectUrl?: string | null
-  claimUrl: string
+  claimUrl?: string
   action: (
     value: any,
     successAction?: () => void,

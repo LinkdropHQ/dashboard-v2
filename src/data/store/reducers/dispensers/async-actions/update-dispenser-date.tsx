@@ -58,6 +58,8 @@ const updateDispenserDate = ({
           }
         })
         dispatch(actionsDispensers.setDispensers(dispensersUpdated))
+        dispatch(actionsDispensers.setLoading(false))
+
         if (callback) { callback() }
       } else {
         plausibleApi.invokeEvent({

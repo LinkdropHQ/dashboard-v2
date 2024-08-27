@@ -30,8 +30,7 @@ const getDispenserWhitelist = ({
       const {
         data: {
           success: whitelistSuccess,
-          whitelist,
-          whitelist_type
+          whitelist
         }
       } : {
         data: {
@@ -50,6 +49,8 @@ const getDispenserWhitelist = ({
           return item
         })
         dispatch(actionsDispensers.setDispensers(dispensersUpdated))
+        dispatch(actionsDispensers.setLoading(false))
+
         if (callback) { callback() }
       }
       

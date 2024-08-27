@@ -15,7 +15,7 @@ export const ImageContainer = styled.img`
 export const Contents = styled.div`
   margin-bottom: 20px;
   display: grid;
-  grid-template-columns: repeat(3, min-content);
+  grid-template-columns: repeat(2, min-content);
   gap: 32px;
 `
 

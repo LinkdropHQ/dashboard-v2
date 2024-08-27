@@ -47,6 +47,7 @@ const toggleWhitelistOn = ({
           }
         })
         dispatch(actionsDispensers.setDispensers(dispensersUpdated))
+        dispatch(actionsDispensers.setLoading(false))
         if (successCallback) { successCallback() }
       } else {
         plausibleApi.invokeEvent({

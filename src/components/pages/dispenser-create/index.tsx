@@ -37,13 +37,13 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       // date: string,
       // duration: number,
       dynamic: boolean,
-      callback: (id: string | number) => void
+      successCallback: (id: string | number) => void
     ) => dispatch(asyncDispensersActions.createDispenser({
       title,
       // date,
       // duration,
       dynamic,
-      callback
+      successCallback
     }))
   }
 }
@@ -101,4 +101,5 @@ const DispenserCreate: FC<ReduxType> = ({
   </Container>
 }
 
+// @ts-ignore
 export default connect(mapStateToProps, mapDispatcherToProps)(DispenserCreate)

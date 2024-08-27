@@ -1,9 +1,9 @@
-const { utils } = require("ethers")
+import { utils } from "ethers"
 
 type TCreateEncryptionKey = (
-  dashboardKey: string,
   signerAddress: string,
-  campaignNumber: string
+  campaignNumber: string,
+  dashboardKey: string | null
 ) => string
 
 const createEncryptionKey: TCreateEncryptionKey = (

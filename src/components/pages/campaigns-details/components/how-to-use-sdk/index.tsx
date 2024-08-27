@@ -21,13 +21,13 @@ const HowToUseSDK: FC<TProps> = ({
       To request an API key, please contact us at <TextLink href="mailto:hi@linkdrop.io">hi@linkdrop.io.</TextLink>
     </NoteStyled>
     <Code>
-{`// installation: yarn add linkdrop-sdk
+{`// installation: yarn add linkdrop-batch-sdk
 // import library
-import LinkdropSDK from 'linkdrop-sdk'
+import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 // or
-// const LinkdropSDK = require('linkdrop-sdk').default
+// const LinkdropBatchSDK = require('linkdrop-batch-sdk').default
 
-const sdk = new LinkdropSDK({
+const sdk = new LinkdropBatchSDK({
   // required params
   apiKey: string, // to request an API key, please contact us at hi@linkdrop.io
 })

@@ -1,4 +1,4 @@
-import LinkdropSDK from 'linkdrop-sdk'
+import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 import { action } from 'typesafe-actions'
 import { Constants } from './constants'
 import { TAuthorizationStep, TNFTContract, TNFTToken, TERC20Contract, TERC20TokenList, TCountry } from 'types'
@@ -47,6 +47,33 @@ export function setContracts(contracts: TNFTContract[]) {
     Constants.USER_SET_CONTRACTS,
     {
       contracts
+    }
+  )
+}
+
+export function setDashboardKeyPopup(dashboardKeyPopup: boolean) {
+  return action(
+    Constants.USER_SET_DASHBOARD_KEY_POPUP,
+    {
+      dashboardKeyPopup
+    }
+  )
+}
+
+export function setDashboardKeyPopupCallback(dashboardKeyPopupCallback: ((dashboardKey: string) => void) | null) {
+  return action(
+    Constants.USER_SET_DASHBOARD_KEY_POPUP_CALLBACK,
+    {
+      dashboardKeyPopupCallback
+    }
+  )
+}
+
+export function setConnectorId(connectorId: string | null) {
+  return action(
+    Constants.USER_SET_CONNECTOR_ID,
+    {
+      connectorId
     }
   )
 }
@@ -142,7 +169,7 @@ export function setNativeTokenAmount(nativeTokenAmount: BigNumber) {
 }
 
 export function setSDK (
-  sdk: LinkdropSDK
+  sdk: LinkdropBatchSDK
 ) {
   return action(
     Constants.USER_SET_SDK,

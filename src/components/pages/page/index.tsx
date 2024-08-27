@@ -12,13 +12,16 @@ import {
 import { useLocation } from 'react-router-dom'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
+import { DashboardKeyPopup } from './components'
 
 const mapStateToProps = ({
   user: {
-    authorizationStep
+    authorizationStep,
+    dashboardKeyPopup
   }
 }: RootState) => ({
-  authorizationStep
+  authorizationStep,
+  dashboardKeyPopup
 })
 
 const defineTitle: TDefineTitle = (location) => {
@@ -28,7 +31,7 @@ const defineTitle: TDefineTitle = (location) => {
       return 'Invite Links'
 
     case locationUpdated.includes('/collections'):
-      return 'NFT Mintxwer'
+      return 'Soulbounds'
 
     case locationUpdated.includes('/campaigns/new'):
     case locationUpdated.includes('/campaigns/new/initial'):
@@ -174,7 +177,10 @@ const defineBreadcrumbs: TDefineBreadcrumbs = (location) => {
   }
 }
 
-const PageComponent: FC<ReduxType & TProps> = ({ children, authorizationStep }) => {  
+const PageComponent: FC<ReduxType & TProps> = ({
+  children,
+  dashboardKeyPopup
+}) => {  
   const location = useLocation<ILocationType>()
   const title = defineTitle(location.pathname)
   const breadcrumbs = defineBreadcrumbs(location.pathname)
@@ -182,6 +188,7 @@ const PageComponent: FC<ReduxType & TProps> = ({ children, authorizationStep }) 
   return (
     <ThemeProvider theme={themes.light}>
       <Page>
+        <DashboardKeyPopup />
         <Aside />
         <MainContent>
           <Header

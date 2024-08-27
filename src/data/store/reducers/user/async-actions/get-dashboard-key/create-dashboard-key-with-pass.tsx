@@ -1,4 +1,3 @@
-import { plausibleApi } from 'data/api'
 import { ethers } from 'ethers'
 import { encrypt, generateKeyPair } from 'lib/crypto' 
 import { toString } from "uint8arrays/to-string"
@@ -6,15 +5,13 @@ import { buf2hex } from 'helpers'
 
 const createDashboardKeyWithPass: (
   sig_message: string,
-  account: string,
-  chain_id: number
+  account: string
   ) => Promise<{
     dashboard_key: string,
     encrypted_dashboard_key: string
   } | void> = async (
   sig_message,
-  account,
-  chain_id
+  account
 ) => {
   try {
 
@@ -61,12 +58,6 @@ const createDashboardKeyWithPass: (
     }
   } catch (err) {
     console.error({ err })
-    plausibleApi.invokeEvent({
-      eventName: 'sign_in_signature_reject',
-      data: {
-        signature: 'create_dashboard_key'
-      }
-    })
   }
 }
 
