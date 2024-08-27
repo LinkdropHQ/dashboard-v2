@@ -38,7 +38,8 @@ const secure = (
         signer,
         address,
         chainId,
-        nativeTokenAmount
+        provider,
+        jsonRPCProvider
       },
       campaign: {
         proxyContractAddress,
@@ -67,12 +68,10 @@ const secure = (
         const contract = contracts[chainId]
         dispatch(campaignActions.setLoading(true))
         const newWallet = ethers.Wallet.createRandom()
-        const { address: wallet, privateKey } = newWallet
+        const { address: publicKey, privateKey } = newWallet
         const factoryContract = new ethers.Contract(contract.factory, LinkdropFactory.abi, signer)
         const isDeployed = await factoryContract.isDeployed(address, id)
-        let data
-        let to
-        const proxyContract = await new ethers.Contract(proxyContractAddress, LinkdropMastercopy.abi, signer)
+        const proxyContract = new ethers.Contract(proxyContractAddress, LinkdropMastercopy.abi, signer)
         plausibleApi.invokeEvent({
           eventName: 'camp_step4_filled',
           data: {
@@ -85,24 +84,62 @@ const secure = (
             extra_token: nativeTokensPerLink === '0' ? 'no' : 'yes'
           }
         })
+
+        let finished = false
         
         if (!isDeployed) {
           let iface = new utils.Interface(LinkdropFactory.abi)
           const data = iface.encodeFunctionData('deployProxyWithSigner', [
-            id, wallet, claimPattern === 'mint' ? 1 : 0
+            id, publicKey, claimPattern === 'mint' ? 1 : 0
           ])
-          const smartAccountClient = await getCoinbasePaymaster()
-          alert('PAYMASTER')
-          await smartAccountClient.sendTransaction({
-            account: smartAccountClient.account,
-            to: contract.factory,
-            data,
-            value: 0
-          })
+          const smartAccountClient = await getCoinbasePaymaster(
+            data as `0x${string}`,
+            contract.factory as `0x${string}`
+          )
+
+          if (smartAccountClient) {
+            const {
+              userOperation,
+              bundlerClient,
+              account
+            } = smartAccountClient
+            
+            userOperation.signature = await account.signUserOperation(userOperation)
+            const userOpHash = await bundlerClient.sendUserOperation({
+              ...userOperation,
+            });
+          
+            const receipt = await bundlerClient.waitForUserOperationReceipt({
+              hash: userOpHash,
+            })
+
+            console.log({ receipt })
+          }
+
+          const checkTransaction = async function (): Promise<boolean> {
+            return new Promise((resolve) => {
+              const checkInterval = setInterval(async () => {
+                try {
+                  const res = await proxyContract.isLinkdropSigner(address)
+                  if (res) {
+                    resolve(true)
+                    clearInterval(checkInterval)
+                  }
+  
+                } catch (err) {
+                  console.log({ err })
+                }
+                
+              }, 3000)
+            })
+          }
+    
+
+          finished = await checkTransaction()
         } else {
           let iface = new utils.Interface(LinkdropMastercopy.abi)
           const data = iface.encodeFunctionData('addSigner', [
-            wallet
+            publicKey
           ])
           const to = proxyContractAddress
   
@@ -112,25 +149,27 @@ const secure = (
             value: totalNativeTokensAmountToSecure,
             data: data
           })
-        }
+
+          const checkTransaction = async function (): Promise<boolean> {
+            return new Promise((resolve) => {
+              const checkInterval = setInterval(async () => {
+                try {
+                  const res = await proxyContract.isLinkdropSigner(address)
+                  if (res) {
+                    resolve(true)
+                    clearInterval(checkInterval)
+                  }
   
-        const checkTransaction = async function (): Promise<boolean> {
-          return new Promise((resolve, reject) => {
-            const checkInterval = setInterval(async () => {
-              try {
-                const res = await proxyContract.isLinkdropSigner(wallet)
-                if (res) {
-                  resolve(true)
-                  clearInterval(checkInterval)
+                } catch (err) {
+                  console.log({ err })
                 }
-              } catch (err) {
-                console.log({ err })
-              }
-              
-            }, 3000)
-          })
+                
+              }, 3000)
+            })
+          }
+          finished = await checkTransaction()
         }
-        const finished = await checkTransaction()
+        
         if (finished) {
           dispatch(campaignActions.setPreferredWalletOn(preferredWalletOn))
           dispatch(campaignActions.setSecured(true))
@@ -145,7 +184,7 @@ const secure = (
             )
           ))
           dispatch(campaignActions.setSignerKey(privateKey))
-          dispatch(campaignActions.setSignerAddress(wallet))
+          dispatch(campaignActions.setSignerAddress(publicKey))
           dispatch(campaignActions.setWallet(walletApp))
           successCallback && successCallback()
         }

@@ -1,53 +1,90 @@
-import { http, createPublicClient } from "viem";
-import { base } from "viem/chains";
-import { createSmartAccountClient } from "permissionless"
-import { privateKeyToSimpleSmartAccount } from "permissionless/accounts"
-import { createPimlicoPaymasterClient } from "permissionless/clients/pimlico"
-import { alertError } from "helpers";
+ import paymasterConfig from 'configs/paymaster'
+ import { http } from 'viem'
+ import { base } from 'viem/chains'
+ import { alertError } from 'helpers'
+ import { 
+   createBundlerClient, 
+   createPaymasterClient,
+ } from 'viem/account-abstraction'
 
 const {
   REACT_APP_PAYMASTER_BASE_JSON_RPC,
-  REACT_APP_PAYMASTER_BASE_ENTRYPOINT_V06,
-  REACT_APP_PAYMASTER_PRIVATE_KEY,
-  REACT_APP_PAYMASTER_BASE_FACTORY
+  REACT_APP_PAYMASTER_BASE_ENTRYPOINT_V06
 } = process.env
 
 
-const publicClient = createPublicClient({
-  chain: base,
-  transport: http(REACT_APP_PAYMASTER_BASE_JSON_RPC as string),
-})
 
-let paymaster: null | any = null
+const getCoinbasePaymaster = async (
+  callData: `0x${string}`,
+  // factory address
+  targetContract: `0x${string}`
+) => {
 
-const getCoinbasePaymaster = async () => {
-  if (paymaster) return paymaster
   try {
-    const simpleAccount = await privateKeyToSimpleSmartAccount(publicClient, {
-      privateKey: REACT_APP_PAYMASTER_PRIVATE_KEY as `0x${string}`,
-      factoryAddress: REACT_APP_PAYMASTER_BASE_FACTORY as `0x${string}`,
-      entryPoint: REACT_APP_PAYMASTER_BASE_ENTRYPOINT_V06 as any
-    })
+    const {
+      client,
+      account
+    } = await paymasterConfig()
   
-    const cloudPaymaster = createPimlicoPaymasterClient({
+    const bundlerClient = createBundlerClient({
+      account,
+      client,
+      transport: http(REACT_APP_PAYMASTER_BASE_JSON_RPC as `0x${string}`),
       chain: base,
-      transport: http(REACT_APP_PAYMASTER_BASE_JSON_RPC as string),
-      entryPoint: REACT_APP_PAYMASTER_BASE_ENTRYPOINT_V06 as any
+    })
+    
+    const paymasterClient = createPaymasterClient({
+      transport: http(REACT_APP_PAYMASTER_BASE_JSON_RPC as `0x${string}`)
+    })
+
+    const encodedCalls = await account.encodeCalls([
+      {
+        to: targetContract,
+        data: callData,
+        value: BigInt(0)
+      },
+    ])
+    
+    // @ts-ignore
+    const paymasterStub = await paymasterClient.getPaymasterStubData({
+      sender: account.address,
+      callData: encodedCalls,
+      chainId: base.id,
+      entryPointAddress: REACT_APP_PAYMASTER_BASE_ENTRYPOINT_V06 as `0x${string}`,
+    })
+    
+    // Prepare the user operation (estimates gas, fills in other fields)
+    const userOperation = await bundlerClient.prepareUserOperation({
+      callData: encodedCalls,
+      paymasterAndData: paymasterStub.paymasterAndData,
     });
     
-    const smartAccountClient = createSmartAccountClient({
-      account: simpleAccount,
-      chain: base,
-      bundlerTransport: http(REACT_APP_PAYMASTER_BASE_JSON_RPC as string),
-      // IMPORTANT: Set up Cloud Paymaster to sponsor your transaction
-      middleware: {
-        sponsorUserOperation: cloudPaymaster.sponsorUserOperation,
-      },
+    // Pad gas values so that the transaction is more likely to be accepted
+    userOperation.preVerificationGas =
+      (userOperation.preVerificationGas * BigInt(3)) / BigInt(2);
+    userOperation.callGasLimit =
+      (userOperation.callGasLimit * BigInt(3)) / BigInt(2);
+    
+    // Get the final signed paymasterAndData 
+    const signedPaymasterData = await paymasterClient.getPaymasterData({
+      chainId: base.id,
+      entryPointAddress: REACT_APP_PAYMASTER_BASE_ENTRYPOINT_V06 as `0x${string}`,
+      ...userOperation,
     })
-    paymaster = smartAccountClient
-    return smartAccountClient
-  } catch (e) {
+    
+    return {
+      userOperation,
+      signedPaymasterData,
+      bundlerClient,
+      account
+    }
+  
+
+  } catch (err) {
     alertError('Cannot create Coinbase Paymaster. Please check console')
+    console.log({
+      err
+    })
   }
   
 }
