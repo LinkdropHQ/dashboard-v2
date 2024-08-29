@@ -16,6 +16,7 @@ import { TCountry } from 'types'
 import getCoinbasePaymaster from 'components/application/coinbase-paymaster'
 import * as actionsUser from '../actions'
 import * as actionsAsyncUser from '../async-actions'
+import { encodeFunctionData } from 'viem'
 
 const secure = (
   totalNativeTokensAmountToSecure: BigNumber,
@@ -89,11 +90,19 @@ const secure = (
         
         if (!isDeployed) {
           let iface = new utils.Interface(LinkdropFactory.abi)
-          const data = iface.encodeFunctionData('deployProxyWithSigner', [
-            id, publicKey, claimPattern === 'mint' ? 1 : 0
-          ])
+          const dataEncoded = encodeFunctionData({
+            abi: LinkdropFactory.abi,
+            functionName: "deployProxyWithSigner",
+            args: [
+              id, publicKey, claimPattern === 'mint' ? 1 : 0
+            ]
+          })
+          // const data = iface.encodeFunctionData('deployProxyWithSigner', [
+          //   id, publicKey, claimPattern === 'mint' ? 1 : 0
+          // ])
+          // "Invalid UserOp signature or paymaster signature"
           const smartAccountClient = await getCoinbasePaymaster(
-            data as `0x${string}`,
+            dataEncoded as `0x${string}`,
             contract.factory as `0x${string}`
           )
 
@@ -103,15 +112,18 @@ const secure = (
               bundlerClient,
               account
             } = smartAccountClient
-            
+            console.log('here 1')
             userOperation.signature = await account.signUserOperation(userOperation)
+            console.log('here 2')
             const userOpHash = await bundlerClient.sendUserOperation({
               ...userOperation,
-            });
-          
+            })
+            console.log('here 3')
             const receipt = await bundlerClient.waitForUserOperationReceipt({
               hash: userOpHash,
             })
+            console.log('here 4')
+
 
             console.log({ receipt })
           }

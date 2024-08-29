@@ -12,8 +12,6 @@ const {
   REACT_APP_PAYMASTER_BASE_ENTRYPOINT_V06
 } = process.env
 
-
-
 const getCoinbasePaymaster = async (
   callData: `0x${string}`,
   // factory address
@@ -58,7 +56,7 @@ const getCoinbasePaymaster = async (
       callData: encodedCalls,
       paymasterAndData: paymasterStub.paymasterAndData,
     });
-    
+
     // Pad gas values so that the transaction is more likely to be accepted
     userOperation.preVerificationGas =
       (userOperation.preVerificationGas * BigInt(3)) / BigInt(2);
