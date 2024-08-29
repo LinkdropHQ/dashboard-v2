@@ -1,28 +1,3 @@
-// import { convertArrayToCSV } from 'convert-array-to-csv'
-// const actualJsonRpcUrl = defineJsonRpcUrl({ chainId, infuraPk })
-// const provider = new ethers.providers.JsonRpcProvider(actualJsonRpcUrl)
-// const { links, id } = payload
-// const linksData = links.map((link, idx) => {
-//   const { linkKey } = getHashVariables({ url: link })
-//   const linkWallet = new ethers.Wallet(linkKey, provider)
-//   const linkId = linkWallet.address
-//   return {
-//     id: linkId,
-//     link
-//   }
-// })
-// yield put({ type: 'USER.SET_LOADING', payload: { loading: true } })
-// const csv = convertArrayToCSV(linksData)
-// const hiddenElement = document.createElement('a')
-// hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv)
-// hiddenElement.target = '_blank'
-// hiddenElement.download = `links-${id}.csv`
-// document.body.appendChild(hiddenElement)
-// hiddenElement.click()
-// hiddenElement.closest('body').removeChild(hiddenElement)
-
-// export {}
-
 import { TLinkDecrypted } from "types"
 
 const downloadLinksAsCSV = (

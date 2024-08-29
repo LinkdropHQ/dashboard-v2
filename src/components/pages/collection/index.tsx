@@ -114,7 +114,6 @@ const Collection: FC<ReduxType> = ({
     token_standard,
     token_address,
     tokens,
-    thumbnail,
     title,
     links_count,
     tokens_amount
@@ -159,7 +158,6 @@ const Collection: FC<ReduxType> = ({
         symbol={symbol}
         tokenType={token_standard}
         tokenAddress={token_address as string}
-        image={thumbnail as string}
         userAddress={address}
         name={title}
         chainId={chainId as number}

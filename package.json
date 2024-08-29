@@ -1,6 +1,6 @@
 {
   "name": "linkdrop-dashboard",
-  "version": "2.1.39-rc.0",
+  "version": "2.1.40-rc.0",
   "private": true,
   "dependencies": {
     "@craco/craco": "^7.1.0",
@@ -9,7 +9,6 @@
     "@progress/kendo-file-saver": "^1.1.1",
     "@reduxjs/toolkit": "^1.6.2",
     "@tanstack/react-query": "^5.40.0",
-    "@thirdweb-dev/sdk": "^3.10.47",
     "@walletconnect/auth-client": "^2.1.2",
     "@walletconnect/ethereum-provider": "^2.9.2",
     "@walletconnect/sign-client": "^2.9.2",
@@ -49,6 +48,7 @@
     "redux-thunk": "^2.4.1",
     "siwe": "^2.3.2",
     "styled-components": "^5.3.1",
+    "thirdweb": "^5.48.2",
     "typescript": "^5.4.2",
     "uint8arrays": "^3.0.0",
     "viem": "2.x",

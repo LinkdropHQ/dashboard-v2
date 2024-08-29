@@ -1,5 +1,9 @@
 # Linkdrop Dashboard
 
+## 2.1.40
+- soulbound tokens
+- collection thumbnail removed
+
 ## 2.1.39
 - dashboard key flow update
 - new linkdrop-batch-sdk package

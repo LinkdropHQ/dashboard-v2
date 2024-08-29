@@ -69,14 +69,6 @@ const defineText = (
 
     default:
       return ''
-    // case 'store-key':
-    // default: {
-    //   if (coinbaseInstance === 'coinbase_smart_wallet') {
-    //     return 'Create a passkey for Linkdrop Dashboard to store your data securely and encrypted'
-    //   }
-    //   return 'Sign a message in your wallet to store your data securely and encrypted'
-    // }
-
   }
 } 
 

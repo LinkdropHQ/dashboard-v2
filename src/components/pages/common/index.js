@@ -8,6 +8,7 @@ import TokenImage from './token-image'
 import ThumbnailUpload from './thumbnail-upload'
 import AttentionContainer from './attention-container'
 import InitialNote from './initial-note'
+import NewDispenserPopup from './new-dispenser-popup'
 
 import {
   Container,
@@ -70,5 +71,6 @@ export {
   WidgetSectionTitle,
   WidgetSectionSubtitle,
   TokenImage,
-  ThumbnailUpload
+  ThumbnailUpload,
+  NewDispenserPopup
 }

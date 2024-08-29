@@ -72,7 +72,6 @@ import defineCollectionStatusName from './define-collection-status-name'
 import defineCollectionStatusTag from './define-collection-status-tag'
 import defineCollectionStatus from './define-collection-status'
 import defineCollectionQuantityTag from './define-collection-quantity-tag'
-import defineThirdwebNetworkName from './define-thirdweb-network-name'
 import generateTokenSymbol from './generate-token-symbol'
 import convertMnemonicContracts from './convert-mnemonic-contracts'
 import convertMnemonicNFTs from './convert-mnemonic-nfts'
@@ -90,7 +89,6 @@ import defineCoinbaseInstance from './define-coinbase-instance'
 
 export {
   buf2hex,
-  defineThirdwebNetworkName,
   defineCoinbaseInstance,
   defineCollectionQuantityTag,
   defineIfWalletIsAvailableForClient,

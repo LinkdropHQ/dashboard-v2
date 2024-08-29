@@ -67,11 +67,12 @@ import  {
 import { TZerionNetworkItem } from './zerion-network-item'
 import TCountry from './country'
 import { TStatus } from './status'
-import { TQRManagerItem } from './qr-manager-item'
+import { TQRManagerItem, TQRManagerItemType } from './qr-manager-item'
 
 export {
   TCampaign,
   TQRManagerItem,
+  TQRManagerItemType,
   TStatus,
   TZerionNetworkItem,
   TDispenserStats,

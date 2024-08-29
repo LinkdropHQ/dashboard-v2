@@ -158,12 +158,15 @@ const CampaignsPage: FC<ReduxType & TProps> = ({
     currentAddressCampaigns.length === 0 &&
     currentAddressDrafts.length === 0
   ) {
-    return <InitialNote
-      title='Create Your First Campaign'
-      text="Your campaigns will be displayed here once created. You don't have any campaigns yet"
-      href='/campaigns/new'
-      buttontText='New Campaign'
-    />
+    return <>
+      <InitialNote
+        title='Create Your First Campaign'
+        text="Your campaigns will be displayed here once created. You don't have any campaigns yet"
+        onClick={() => {setNewCampaignPopup(true)}}
+        buttontText='New Campaign'
+      />
+      {newCampaignPopup && <NewCampaign onClose={() => setNewCampaignPopup(false)} />}
+    </>
   }
 
   return <>
@@ -296,7 +299,6 @@ const CampaignsPage: FC<ReduxType & TProps> = ({
               </ButtonStyled>
             </Buttons>
             
-
           </BatchListValue>
         </>})}
       </DraftsListStyled>

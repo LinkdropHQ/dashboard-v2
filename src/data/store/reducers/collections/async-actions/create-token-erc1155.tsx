@@ -1,18 +1,19 @@
-
 import { Dispatch } from 'redux';
 import * as actionsCollections from '../actions'
 import { CollectionsActions } from '../types'
 import { UserActions } from '../../user/types'
 import { IAppDispatch } from 'data/store'
-import {  defineThirdwebNetworkName, alertError } from 'helpers'
+import { alertError } from 'helpers'
 import { RootState } from 'data/store'
-import { ThirdwebSDK } from '@thirdweb-dev/sdk'
+import { createThirdwebClient, getContract, defineChain, prepareContractCall, sendTransaction, readContract } from "thirdweb";
+import { nextTokenIdToMint, mintTo } from "thirdweb/extensions/erc1155";
+import { ethers5Adapter } from "thirdweb/adapters/ethers5";
 import { collectionsApi } from 'data/api'
-import { TClaimPattern, TCollectionToken, TCollection } from 'types'
-
+import { TCollectionToken, TCollection } from 'types'
 const { REACT_APP_THIRDWEB_CLIENT_ID } = process.env
 
-function createTokenERC1155 (
+
+function createTokenERC1155(
   collectionId: string,
   contractAddress: string,
   tokenName: string,
@@ -32,34 +33,42 @@ function createTokenERC1155 (
     const { user: { chainId, address, signer }, collections: { collections } } = getState()
 
     try {
-      const networkName = defineThirdwebNetworkName(chainId)
+      const chain = defineChain(Number(chainId))
 
-      if (!networkName) {
+      if (!chain) {
         return alertError('Network is not supported')
       }
 
-      const sdk = ThirdwebSDK.fromSigner(signer, networkName, {
-        clientId: REACT_APP_THIRDWEB_CLIENT_ID as string
-      })
-      const contractInstance = await sdk.getContract(contractAddress)
+      const account = await ethers5Adapter.signer.fromEthers({ signer });
 
-      const metadata = {
+      const client = createThirdwebClient({
+        clientId: REACT_APP_THIRDWEB_CLIENT_ID as string
+      });
+
+      const contractInstance = await getContract({ client, chain, address: contractAddress })
+
+      const nft = {
         name: tokenName,
         description: description,
         image: file,
         attributes: Object.entries(properties).map(([key, value]) => ({
-          trait_type: key, 
+          trait_type: key,
           value: value
         }))
       }
 
-      const nextTokenId = await contractInstance.erc1155.nextTokenIdToMint();
+      const nextTokenId = await nextTokenIdToMint({ contract: contractInstance })
 
-
-      const txResult = await contractInstance.erc1155.mint({
-        metadata: metadata,
-        supply: copiesAmount
+      const transaction = await mintTo({
+        contract: contractInstance,
+        to: account.address,
+        supply: 0n,
+        nft
       })
+      const txResult = await sendTransaction({
+        transaction,
+        account
+      });
 
       const result: { data: { success: boolean, token: TCollectionToken } } = await collectionsApi.addToken(collectionId, {
         name: tokenName,

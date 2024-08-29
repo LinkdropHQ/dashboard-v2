@@ -2,10 +2,12 @@ import {
   TQRStatus
 } from "./qr"
 
+export type TQRManagerItemType = 'dispenser' | 'qr_set'
+
 export type TQRManagerItem = {
   title: string
   item_id: string
-  type: 'dispenser' | 'qr_set'
+  type: TQRManagerItemType
   created_at?: string
   links_assigned: number
   links_claimed: number

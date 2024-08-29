@@ -15,14 +15,15 @@ import {
   Loader
 } from 'components/common'
 import {
-  NewDispenser
-} from './components'
-import {
   BatchListLabel,
   BatchListValue,
   WidgetComponent,
-  InitialNote
+  InitialNote,
+  NewDispenserPopup
 } from 'components/pages/common'
+import {
+  useHistory
+} from 'react-router-dom'
 import {
   formatDate,
   defineDispenserStatus, 
@@ -37,6 +38,37 @@ import {
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import moment from 'moment'
+
+import Icons from 'icons'
+
+const defineDispenserTypes = (
+  history: any
+) => {
+  return [
+    {
+      title: 'Dynamic QR for electronic displays',
+      text: 'A web page with an auto-refresh QR code that updates in real time. This ensures secure distribution, preventing a single user from claiming all tokens',
+      onClick: () => {
+        history.push('/dynamic-qrs/new')
+      },
+      image: <Icons.DynamicQRPreviewIcon />
+    }, {
+      title: 'Printable Dispenser QR code',
+      text: 'A single QR code that dispenses tokens one-by-one to users after they scan it. Ideal for controlled and sequential token distribution',
+      onClick: () => {
+        history.push('/dispensers/new')
+      },
+      image: <Icons.DispenserQRPreviewIcon />
+    }, {
+      title: 'Printable Set of QR codes',
+      text: 'A set of single-claim QR codes. Each QR code is valid for one claim only, and becomes invalid after being scanned and claimed by a user',
+      onClick: () => {
+        history.push('/qrs/new')
+      },
+      image: <Icons.QRSetPreviewIcon />
+    }
+  ]
+}
 
 const mapStateToProps = ({
   campaigns: { campaigns },
@@ -203,11 +235,14 @@ const Dispensers: FC<ReduxType> = ({
   loading
 }) => {
 
+  const history = useHistory()
+
+  const dispenserTypes = defineDispenserTypes(history)
+
   const [
     showPopup,
     setShowPopup
   ] = useState<boolean>(false)
-
 
   if (
     loading &&
@@ -226,7 +261,10 @@ const Dispensers: FC<ReduxType> = ({
         }}
         buttontText='New QR Campaign'
       />
-      {showPopup && <NewDispenser
+      {showPopup && <NewDispenserPopup
+        dispenserOptions={dispenserTypes}
+        title='Create QR campaign'
+        subtitle='Start new QR campaign to distribute your tokens by choosing the method that best suits your needs:'
         onClose={() => {
           setShowPopup(false)
         }}
@@ -235,7 +273,10 @@ const Dispensers: FC<ReduxType> = ({
   }
 
   return <Container>
-    {showPopup && <NewDispenser
+    {showPopup && <NewDispenserPopup
+      dispenserOptions={dispenserTypes}
+      title='New QR campaign'
+      subtitle='Start new QR campaign to distribute your tokens by choosing the method that best suits your needs:'
       onClose={() => {
         setShowPopup(false)
       }}

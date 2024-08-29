@@ -97,7 +97,6 @@ const Collections: FC<ReduxType> = ({
             created_at,
             tokens_amount,
             token_address,
-            thumbnail,
             symbol,
             links_claimed,
             links_count
@@ -115,7 +114,6 @@ const Collections: FC<ReduxType> = ({
               {dateCreatedFormatted}, <SecondaryTextSpan>{timeCreatedFormatted}</SecondaryTextSpan>
             </BatchListValue>
             <CollectionsListLabelStyled>
-              <TokenImageStyled src={thumbnail} address={token_address} />
               {title}
             </CollectionsListLabelStyled>
 

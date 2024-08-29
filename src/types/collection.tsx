@@ -16,7 +16,6 @@ export type TCollection = {
   created_at?: string
   updated_at?: string
   symbol: string
-  thumbnail?: string
   sbt: boolean
   token_standard: TTokenType
   token_address?: string

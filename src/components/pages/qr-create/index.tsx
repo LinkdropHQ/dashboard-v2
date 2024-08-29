@@ -32,18 +32,18 @@ const mapStateToProps = ({
 
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   return {
-    addQRSet: (
+    createQRSet: (
       title: string,
       quantity: number,
       successCallback: (id: string | number) => void
-    ) => dispatch(asyncQRsActions.addQRSet({ title, quantity, successCallback }))
+    ) => dispatch(asyncQRsActions.createQRSet({ title, quantity, successCallback }))
   }
 }
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const QRCreate: FC<ReduxType> = ({
-  addQRSet,
+  createQRSet,
   qrs,
   loading,
   uploadLoader,
@@ -88,7 +88,7 @@ const QRCreate: FC<ReduxType> = ({
           onClick={() => {
             if(isNaN(Number(amount))) { return alertError('Amount is not valid') }
             if (Number(amount) > limit) { return alertError(`plan is limited to ${limit} links per QR-set. Contact us if you need to increase limits.`) }
-            addQRSet(
+            createQRSet(
               title, 
               Number(amount),
               (id) => {

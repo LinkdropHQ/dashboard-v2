@@ -7,7 +7,6 @@ import {
 import {
   AsideStyled,
   AsideContent,
-  CollectionImage,
   Divider
 } from './styled-components'
 import {
@@ -24,8 +23,7 @@ const CollectionDetails: FC<TProps> = ({
   tokenAddress,
   userAddress,
   name,
-  chainId,
-  image
+  chainId
 }) => {
 
   const networkName = defineNetworkName(chainId)
@@ -33,7 +31,6 @@ const CollectionDetails: FC<TProps> = ({
   const userScannerAddress = defineExplorerUrl(Number(chainId), `/address/${userAddress}`)
 
   return <AsideStyled title="Collection details">
-    <CollectionImage src={image} />
     <AsideContent>
       <TableRow>
         <TableText>Owner</TableText>

@@ -11,6 +11,7 @@ import {
   Container,
   WidgetContainer
 } from 'components/pages/common'
+import { TQRManagerItemType } from 'types'
 import {
   Header,
   WidgetButton,
@@ -55,6 +56,15 @@ import {
   updateWallets,
   updatePreferredWalletOn
 } from 'data/store/reducers/campaigns/async-actions'
+
+import {
+  createDispenserAndAddLinks,
+} from 'data/store/reducers/dispensers/async-actions'
+
+import {
+  createQRSetAndAddLinks
+} from 'data/store/reducers/qrs/async-actions.tsx'
+
 import { IProps } from './types'
 import { IAppDispatch } from 'data/store'
 import { plausibleApi } from 'data/api'
@@ -159,6 +169,57 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       )
     },
 
+    createDispenserAndAddLinks: (
+      title: string,
+      dynamic: boolean,
+      campaignId: string,
+      batchId: string,
+      tokenAddress: string,
+      wallet: string,
+      successCallback?: (
+        dispenser_id: string | number,
+        dynamic: boolean
+      ) => void,
+      errorCallback?: () => void,
+    ) => {
+      dispatch(
+        createDispenserAndAddLinks({
+          title,
+          dynamic,
+          campaignId,
+          batchId,
+          tokenAddress,
+          wallet,
+          successCallback,
+          errorCallback
+        })
+      )
+    },
+  
+    createQRSetAndAddLinks: (
+      title: string,
+      campaignId: string,
+      batchId: string,
+      tokenAddress: string,
+      wallet: string,
+      successCallback?: (
+        dispenser_id: string | number
+      ) => void,
+      errorCallback?: () => void,
+    ) => {
+      dispatch(
+        createQRSetAndAddLinks({
+          title,
+          campaignId,
+          batchId,
+          tokenAddress,
+          wallet,
+          successCallback,
+          errorCallback
+        })
+      )
+    },
+
     updateClaimingFinishedButtonOn: (
       campaign_id: string,
       claiming_finished_button_on: boolean
@@ -242,7 +303,9 @@ const CampaignDetails: FC<ReduxType & IProps & RouteComponentProps> = ({
   updateClaimingFinishedButton,
   updateAvailableCountries,
   updateWallets,
-  updatePreferredWalletOn
+  updatePreferredWalletOn,
+  createDispenserAndAddLinks,
+  createQRSetAndAddLinks
 }) => {
 
   const history = useHistory()
@@ -491,6 +554,9 @@ const CampaignDetails: FC<ReduxType & IProps & RouteComponentProps> = ({
         </Header>
 
         <BatchesList
+          createDispenserAndAddLinks={createDispenserAndAddLinks}
+          createQRSetAndAddLinks={createQRSetAndAddLinks}
+          wallet={wallet}
           batches={batches}
           loading={loading}
           sponsored={sponsored}
@@ -630,7 +696,6 @@ const CampaignDetails: FC<ReduxType & IProps & RouteComponentProps> = ({
 
 
       <Settings
-
         loading={loading}
         countries={countries}
         campaignData={currentCampaign}

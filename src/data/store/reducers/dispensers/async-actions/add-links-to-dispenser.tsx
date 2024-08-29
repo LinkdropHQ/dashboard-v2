@@ -53,7 +53,6 @@ const addLinksToDispenser = ({
       } = getState()
       try {
         let currentPercentage = 0
-  
         
         dispatch(actionsDispenser.setLoading(true))
   

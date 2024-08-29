@@ -9,12 +9,13 @@ export const AsidePopupStyled = styled(AsidePopup)`
   min-width: 614px;
 `
 
-export const Option = styled(Link)`
+export const Option = styled.div`
   display: grid;
   padding: 24px;
   grid-template-columns: 154px 1fr;
   gap: 32px;
   align-items: center;
+  cursor: pointer;
   border-radius: 16px;
   text-decoration: none;
   color: ${props => props.theme.primaryTextColor};

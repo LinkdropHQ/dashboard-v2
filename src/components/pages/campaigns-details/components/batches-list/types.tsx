@@ -1,4 +1,30 @@
-import { TLinksBatch } from "types"
+import { TLinksBatch, TQRManagerItemType } from "types"
+
+export type TCreateDispenserAndAddLinks = (
+  title: string,
+  dynamic: boolean,
+  campaignId: string,
+  batchId: string,
+  tokenAddress: string,
+  wallet: string,
+  successCallback?: (
+    dispenser_id: string | number,
+    dynamic: boolean
+  ) => void,
+  errorCallback?: () => void,
+) => void
+
+export type TCreateQRSetAndAddLinks = (
+  title: string,
+  campaignId: string,
+  batchId: string,
+  tokenAddress: string,
+  wallet: string,
+  successCallback?: (
+    dispenser_id: string | number
+  ) => void,
+  errorCallback?: () => void,
+) => void
 
 export type TProps = {
   batches: TLinksBatch[]
@@ -6,7 +32,10 @@ export type TProps = {
   title: string
   sdk: boolean
   sponsored: boolean
+  wallet: string
   loading: boolean
+  createDispenserAndAddLinks: TCreateDispenserAndAddLinks
+  createQRSetAndAddLinks: TCreateQRSetAndAddLinks
   downloadLinks: (
     batch_id: string | number,
     campaign_id: string,
