@@ -105,7 +105,6 @@ export const HeaderNetworkIconImg = styled.img`
 
 `
 
-
 export const PolygonIcon = styled(Icons.PolygonIcon)`
   margin-right: 8px;
 `

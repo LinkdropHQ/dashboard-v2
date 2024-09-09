@@ -2,7 +2,8 @@ import {
   mainnet,
   polygon,
   base,
-  immutableZkEvm
+  immutableZkEvm,
+  xLayer
 } from 'wagmi/chains'
 
 const defineWagmiNetwork = (
@@ -17,6 +18,8 @@ const defineWagmiNetwork = (
       return base
     case 13371:
       return immutableZkEvm
+    case 196:
+      return xLayer
     default:
       return base
   }

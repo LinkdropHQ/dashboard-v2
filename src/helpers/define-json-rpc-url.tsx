@@ -3,7 +3,8 @@ const {
   REACT_APP_JSON_RPC_POLYGON,
   REACT_APP_JSON_RPC_MAINNET,
   REACT_APP_JSON_RPC_BASE,
-  REACT_APP_JSON_RPC_IMMUTABLE_ZKEVM
+  REACT_APP_JSON_RPC_IMMUTABLE_ZKEVM,
+  REACT_APP_JSON_RPC_XLAYER
 } = process.env
 
 const defineJSONRpcUrl = ({ chainId, infuraPk } : { chainId: number, infuraPk: string }) => {
@@ -17,8 +18,9 @@ const defineJSONRpcUrl = ({ chainId, infuraPk } : { chainId: number, infuraPk: s
     return REACT_APP_JSON_RPC_BASE
   } else if (networkName === 'immutableZkevm') {
     return REACT_APP_JSON_RPC_IMMUTABLE_ZKEVM
+  } else if (networkName === 'xlayer') {
+    return REACT_APP_JSON_RPC_XLAYER
   }
-  
   return `https://${networkName}.infura.io/v3/${infuraPk}`
 }
 

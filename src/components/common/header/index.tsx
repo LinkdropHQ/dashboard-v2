@@ -7,7 +7,6 @@ import {
   HeaderUserInfoPadded,
   HeaderUserInfoAddress,
   MiniPopupCustomItem,
-  PolygonIcon,
   Logout,
   HeaderNetwork
 } from './styled-components'
