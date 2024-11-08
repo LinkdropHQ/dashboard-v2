@@ -7,6 +7,7 @@ import {
   WidgetContent
 } from '../../styled-components'
 import {
+<<<<<<< HEAD
   WidgetDoneIndicator
 } from 'components/common'
 import {
@@ -55,12 +56,24 @@ const ClaimLinksWidget: FC<TProps> = ({
   links,
   decimals,
   done
+=======
+  WidgetSubtitle
+} from 'components/pages/common'
+import { TProps } from './types'
+
+const ClaimLinksWidget: FC<TProps> = ({
+  setCurrentStep
+>>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
 }) => {
   return <WidgetStyled>
     <WidgetHeader>
       <WidgetTitleStyled>
+<<<<<<< HEAD
         <WidgetDoneIndicator done={!(links)} />
         {defineTitle(symbol)}
+=======
+        Token
+>>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
       </WidgetTitleStyled>
       <ButtonStyled
         appearance='action'
@@ -72,11 +85,15 @@ const ClaimLinksWidget: FC<TProps> = ({
     </WidgetHeader>
     <WidgetContent>
       <WidgetSubtitle>
+<<<<<<< HEAD
         {defineText(
           links,
           decimals,
           symbol
         )}
+=======
+        Select tokens, NFTs or SBTs from your wallet and add them to your drop.
+>>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
       </WidgetSubtitle>
     </WidgetContent>
   </WidgetStyled>

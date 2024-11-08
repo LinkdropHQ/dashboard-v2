@@ -6,6 +6,7 @@ import {
   WidgetTitleStyled,
   WidgetContent
 } from '../../styled-components'
+<<<<<<< HEAD
 import {
   WidgetDoneIndicator
 } from 'components/common'
@@ -42,6 +43,9 @@ const defineNote = (
     return null
   }
 }
+=======
+import { TProps } from './types'
+>>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
 
 const ClaimLinksWidget: FC<TProps> = ({
   setCurrentStep,
@@ -50,10 +54,14 @@ const ClaimLinksWidget: FC<TProps> = ({
   return <WidgetStyled>
     <WidgetHeader>
       <WidgetTitleStyled>
+<<<<<<< HEAD
         <WidgetDoneIndicator done={Boolean(distributionMethod)} />
         {defineTitle(
           distributionMethod
         )}
+=======
+        Distribution
+>>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
       </WidgetTitleStyled>
       <ButtonStyled
         appearance='action'
@@ -63,6 +71,7 @@ const ClaimLinksWidget: FC<TProps> = ({
         Choose
       </ButtonStyled>
     </WidgetHeader>
+<<<<<<< HEAD
     
     <WidgetContent>
       <WidgetSubtitle>
@@ -70,6 +79,9 @@ const ClaimLinksWidget: FC<TProps> = ({
           distributionMethod
         )}
       </WidgetSubtitle>
+=======
+    <WidgetContent>
+>>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
       {distributionMethod}
     </WidgetContent>
   </WidgetStyled>
