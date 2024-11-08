@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { TProps } from './types'
 
 export const WidgetComponent = styled.div<TProps>`
@@ -33,4 +33,19 @@ export const WidgetNote = styled(WidgetText)`
 
 export const WidgetTextBlock = styled.div`
   margin-bottom: 20px;
+`
+
+export const WidgetDoneIndicator = styled.div<{
+  done?: boolean
+}>`
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  margin-right: 12px;
+  border: 6px solid ${props => props.theme.buttonDisabledBackgroundColor};
+
+  ${props => props.done && css`
+    border: none;
+    background: ${props => props.theme.primaryHighlightColor};
+  `}
 `

@@ -17,7 +17,13 @@ export const Content = styled.div`
 
 
 
-export const ButtonStyled = styled(Button)``
+export const ButtonStyled = styled(Button)`
+
+`
+
+export const ButtonStyledFullWidth = styled(Button)`
+  width: 100%;
+`
 
 
 export const WidgetStyled = styled(Widget)`
@@ -36,6 +42,8 @@ export const WidgetTitleStyled = styled(WidgetTitle)`
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
+  display: flex;
+  align-items: center;
 `
 
 export const WidgetContent = styled.div`

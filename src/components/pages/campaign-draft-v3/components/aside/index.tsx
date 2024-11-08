@@ -19,7 +19,7 @@ import {
 import { connect } from 'react-redux'
 import {
   ButtonsContainer,
-  ButtonStyled
+  ButtonStyledFullWidth
 } from '../../styled-components'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions/index'
 import { Dispatch } from 'redux'
@@ -30,6 +30,22 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
   return {
     
   }
+}
+
+const defineToken = (
+  chainId: number,
+  token?: string
+) => {
+  if (!token) {
+    return '-'
+  }
+
+  const scannerUrl = defineExplorerUrl(chainId, `/address/${token || ''}`)
+  if (!scannerUrl) {
+    return shortenString(token)
+  }
+
+  return <TextLink href={scannerUrl} target='_blank'>{shortenString(token)}</TextLink>
 }
 
 // @ts-ignore
@@ -44,11 +60,7 @@ const AsideComponent: FC<ReduxType> = ({
   distributionMethod,
   launch
 }) => {
-  const scannerUrl = defineExplorerUrl(chainId, `/address/${token || ''}`)
-  console.log({
-    token,
-    distributionMethod
-  })
+
   return <Aside
     title="Summary"
     subtitle="Check and confirm details"
@@ -66,12 +78,13 @@ const AsideComponent: FC<ReduxType> = ({
         </TableValue>
       </TableRow>
 
-      {token && <TableRow>
+      <TableRow>
         <TableText>Token address</TableText>
         <TableValue>
-          {scannerUrl ? <TextLink href={scannerUrl} target='_blank'>{shortenString(token)}</TextLink> : shortenString(token)}
+          {/* @ts-ignore */}
+          {defineToken(chainId, token)}
         </TableValue>
-      </TableRow>}
+      </TableRow>
 
       <TableRow>
         <TableText>Distribution</TableText>
@@ -79,18 +92,18 @@ const AsideComponent: FC<ReduxType> = ({
           {distributionMethod || '-'}
         </TableValue>
       </TableRow>
-      <ButtonsContainer>
-        <ButtonStyled
-          appearance='action'
-          onClick={() => {
-            launch()
-          }}
-          disabled={!token || !distributionMethod}
-        >
-          Launch
-        </ButtonStyled>
-      </ButtonsContainer>
     </AsideContent>
+    <ButtonsContainer>
+      <ButtonStyledFullWidth
+        appearance='action'
+        onClick={() => {
+          launch()
+        }}
+        disabled={!token || !distributionMethod}
+      >
+        Launch
+      </ButtonStyledFullWidth>
+    </ButtonsContainer>
   </Aside>
 }
 

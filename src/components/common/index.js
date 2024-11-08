@@ -9,7 +9,13 @@ import Breadcrumbs from './breadcrumbs'
 import InfoBlock from './info-block'
 import TextLink from './text-link'
 import MiniPopup from './mini-popup'
-import { WidgetText, WidgetNote, WidgetTextBlock, WidgetData } from './widget/styled-components'
+import {
+  WidgetText,
+  WidgetNote,
+  WidgetTextBlock,
+  WidgetData,
+  WidgetDoneIndicator
+} from './widget/styled-components'
 import TransactionDetails from './transaction-details'
 import CheckListItem from './check-list-item'
 import InformationContainer from './information-container'
@@ -51,6 +57,7 @@ export {
   TransactionDetails,
   WidgetData,
   Tooltip,
+  WidgetDoneIndicator,
 
   // V3
   TokensList

@@ -1,6 +1,9 @@
 import { campaignsApi } from "data/api"
 import { Dispatch } from 'redux'
 import * as actionsCampaign from '../actions'
+import * as actionsCampaigns from 'data/store/reducers/campaigns/actions'
+import { CampaignsActions } from 'data/store/reducers/campaigns/types'
+
 import { CampaignActions } from '../types'
 import { UserActions } from '../../user/types'
 import { RootState } from 'data/store'
@@ -17,7 +20,7 @@ const createCampaign = (
   ) => void
 ) => {
   return async (
-    dispatch: Dispatch<CampaignActions | UserActions>,
+    dispatch: Dispatch<CampaignActions | UserActions | CampaignsActions>,
     getState: () => RootState
   ) => {
     const {
@@ -26,6 +29,9 @@ const createCampaign = (
         address,
         chainId,
         signer
+      },
+      campaigns: {
+        campaigns
       }
     } = getState()
 
@@ -49,12 +55,12 @@ const createCampaign = (
         chain_id: String(chainId),
         campaign_number: campaignId,
         proxy_contract_address: proxyContractAddress,
-        creator_address: address,
-        // encrypted_signer_key: encrypt(privateKey, dashboardKey),
-        // signer_address: wallet
+        creator_address: address
       })
 
       if (data.success) {
+        const campaignsUpdated = campaigns.concat([data.campaign, ...campaigns])
+        dispatch(actionsCampaigns.updateCampaigns(campaignsUpdated))
         if (actionCallback) {
           actionCallback(data.campaign.campaign_id)
         }

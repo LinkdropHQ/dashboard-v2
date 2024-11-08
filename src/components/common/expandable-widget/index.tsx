@@ -5,6 +5,7 @@ import {
 import {
   WidgetStyled,
   ButtonStyled,
+  WidgetSubtitleStyled,
   WidgetHeader,
   WidgetTitleStyled,
   WidgetContent
@@ -13,7 +14,8 @@ import { TProps } from './types'
 
 const ExpandableWidget: FC<TProps> = ({
   title,
-  children
+  children,
+  description
 }) => {
   const [
     expanded,
@@ -26,11 +28,13 @@ const ExpandableWidget: FC<TProps> = ({
         {title}
       </WidgetTitleStyled>
 
-      <button onClick={() => setExpanded(!expanded)}>
-        expand
-      </button>
+      <ButtonStyled
+        onClick={() => setExpanded(!expanded)}
+      >
+        Edit
+      </ButtonStyled>
     </WidgetHeader>
-
+    {description}
     {expanded && <WidgetContent>
       {children}
     </WidgetContent>}

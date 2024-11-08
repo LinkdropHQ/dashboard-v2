@@ -13,7 +13,9 @@ import * as CommonComponents from 'components/pages/common'
 import {
   updateSettings
 } from 'data/store/reducers/campaign/async-actions'
-import { ExpandableWidget } from 'components/common'
+import {
+  ExpandableWidget
+} from 'components/common'
 import { connect } from 'react-redux'
 import { RootState, IAppDispatch } from 'data/store'
 import {
@@ -74,7 +76,6 @@ const ClaimAppSettings: FC<ReduxType> = ({
   countries,
   updateSettings
 }) => {
-
   const {
     additional_wallets_on,
     preferred_wallet_on,
@@ -111,6 +112,7 @@ const ClaimAppSettings: FC<ReduxType> = ({
 
   return <ExpandableWidget
     title='Claim app settings (optional)'
+    description='Customize a claim app webpage that fits your needs.'
   >
     <CommonComponents.ClaimAppSettings
       // @ts-ignore

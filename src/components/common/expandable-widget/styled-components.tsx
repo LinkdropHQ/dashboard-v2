@@ -1,5 +1,8 @@
 import { Widget } from 'components/common'
-import { WidgetTitle } from 'components/pages/common'
+import {
+  WidgetTitle,
+  WidgetSubtitle
+} from 'components/pages/common'
 import { Button } from "linkdrop-ui"
 
 import styled from "styled-components"
@@ -27,3 +30,6 @@ export const WidgetContent = styled.div`
 `
 
 export const ButtonStyled = styled(Button)``
+
+export const WidgetSubtitleStyled = styled(WidgetSubtitle)`
+`

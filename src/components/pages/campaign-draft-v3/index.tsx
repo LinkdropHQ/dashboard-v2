@@ -17,7 +17,6 @@ import {
   LaunchProcessPopup
 } from './components'
 import {
-  TDistributionMethod,
   TRouterURLParams,
   TTokenType
 } from 'types'
@@ -266,6 +265,8 @@ const CampaignDraft: FC<ReduxType> = ({
     <Content>
       <ClaimLinksWidget
         setCurrentStep={setCurrentStep}
+        links={links}
+        decimals={decimals}
       />
 
       <DistributionWidget
