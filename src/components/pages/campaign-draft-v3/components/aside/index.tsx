@@ -19,11 +19,7 @@ import {
 import { connect } from 'react-redux'
 import {
   ButtonsContainer,
-<<<<<<< HEAD
   ButtonStyledFullWidth
-=======
-  ButtonStyled
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
 } from '../../styled-components'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions/index'
 import { Dispatch } from 'redux'
@@ -36,7 +32,6 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
   }
 }
 
-<<<<<<< HEAD
 const defineToken = (
   chainId: number,
   token?: string
@@ -53,8 +48,6 @@ const defineToken = (
   return <TextLink href={scannerUrl} target='_blank'>{shortenString(token)}</TextLink>
 }
 
-=======
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
 // @ts-ignore
 type ReduxType = ReturnType<typeof mapDispatcherToProps> &
                  TProps
@@ -67,15 +60,6 @@ const AsideComponent: FC<ReduxType> = ({
   distributionMethod,
   launch
 }) => {
-<<<<<<< HEAD
-
-=======
-  const scannerUrl = defineExplorerUrl(chainId, `/address/${token || ''}`)
-  console.log({
-    token,
-    distributionMethod
-  })
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
   return <Aside
     title="Summary"
     subtitle="Check and confirm details"
@@ -93,7 +77,6 @@ const AsideComponent: FC<ReduxType> = ({
         </TableValue>
       </TableRow>
 
-<<<<<<< HEAD
       <TableRow>
         <TableText>Token address</TableText>
         <TableValue>
@@ -101,22 +84,12 @@ const AsideComponent: FC<ReduxType> = ({
           {defineToken(chainId, token)}
         </TableValue>
       </TableRow>
-=======
-      {token && <TableRow>
-        <TableText>Token address</TableText>
-        <TableValue>
-          {scannerUrl ? <TextLink href={scannerUrl} target='_blank'>{shortenString(token)}</TextLink> : shortenString(token)}
-        </TableValue>
-      </TableRow>}
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
-
       <TableRow>
         <TableText>Distribution</TableText>
         <TableValue>
           {distributionMethod || '-'}
         </TableValue>
       </TableRow>
-<<<<<<< HEAD
     </AsideContent>
     <ButtonsContainer>
       <ButtonStyledFullWidth
@@ -124,25 +97,10 @@ const AsideComponent: FC<ReduxType> = ({
         onClick={() => {
           launch()
         }}
-        disabled={!token || !distributionMethod}
       >
         Launch
       </ButtonStyledFullWidth>
     </ButtonsContainer>
-=======
-      <ButtonsContainer>
-        <ButtonStyled
-          appearance='action'
-          onClick={() => {
-            launch()
-          }}
-          disabled={!token || !distributionMethod}
-        >
-          Launch
-        </ButtonStyled>
-      </ButtonsContainer>
-    </AsideContent>
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
   </Aside>
 }
 

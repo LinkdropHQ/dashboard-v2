@@ -8,7 +8,6 @@ import createProxyAddress from './create-proxy-address'
 import createNewBatch from './create-new-batch'
 
 // V3
-import create from './create-v3'
 import setContractData from './set-contract-data-v3'
 import addERC20Links from './add-erc20-links-v3'
 import addQRSetData from './add-qr-set-data'
@@ -28,7 +27,6 @@ export {
   addERC20Links,
   setContractData,
   createNewBatch,
-  create,
   setAssetsData,
   setTokenContractData,
   applyClaimPattern,

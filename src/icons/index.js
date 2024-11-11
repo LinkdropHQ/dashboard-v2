@@ -78,13 +78,14 @@ import { ReactComponent as DistributionDispenserIcon } from './distribution-disp
 import { ReactComponent as DistributionDynamicIcon } from './distribution-dynamic-qr-icon.svg'
 import { ReactComponent as DistributionQRSetIcon } from './distribution-qr-set-icon.svg'
 
-
+import { ReactComponent as RedWarningIcon } from './red-warning-icon.svg'
 const Icons = {
   EthereumLogo,
   DistributionClaimLinksIcon,
   DistributionDispenserIcon,
   DistributionDynamicIcon,
   DistributionQRSetIcon,
+  RedWarningIcon,
   ArchiveIcon,
   SBTTokensIcon,
   DownloadFileIcon,

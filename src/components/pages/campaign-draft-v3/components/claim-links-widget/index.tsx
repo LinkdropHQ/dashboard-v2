@@ -4,18 +4,22 @@ import {
   ButtonStyled,
   WidgetHeader,
   WidgetTitleStyled,
-  WidgetContent
+  WidgetContent,
+  ErrorIcon
 } from '../../styled-components'
 import {
-<<<<<<< HEAD
   WidgetDoneIndicator
 } from 'components/common'
 import {
   WidgetSubtitle
 } from 'components/pages/common'
+import {
+  defineNativeTokenSymbol
+} from 'helpers'
 import { TProps } from './types'
 import { TLink } from 'types'
 import { BigNumberish, utils } from 'ethers'
+import Icons from 'icons'
 
 const defineTitle = (
   symbol?: string | null
@@ -29,10 +33,11 @@ const defineTitle = (
 const defineText = (
   links: TLink[],
   decimals: number | null,
+  chainId: number,
   symbol?: string | null
 ) => {
   const linksAmount = links.length
-  if (symbol || linksAmount === 0) {
+  if (!symbol || linksAmount === 0) {
     return 'Select tokens, NFTs or SBTs from your wallet and add them to your drop.'
   }
 
@@ -46,7 +51,16 @@ const defineText = (
     decimals || 18
   )
 
-  return `You have chosen ${tokenAmountFormatted}${symbol} and an additional 0.01 ETH in each of the ${linksAmount} claims`
+  const weiAmountFormatted = utils.formatUnits(
+    wei_amount as BigNumberish,
+    18
+  )
+
+  const nativeTokenSymbol = defineNativeTokenSymbol({
+    chainId
+  })
+
+  return `You have chosen ${tokenAmountFormatted} ${symbol} and an additional ${weiAmountFormatted} ${nativeTokenSymbol} in each of the ${linksAmount} claims`
 
 }
 
@@ -55,25 +69,20 @@ const ClaimLinksWidget: FC<TProps> = ({
   symbol,
   links,
   decimals,
-  done
-=======
-  WidgetSubtitle
-} from 'components/pages/common'
-import { TProps } from './types'
-
-const ClaimLinksWidget: FC<TProps> = ({
-  setCurrentStep
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
+  chainId,
+  error
 }) => {
+  console.log({ links })
   return <WidgetStyled>
     <WidgetHeader>
       <WidgetTitleStyled>
-<<<<<<< HEAD
-        <WidgetDoneIndicator done={!(links)} />
+        {error && (!links || links.length === 0) ?
+          <ErrorIcon>
+            <Icons.RedWarningIcon />
+          </ErrorIcon>  :
+          <WidgetDoneIndicator done={!!(links)} /> 
+        }
         {defineTitle(symbol)}
-=======
-        Token
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
       </WidgetTitleStyled>
       <ButtonStyled
         appearance='action'
@@ -85,15 +94,12 @@ const ClaimLinksWidget: FC<TProps> = ({
     </WidgetHeader>
     <WidgetContent>
       <WidgetSubtitle>
-<<<<<<< HEAD
         {defineText(
           links,
           decimals,
+          chainId,
           symbol
         )}
-=======
-        Select tokens, NFTs or SBTs from your wallet and add them to your drop.
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
       </WidgetSubtitle>
     </WidgetContent>
   </WidgetStyled>

@@ -57,11 +57,7 @@ export {
   TransactionDetails,
   WidgetData,
   Tooltip,
-<<<<<<< HEAD
   WidgetDoneIndicator,
-=======
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
-
   // V3
   TokensList
 }

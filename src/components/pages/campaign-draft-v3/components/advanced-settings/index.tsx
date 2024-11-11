@@ -61,7 +61,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
 // @ts-ignore
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps> & TProps
 
-const ClaimAppSettings: FC<ReduxType> = ({
+const AdvancedSettings: FC<ReduxType> = ({
 
 }) => {
   
@@ -97,4 +97,4 @@ const ClaimAppSettings: FC<ReduxType> = ({
 export default connect(
   mapStateToProps,
   mapDispatcherToProps
-)(ClaimAppSettings)
+)(AdvancedSettings)

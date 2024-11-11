@@ -14,13 +14,12 @@ import {
   Aside,
   SetQRSet,
   ClaimAppSettings,
-  LaunchProcessPopup
+  LaunchProcessPopup,
+  AdvancedSettings,
+  ErrorNote
 } from './components'
 import {
-<<<<<<< HEAD
-=======
   TDistributionMethod,
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
   TRouterURLParams,
   TTokenType
 } from 'types'
@@ -47,12 +46,16 @@ const mapStateToProps = ({
     decimals,
     symbol,
     links
+  },
+  user: {
+    chainId
   }
 }: RootState) => ({
   campaigns,
   decimals,
   symbol,
-  links
+  links,
+  chainId
 })
 
 
@@ -207,12 +210,18 @@ const CampaignDraft: FC<ReduxType> = ({
   symbol,
   links,
   launch,
+  chainId,
   getCampaignData
 }) => {
   const [
     currentStep,
     setCurrentStep
   ] = useState<TStep | null>(null)
+  console.log({ links })
+  const [
+    showError,
+    setShowError
+  ] = useState<boolean>(false)
 
   const { type, id } = useParams<TRouterURLParams>()
 
@@ -240,50 +249,36 @@ const CampaignDraft: FC<ReduxType> = ({
     currentCampaign?.token_address
   ])
 
-  // useEffect(() => {
-  //   if (
-  //     currentCampaign &&
-  //     decimals &&
-  //     symbol &&
-  //     links.length > 0
-  //   ) {
-  //     // @ts-ignore
-      
-  //   }
-  // }, [
-  //   currentCampaign?.token_address,
-  //   links,
-  //   //
-  //   decimals,
-  //   symbol
-  // ])
-
-
-
-
   if (!currentCampaign) {
     return <Redirect to='campaigns' />
   }
 
   return <Container>
     <Content>
+      {showError && <ErrorNote
+        claimLinks={links}
+        distributionMethod={currentCampaign?.distribution_method}
+      />}
       <ClaimLinksWidget
         setCurrentStep={setCurrentStep}
-<<<<<<< HEAD
         links={links}
         decimals={decimals}
-=======
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
+        chainId={chainId as number}
+        error={showError}
+        symbol={symbol}
       />
 
       <DistributionWidget
         setCurrentStep={setCurrentStep}
         distributionMethod={currentCampaign.distribution_method}
+        error={showError}
       />
 
       <ClaimAppSettings
         campaign={currentCampaign}
       />
+
+      <AdvancedSettings />
     </Content>
 
     <Aside
@@ -292,6 +287,13 @@ const CampaignDraft: FC<ReduxType> = ({
       token={currentCampaign.token_address}
       chainId={currentCampaign.chain_id}
       launch={() => {
+        setShowError(false)
+        if (
+          !currentCampaign.distribution_method ||
+          !links
+        ) {
+          return setShowError(true)
+        }
         setCurrentStep('launch')
         launch(
           id,

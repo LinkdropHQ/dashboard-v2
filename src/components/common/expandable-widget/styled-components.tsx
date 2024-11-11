@@ -1,12 +1,8 @@
 import { Widget } from 'components/common'
-<<<<<<< HEAD
 import {
   WidgetTitle,
   WidgetSubtitle
 } from 'components/pages/common'
-=======
-import { WidgetTitle } from 'components/pages/common'
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
 import { Button } from "linkdrop-ui"
 
 import styled from "styled-components"
@@ -34,9 +30,6 @@ export const WidgetContent = styled.div`
 `
 
 export const ButtonStyled = styled(Button)``
-<<<<<<< HEAD
 
 export const WidgetSubtitleStyled = styled(WidgetSubtitle)`
 `
-=======
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440

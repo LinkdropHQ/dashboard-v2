@@ -5,10 +5,7 @@ import {
 import {
   WidgetStyled,
   ButtonStyled,
-<<<<<<< HEAD
   WidgetSubtitleStyled,
-=======
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
   WidgetHeader,
   WidgetTitleStyled,
   WidgetContent
@@ -17,12 +14,8 @@ import { TProps } from './types'
 
 const ExpandableWidget: FC<TProps> = ({
   title,
-<<<<<<< HEAD
   children,
   description
-=======
-  children
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
 }) => {
   const [
     expanded,
@@ -35,7 +28,6 @@ const ExpandableWidget: FC<TProps> = ({
         {title}
       </WidgetTitleStyled>
 
-<<<<<<< HEAD
       <ButtonStyled
         onClick={() => setExpanded(!expanded)}
       >
@@ -43,13 +35,6 @@ const ExpandableWidget: FC<TProps> = ({
       </ButtonStyled>
     </WidgetHeader>
     {description}
-=======
-      <button onClick={() => setExpanded(!expanded)}>
-        expand
-      </button>
-    </WidgetHeader>
-
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
     {expanded && <WidgetContent>
       {children}
     </WidgetContent>}

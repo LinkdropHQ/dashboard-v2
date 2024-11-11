@@ -17,7 +17,6 @@ export const Content = styled.div`
 
 
 
-<<<<<<< HEAD
 export const ButtonStyled = styled(Button)`
 
 `
@@ -25,9 +24,7 @@ export const ButtonStyled = styled(Button)`
 export const ButtonStyledFullWidth = styled(Button)`
   width: 100%;
 `
-=======
-export const ButtonStyled = styled(Button)``
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
+
 
 
 export const WidgetStyled = styled(Widget)`
@@ -46,11 +43,12 @@ export const WidgetTitleStyled = styled(WidgetTitle)`
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
-<<<<<<< HEAD
   display: flex;
   align-items: center;
-=======
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
+
+  svg {
+    display: block;
+  }
 `
 
 export const WidgetContent = styled.div`
@@ -60,4 +58,9 @@ export const ButtonsContainer = styled.div`
   display: flex;
   gap: 10px;
   justify-content: end;
+`
+
+
+export const ErrorIcon = styled.div`
+  margin-right: 12px;
 `

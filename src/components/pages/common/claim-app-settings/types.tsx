@@ -3,13 +3,6 @@ import { TCampaign, TCountry } from "types"
 export type TProps = {
   loading: boolean
   campaignData: TCampaign | null
-  
-  availableCountriesSubmit: (
-    value: string[],
-    onSuccess?: () => void,
-    onError?: () => void,
-  ) => void
-  availableCountriesValue: TCountry[]
 
   walletsSubmit: (
     wallet: any,
@@ -20,8 +13,6 @@ export type TProps = {
 
   preferredWalletValue: string
   additionalWalletsOnValue: boolean
-
-  countries: TCountry[]
 
   buttonTitleValue: string
   buttonHrefValue: string
@@ -38,26 +29,8 @@ export type TProps = {
   finalScreenButtonToggleAction?: (value: boolean) => void
   finalScreenButtonToggleValue?: boolean
 
-  availableCountriesToggleAction?: (value: boolean) => void
-  availableCountriesToggleValue?: boolean
-
   preferredWalletToggleAction?: (value: boolean) => void
   preferredWalletToggleValue?: boolean
-
-
-  customClaimHostOnToggleAction: (value: boolean) => void
-  customClaimHostOnToggleValue: boolean
-
-  multipleClaimsOnToggleAction: (value: boolean) => void
-  multipleClaimsOnToggleValue: boolean
-
-  customClaimHostSubmit: (
-    customClaimHost: string,
-    successAction?: () => void,
-    errorAction?: () => void
-  ) => void
-  customClaimHostValue: string
-
 }
 
 export type TSettingItem = {

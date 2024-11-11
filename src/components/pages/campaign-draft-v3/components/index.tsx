@@ -6,10 +6,8 @@ import Aside from "./aside"
 import SetQRSet from "./set-qr-set"
 import ClaimAppSettings from './claim-app-settings'
 import LaunchProcessPopup from './launch-process-popup'
-<<<<<<< HEAD
 import AdvancedSettings from "./advanced-settings"
-=======
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
+import ErrorNote from "./error-note"
 
 export {
   ChooseContractAside,
@@ -19,10 +17,7 @@ export {
   SetERC20LinksAside,
   Aside,
   SetQRSet,
-<<<<<<< HEAD
   LaunchProcessPopup,
-  AdvancedSettings
-=======
-  LaunchProcessPopup
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
+  AdvancedSettings,
+  ErrorNote
 }

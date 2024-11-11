@@ -4,9 +4,9 @@ import {
   ButtonStyled,
   WidgetHeader,
   WidgetTitleStyled,
-  WidgetContent
+  WidgetContent,
+  ErrorIcon
 } from '../../styled-components'
-<<<<<<< HEAD
 import {
   WidgetDoneIndicator
 } from 'components/common'
@@ -15,6 +15,7 @@ import {
 } from 'components/pages/common'
 import { TProps } from './types'
 import { TDistributionMethod } from 'types'
+import Icons from 'icons'
 
 const defineTitle = (
   distribution_method?: TDistributionMethod
@@ -43,25 +44,24 @@ const defineNote = (
     return null
   }
 }
-=======
-import { TProps } from './types'
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
 
 const ClaimLinksWidget: FC<TProps> = ({
   setCurrentStep,
-  distributionMethod
+  distributionMethod,
+  error
 }) => {
   return <WidgetStyled>
     <WidgetHeader>
       <WidgetTitleStyled>
-<<<<<<< HEAD
-        <WidgetDoneIndicator done={Boolean(distributionMethod)} />
+        {error && !Boolean(distributionMethod) ?
+          <ErrorIcon>
+            <Icons.RedWarningIcon />
+          </ErrorIcon> :
+          <WidgetDoneIndicator done={Boolean(distributionMethod)} />
+        }
         {defineTitle(
           distributionMethod
         )}
-=======
-        Distribution
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
       </WidgetTitleStyled>
       <ButtonStyled
         appearance='action'
@@ -71,7 +71,6 @@ const ClaimLinksWidget: FC<TProps> = ({
         Choose
       </ButtonStyled>
     </WidgetHeader>
-<<<<<<< HEAD
     
     <WidgetContent>
       <WidgetSubtitle>
@@ -79,10 +78,6 @@ const ClaimLinksWidget: FC<TProps> = ({
           distributionMethod
         )}
       </WidgetSubtitle>
-=======
-    <WidgetContent>
->>>>>>> 7abbc53cf4fd95eb7eea0d880d540e4c7a710440
-      {distributionMethod}
     </WidgetContent>
   </WidgetStyled>
 }

@@ -21,10 +21,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
       title: string,
       callback: (campaignId: string) => void 
     ) => {
-      dispatch(campaignAsyncActions.create(
-        title,
-        callback
-      ))
+      
     }
   }
 }
