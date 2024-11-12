@@ -1,10 +1,6 @@
-import { Widget, Button } from "components/common"
+import { Button } from "components/common"
 import { TableValue, TableText } from "components/pages/common"
 import styled from "styled-components"
-
-export const WidgetStyled = styled(Widget)`
-
-`
 
 export const TableValueStyled = styled(TableValue)`
   display: flex;

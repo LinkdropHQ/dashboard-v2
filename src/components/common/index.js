@@ -22,10 +22,12 @@ import Loader from './loader'
 
 // V3
 import TokensList from './tokens-list'
+import ExpandableWidget from './expandable-widget'
 
 
 export {
   Header,
+  ExpandableWidget,
   Loader,
   StatusBar,
   AsidePopup,

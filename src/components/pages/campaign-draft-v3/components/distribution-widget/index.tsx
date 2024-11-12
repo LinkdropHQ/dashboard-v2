@@ -5,9 +5,7 @@ import {
   WidgetHeader,
   WidgetTitleStyled
 } from '../../styled-components'
-import {
-  WidgetSubtitle
-} from 'components/pages/common'
+
 import { TProps } from './types'
 
 const ClaimLinksWidget: FC<TProps> = ({

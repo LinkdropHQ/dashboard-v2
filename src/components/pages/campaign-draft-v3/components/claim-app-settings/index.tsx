@@ -9,9 +9,6 @@ import {
 } from 'types'
 import * as CommonComponents from 'components/pages/common'
 import {
-  getCampaignBatches,
-  downloadLinks,
-  downloadReport,
   updateAvailableCountriesOn,
   updateClaimingFinishedButtonOn,
   updateClaimingFinishedButton,
@@ -22,6 +19,7 @@ import {
   updateClaimHostOn,
   updateMultipleClaimsOn
 } from 'data/store/reducers/campaigns/async-actions'
+import { ExpandableWidget } from 'components/common'
 import { connect } from 'react-redux'
 import { RootState, IAppDispatch } from 'data/store'
 
@@ -212,101 +210,105 @@ const ClaimAppSettings: FC<ReduxType> = ({
     available_countries
   } = campaign
 
-  return <CommonComponents.ClaimAppSettings
-    loading={loading}
-    countries={countries}
-    campaignData={campaign}
-    additionalWalletsOnValue={Boolean(additional_wallets_on)}
-    availableCountriesValue={available_countries.map((currentCountry) => {
-      const country = countries.find(country => country.id === currentCountry)
-      return country
-    }).filter(item => item) as TCountry[]}
-    preferredWalletValue={wallet}
-    preferredWalletToggleValue={preferred_wallet_on}
+  return <ExpandableWidget
+    title='Claim app settings (optional)'
+  >
+    <CommonComponents.ClaimAppSettings
+      loading={loading}
+      countries={countries}
+      campaignData={campaign}
+      additionalWalletsOnValue={Boolean(additional_wallets_on)}
+      availableCountriesValue={available_countries.map((currentCountry) => {
+        const country = countries.find(country => country.id === currentCountry)
+        return country
+      }).filter(item => item) as TCountry[]}
+      preferredWalletValue={wallet}
+      preferredWalletToggleValue={preferred_wallet_on}
 
-    customClaimHostValue={claim_host}
+      customClaimHostValue={claim_host}
 
-    customClaimHostSubmit={(
-      claimHost,
-      onSuccess,
-      onError,
-    ) => {
-      updateClaimHost(
-        campaign_id,
+      customClaimHostSubmit={(
         claimHost,
         onSuccess,
-      )
-    }}
-    customClaimHostOnToggleValue={claim_host_on}
-    customClaimHostOnToggleAction={(value) => {
-      updateClaimHostOn(campaign_id, value)
-    }}
-    multipleClaimsOnToggleAction={(value) => {
-      updateMultipleClaimsOn(campaign_id, value)
-    }}
-    multipleClaimsOnToggleValue={multiple_claims_on}
+        onError,
+      ) => {
+        updateClaimHost(
+          campaign_id,
+          claimHost,
+          onSuccess,
+        )
+      }}
+      customClaimHostOnToggleValue={claim_host_on}
+      customClaimHostOnToggleAction={(value) => {
+        updateClaimHostOn(campaign_id, value)
+      }}
+      multipleClaimsOnToggleAction={(value) => {
+        updateMultipleClaimsOn(campaign_id, value)
+      }}
+      multipleClaimsOnToggleValue={multiple_claims_on}
 
-    availableCountriesSubmit={(
-      value,
-      onSuccess,
-      onError
-    ) => {
-      updateAvailableCountries(
-        campaign_id,
+      availableCountriesSubmit={(
         value,
-        onSuccess
-      )
-    }}
-
-    walletsSubmit={(
-      wallet,
-      additionalWalletsOn: boolean,
-      onSuccess,
-      onError,
-    ) => {
-      updateWallet(
-        campaign_id,
-        wallet,
-        additionalWalletsOn,
         onSuccess,
-      )
-    }}
+        onError
+      ) => {
+        updateAvailableCountries(
+          campaign_id,
+          value,
+          onSuccess
+        )
+      }}
 
-    finalScreenButtonSubmit={(
-      buttonTitle,
-      buttonHref,
-      onSuccess,
-      onError,
-    ) => {
-      updateClaimingFinishedButton(
-        campaign_id,
+      walletsSubmit={(
+        wallet,
+        additionalWalletsOn: boolean,
+        onSuccess,
+        onError,
+      ) => {
+        updateWallet(
+          campaign_id,
+          wallet,
+          additionalWalletsOn,
+          onSuccess,
+        )
+      }}
+
+      finalScreenButtonSubmit={(
         buttonTitle,
         buttonHref,
-        onSuccess
-      )
-    }}
+        onSuccess,
+        onError,
+      ) => {
+        updateClaimingFinishedButton(
+          campaign_id,
+          buttonTitle,
+          buttonHref,
+          onSuccess
+        )
+      }}
 
-    buttonTitleValue={claiming_finished_button_title || ''}
-    buttonHrefValue={claiming_finished_button_url || ''}
+      buttonTitleValue={claiming_finished_button_title || ''}
+      buttonHrefValue={claiming_finished_button_url || ''}
 
-    finalScreenButtonToggleAction={(value) => {
-      updateClaimingFinishedButtonOn(campaign_id, value)
-    }}
+      finalScreenButtonToggleAction={(value) => {
+        updateClaimingFinishedButtonOn(campaign_id, value)
+      }}
 
-    availableCountriesToggleAction={(value) => {
-      updateAvailableCountriesOn(campaign_id, value)
-    }}
+      availableCountriesToggleAction={(value) => {
+        updateAvailableCountriesOn(campaign_id, value)
+      }}
 
-    preferredWalletToggleAction={(value) => {
-      updatePreferredWalletOn(campaign_id, value)
-    }}
+      preferredWalletToggleAction={(value) => {
+        updatePreferredWalletOn(campaign_id, value)
+      }}
 
-    finalScreenButtonToggleValue={claiming_finished_button_on}
+      finalScreenButtonToggleValue={claiming_finished_button_on}
 
-    availableCountriesToggleValue={available_countries_on}
-  >
+      availableCountriesToggleValue={available_countries_on}
+    >
 
-  </CommonComponents.ClaimAppSettings>
+    </CommonComponents.ClaimAppSettings>
+  </ExpandableWidget>
 }
 
 // @ts-ignore

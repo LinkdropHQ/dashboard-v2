@@ -51,7 +51,7 @@ const requests: {
     campaign_number,
     proxy_contract_address,
     creator_address,
-    encrypted_signer_key,
+    // encrypted_signer_key,
     signer_address
   }) => {
     return campaignsApi.post(`/linkdrop/campaigns`, {
@@ -60,9 +60,9 @@ const requests: {
       campaign_number,
       proxy_contract_address,
       creator_address,
-      encrypted_signer_key,
+      // encrypted_signer_key,
       signer_address,
-      proxy_contract_version: '1'
+      proxy_contract_version: '3'
     }, {
       withCredentials: true
     })

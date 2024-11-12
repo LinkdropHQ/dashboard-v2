@@ -3,7 +3,6 @@ import {
   useState
 } from 'react'
 import {
-  WidgetStyled,
   TableValueStyled,
   ButtonStyled,
   TableTextStyled
@@ -319,7 +318,7 @@ const Settings: FC<TProps> = ({
     multipleClaimsOnToggleValue,
   ) : null
 
-  return <WidgetStyled title='Settings'>
+  return <>
     {currentSetting && null}
     {popup}
     {settings.map(setting => {
@@ -349,7 +348,7 @@ const Settings: FC<TProps> = ({
         enabledLabel
       )})
     }
-  </WidgetStyled>
+  </>
 }
 
 export default Settings

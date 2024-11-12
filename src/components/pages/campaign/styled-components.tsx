@@ -3,6 +3,9 @@ import { Widget, Button } from 'components/common'
 import { Note } from 'linkdrop-ui'
 import { WidgetTitle, Aside, TableValue } from 'components/pages/common'
 
+export const WidgetStyled = styled(Widget)`
+
+`
 export const WidgetTitleStyled = styled(WidgetTitle)`
   max-width: 400px;
   white-space: nowrap;
