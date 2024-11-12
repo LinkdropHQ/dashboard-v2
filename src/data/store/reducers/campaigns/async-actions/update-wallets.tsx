@@ -22,11 +22,11 @@ const updatePreferredWallet = (
     } = getState()
     
     try {
-      const result = await campaignsApi.updatePreferredWallet(
+      const result = await campaignsApi.update({
         campaign_id,
-        additionalWalletsOn,
-        preferredWallet
-      )
+        additional_wallets_on: additionalWalletsOn,
+        wallet: preferredWallet
+      })
 
       if (result.data.success) {
         

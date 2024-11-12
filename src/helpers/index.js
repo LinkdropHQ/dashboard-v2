@@ -87,13 +87,17 @@ import defineCoinbaseInstance from './define-coinbase-instance'
 import defineFirstTokenIdForUser from './define-first-token-id-for-user'
 import defineLastTokenIdForUser from './define-last-token-id-for-user'
 import defineIfUserOwnsTokenInArray from './define-if-user-owns-token-in-array'
+import createProxy from './create-proxy'
+import convertLinksContentERC20V3 from './convert-links-content-erc20-v3'
 
 export {
   buf2hex,
+  createProxy,
   defineIfUserOwnsTokenInArray,
   defineCoinbaseInstance,
   defineFirstTokenIdForUser,
   defineLastTokenIdForUser,
+  convertLinksContentERC20V3,
   defineCollectionQuantityTag,
   defineIfWalletIsAvailableForClient,
   defineCollectionStatusName,

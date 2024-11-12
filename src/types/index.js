@@ -16,6 +16,7 @@ import TFormatDate from './format-date'
 import TFormatTime from './format-time'
 import TLinkParams from './link-params'
 import TFileFormat from './file-format'
+import { TContractListItem } from './contract-list-item'
 import TCoinbaseInstance from './coinbase-instance'
 import { TSystem } from './system'
 import {
@@ -47,7 +48,7 @@ import TButtonAppearance from './button-appearance'
 import TNFTContract from './nft-contract'
 import TERC20Contract from './erc20-contract'
 import { TNFTToken } from './nft-token'
-import { TERC20TokenList, TERC20TokenItem } from './erc20-token-list'
+import { TERC20TokenList, TERC20TokenItem, TERC20TokenOriginalItem } from './erc20-token-list'
 import TButtonAppearance from './button-appearance'
 import TCampaignCreateStep from './campaign-create-step'
 import TCampaignDraft from './campaign-draft'
@@ -75,6 +76,7 @@ export {
   TQRManagerItemType,
   TStatus,
   TZerionNetworkItem,
+  TContractListItem,
   TDispenserStats,
   TCountry,
   TMnemonicContract,
@@ -115,6 +117,7 @@ export {
   TCampaignStatus,
   TAssetsData,
   TOwners,
+  TERC20TokenOriginalItem,
   TCommunities,
   TAsset,
   IMetamaskError,

@@ -58,12 +58,6 @@ const getActiveCampaigns = (
   />
 }
 
-const getArchivedCampaigns = (
-  campaigns: TCampaign[]
-) => {
-  return <CampaignsItems campaigns={campaigns} />
-}
-
 const getDrafts = (
   drafts: TCampaignDraft[]
 ) => {

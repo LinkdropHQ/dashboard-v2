@@ -1,4 +1,6 @@
 import approveERC20 from "./approve-erc20"
+import approveERC20V3 from "./approve-erc20-v3"
+
 import approveAllERC20 from './approve-all-erc20'
 import approveERC721 from "./approve-erc721"
 import approveERC1155 from "./approve-erc1155"
@@ -32,6 +34,7 @@ export {
   getERC20TokenList,
   approveAllERC20,
   getNativeTokenAmount,
+  approveERC20V3,
   initialization,
   getTokenAmount,
   secure,

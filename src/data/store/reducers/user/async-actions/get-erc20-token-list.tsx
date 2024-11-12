@@ -5,6 +5,7 @@ const getERC20TokenList = async (
 ) => {
   try {
     const tokens = await prepareERC20Url(chainId)
+    console.log({ tokens })
     if (tokens) {
       return tokens
     }

@@ -26,12 +26,18 @@ import Reclaims from './reclaims'
 import ReclaimQR from './reclaim-qr'
 
 
+
+
+// V3
+import CampaignDraft from './campaign-draft-v3'
+
 export {
   Page,
   Reclaims,
   ReclaimQR,
   ReclaimQRCreate,
   DynamicQRCreate,
+  CampaignDraft,
   Collection,
   CampaignQRsGenerate,
   CampaignDispenserGenerate,

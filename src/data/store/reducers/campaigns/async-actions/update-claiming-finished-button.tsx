@@ -23,12 +23,12 @@ const updateClaimingFinishedButton = (
     } = getState()
     
     try {
-      const result = await campaignsApi.updateClaimingFinishedButton(
+      const result = await campaignsApi.update({
         campaign_id,
         claiming_finished_button_title,
         claiming_finished_button_url,
         claiming_finished_auto_redirect
-      )
+      })
 
       if (result.data.success) {
         

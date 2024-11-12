@@ -4,11 +4,11 @@ import {
   InstructionNoteStyled,
 } from './styled-components'
 import { Erc20, Erc721, Erc1155, CSVUploadPopup, SDKLinks, AsideContents } from './components'
-import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { TAssetsData, TLinkContent, TLinkParams, TTokenType, TTotalAmount } from 'types'
 import { TDefineComponent, TLinksContent } from './types'
+import { RootState, IAppDispatch } from 'data/store'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions/index'
 import Icons from 'icons'

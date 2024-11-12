@@ -20,10 +20,10 @@ const updateAdditionalWalletsOn = (
     } = getState()
     
     try {
-      const result = await campaignsApi.updateAdditionalWalletsOn(
+      const result = await campaignsApi.update({
         campaign_id,
         additional_wallets_on
-      )
+      })
 
       if (result.data.success) {
         

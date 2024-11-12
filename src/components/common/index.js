@@ -20,6 +20,10 @@ import AsidePopup from './aside-popup'
 import StatusBar from './status-bar'
 import Loader from './loader'
 
+// V3
+import TokensList from './tokens-list'
+
+
 export {
   Header,
   Loader,
@@ -44,5 +48,8 @@ export {
   WidgetTextBlock,
   TransactionDetails,
   WidgetData,
-  Tooltip
+  Tooltip,
+
+  // V3
+  TokensList
 }

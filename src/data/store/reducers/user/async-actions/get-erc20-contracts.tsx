@@ -66,6 +66,9 @@ const getERC20Contracts = () => {
               }
     
             }).filter(item => item)
+            console.log({
+              dataConverted
+            })
             dispatch(userActions.setContractsERC20(dataConverted as TERC20Contract[]))
           }
         }
@@ -78,33 +81,12 @@ const getERC20Contracts = () => {
           })
           const { tokenBalances } = await alchemy.core.getTokenBalances(address)
 
-
           if (tokenBalances && tokenBalances.length > 0) {
             const contractsWithMetadata: TERC20Contract[] = []
             for (let token of tokenBalances) {
               if (token.tokenBalance && parseInt(token.tokenBalance, 16) === 0) {
                 continue
               }
-              // commented for now, possible to use later
-              // const contractInstance = await new ethers.Contract(token.contractAddress, ERC20Contract.abi, signer)
-              // const decimals = await contractInstance.decimals()
-              // const symbol = await contractInstance.symbol()
-  
-              
-              // const tokenWithMetadata: TERC20Contract = {
-              //   address: token.contractAddress,
-              //   totalBalance: !token.tokenBalance ? '0' : String(
-              //     ethers.utils.formatUnits(
-              //       BigNumber.from(
-              //         token.tokenBalance.toString()
-              //       ).toString(),
-              //       decimals
-              //     )
-              //   ),
-              //   tokenType: 'ERC20',
-              //   symbol
-              // }
-
   
               if (!tokenListERC20) {
                 continue
@@ -114,19 +96,6 @@ const getERC20Contracts = () => {
               const tokenListInstance = tokenListERC20[contractAddress]
 
               if (!tokenListInstance) {
-                // const contractInstance = new ethers.Contract(contractAddress, ERC20Contract.abi, signer)
-                // const tokenWithMetadata: TERC20Contract = {
-                //   address: token.contractAddress,
-                //   tokenType: 'ERC20',
-                //   totalBalance: !token.tokenBalance ? '0' : String(
-                //     BigNumber.from(
-                //       token.tokenBalance.toString()
-                //     ).toString(),
-                //   ),
-                //   symbol: await contractInstance.symbol(),
-                //   decimals: await contractInstance.decimals()
-                // }
-                // contractsWithMetadata.push(tokenWithMetadata)
                 continue
               }
 
@@ -140,11 +109,15 @@ const getERC20Contracts = () => {
                   ).toString(),
                 ),
                 symbol: tokenListInstance.symbol,
-                decimals: tokenListInstance.decimals
+                decimals: tokenListInstance.decimals,
+                image: {
+                  thumbnailUrl: tokenListInstance.image.thumbnailUrl
+                }
               }
               
               contractsWithMetadata.push(tokenWithMetadata)
             }
+            console.log({ contractsWithMetadata })
             dispatch(userActions.setContractsERC20(contractsWithMetadata as TERC20Contract[]))
           }
         }

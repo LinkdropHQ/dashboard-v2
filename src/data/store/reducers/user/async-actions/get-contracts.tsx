@@ -21,8 +21,11 @@ const getContracts = () => {
     getState: () => RootState
   ) => {
     dispatch(userActions.setLoading(true))
+
+    
     try {
       const { user: { address, chainId } } = getState()
+
       if (!chainId) {
         return alertError('chainId is not provided')
       }
@@ -44,7 +47,6 @@ const getContracts = () => {
         } : undefined
   
         const { contracts } = await alchemy.nft.getContractsForOwner(address, filters)
-
         // @ts-ignore
         dispatch(userActions.setContracts(contracts as TNFTContract[]))
       } else if (chainConfig.mnemonicSupport) {

@@ -20,10 +20,10 @@ const updateClaimHostOn = (
     } = getState()
     
     try {
-      const result = await campaignsApi.updateClaimHostOn(
+      const result = await campaignsApi.update({
         campaign_id,
         claim_host_on
-      )
+      })
 
       if (result.data.success) {
         

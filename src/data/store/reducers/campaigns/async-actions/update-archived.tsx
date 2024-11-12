@@ -20,10 +20,10 @@ const updateArchived = (
     } = getState()
     
     try {
-      const result = await campaignsApi.updateArchived(
+      const result = await campaignsApi.update({
         campaign_id,
         archived
-      )
+      })
 
       if (result.data.success) {
         const updatedCampaigns = campaigns.map(campaign => {

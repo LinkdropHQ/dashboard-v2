@@ -8,7 +8,15 @@ const prepareERC20Url = async (
   if (data) {
     const { tokens } = data
     if (tokens) {
-      const tokensConverted = tokens.reduce<TERC20TokenList>((res, item) => ({ ...res, [item.address.toLowerCase()]: { symbol: item.symbol, decimals: item.decimals, address: item.address } }), {})
+      const tokensConverted = tokens.reduce<TERC20TokenList>((res, item) => ({ ...res, [item.address.toLowerCase()]: {
+        symbol: item.symbol,
+        decimals: item.decimals,
+        address: item.address,
+        image: {
+          thumbnailUrl: item.logoURI
+        }
+      }
+    }), {})
       return tokensConverted
     }
     return {}

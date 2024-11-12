@@ -8,7 +8,6 @@ import {
 } from './styled-components'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
-import { preventPageClose } from 'helpers'
 
 const mapStateToProps = ({
   qrs: {
@@ -48,10 +47,6 @@ const CampaignQRsGenerate: FC<ReduxType> = ({
       max={100}
       current={Math.ceil(mappingLoader * 100)}
     />
-
-
-
-
   </Container>
 }
 

@@ -6,6 +6,9 @@ type TERC20Contract = {
   tokenType: TTokenType
   symbol: string
   decimals: number
+  image: {
+    thumbnailUrl: string
+  }
 }
 
 export default TERC20Contract

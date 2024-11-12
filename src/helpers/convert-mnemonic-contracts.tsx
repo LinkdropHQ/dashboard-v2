@@ -4,7 +4,15 @@ type TConvertMnemonicContracts = (mnemonicTokens: TMnemonicContract[]) => TNFTCo
 
 const convertMnemonicContracts:TConvertMnemonicContracts = (mnemonicTokens) => {
   const result = mnemonicTokens.reduce<Record<string, TNFTContract>>((sum, item) => {
-    const { quantity, nft: { contractAddress, tokenId, type, collection: { name } } } = item
+    const { quantity, nft: {
+      contractAddress,
+      tokenId,
+      type,
+      collection: {
+        name
+      }
+    }
+  } = item
     const hasBeenAddedBefore = sum[contractAddress]
     if (hasBeenAddedBefore) {
       sum[contractAddress] = {
@@ -21,7 +29,10 @@ const convertMnemonicContracts:TConvertMnemonicContracts = (mnemonicTokens) => {
         title: name,
         tokenId,
         tokenType: type.replace('TYPE_', '') as TTokenType,
-        totalBalance: Number(quantity)
+        totalBalance: Number(quantity),
+        image: {
+          thumbnailUrl: ''
+        }
       }
     }
     return sum

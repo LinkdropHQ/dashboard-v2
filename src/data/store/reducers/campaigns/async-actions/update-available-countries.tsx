@@ -21,10 +21,10 @@ const updateAvailableCountries = (
     } = getState()
     
     try {
-      const result = await campaignsApi.updateAvailableCountries(
+      const result = await campaignsApi.update({
         campaign_id,
         available_countries
-      )
+      })
 
       if (result.data.success) {
         

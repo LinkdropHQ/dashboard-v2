@@ -9,6 +9,9 @@ type TNFTContract = {
   tokenId: string
   tokenType: TTokenType
   totalBalance: number
+  image: {
+    thumbnailUrl: string
+  }
 }
 
 export default TNFTContract

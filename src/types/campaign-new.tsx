@@ -2,20 +2,23 @@ import { TTokenType } from './index.js'
 import { TLink, TClaimPattern } from 'types'
 
 type TCampaignNew = {
+  // v3
   title: string
   chain_id: string
   campaign_number: string
+  proxy_contract_address: string
+  creator_address: string
+
+
+  encrypted_signer_key: string
+  signer_address: string
   token_address: string
   token_standard: TTokenType
   symbol: string
   wallet: string
-  proxy_contract_address: string
-  encrypted_signer_key: string
-  signer_address: string
   claim_links?: TLink[]
   sponsored?: boolean
   batch_description: string
-  creator_address: string
   created_at?: string
   claim_pattern: TClaimPattern
   sdk: boolean

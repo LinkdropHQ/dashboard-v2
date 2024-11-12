@@ -3,7 +3,8 @@ import { Constants } from './constants'
 import { getCampaignsFromLS } from 'helpers'
 const initialState: CampaignsState = {
   campaigns: [],
-  drafts: getCampaignsFromLS(),
+  // drafts: getCampaignsFromLS(),
+  drafts: [],
   loading: false
 }
 

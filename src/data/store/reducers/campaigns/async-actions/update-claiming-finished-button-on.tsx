@@ -20,10 +20,10 @@ const updateClaimingFinishedButtonOn = (
     } = getState()
     
     try {
-      const result = await campaignsApi.updateClaimingFinishedButtonOn(
+      const result = await campaignsApi.update({
         campaign_id,
         claiming_finished_button_on
-      )
+      })
 
       if (result.data.success) {
         

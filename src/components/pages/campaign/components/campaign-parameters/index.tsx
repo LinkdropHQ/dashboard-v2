@@ -31,14 +31,6 @@ const CampaignParameters: FC<TProps> = ({
     console.log("no dashboard key provided")
   }
 
-  useEffect(() => {
-    // const init = async () => {
-
-    //   decrypt(encryptedSignerKey, dashboardKey)
-
-    // }
-  }, [])
-
   return <WidgetComponent
     title='Campaign parameters'
   >
