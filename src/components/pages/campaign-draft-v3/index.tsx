@@ -19,7 +19,6 @@ import {
   ErrorNote
 } from './components'
 import {
-  TDistributionMethod,
   TRouterURLParams,
   TTokenType
 } from 'types'
@@ -259,6 +258,7 @@ const CampaignDraft: FC<ReduxType> = ({
         claimLinks={links}
         distributionMethod={currentCampaign?.distribution_method}
       />}
+    
       <ClaimLinksWidget
         setCurrentStep={setCurrentStep}
         links={links}
@@ -278,7 +278,9 @@ const CampaignDraft: FC<ReduxType> = ({
         campaign={currentCampaign}
       />
 
-      <AdvancedSettings />
+      <AdvancedSettings
+         campaign={currentCampaign}
+      />
     </Content>
 
     <Aside

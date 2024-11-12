@@ -10,32 +10,20 @@ import {
   alertError,
 } from 'helpers'
 
-const updateCampaign = ({
+const updateAdditionalCampaign = ({
   campaign_id,
-  additional_wallets_on,
-  preferred_wallet_on,
-  wallet,
   claim_host,
   available_countries_on,
-  claiming_finished_button_on,
   claim_host_on,
   multiple_claims_on,
-  claiming_finished_button_url,
-  claiming_finished_button_title,
   available_countries,
   actionCallback
 }: {
   campaign_id: string,
-  additional_wallets_on?: boolean
-  preferred_wallet_on?: boolean
-  wallet: string
   claim_host: string
   available_countries_on?: boolean
-  claiming_finished_button_on?: boolean
   claim_host_on?: boolean
   multiple_claims_on?: boolean
-  claiming_finished_button_url?: string
-  claiming_finished_button_title?: string
   available_countries: string[]
   actionCallback?: (
     campaignId: string
@@ -60,16 +48,10 @@ const updateCampaign = ({
 
       const { data } = await campaignsApi.update({
         campaign_id: String(campaign_id),
-        additional_wallets_on,
-        preferred_wallet_on,
-        wallet,
         claim_host,
         available_countries_on,
-        claiming_finished_button_on,
         claim_host_on,
         multiple_claims_on,
-        claiming_finished_button_url,
-        claiming_finished_button_title,
         available_countries,
       })
 
@@ -77,16 +59,10 @@ const updateCampaign = ({
         if (campaign.campaign_id === campaign_id) {
           return {
             ...campaign,
-            additional_wallets_on,
-            preferred_wallet_on,
-            wallet,
             claim_host,
             available_countries_on,
-            claiming_finished_button_on,
             claim_host_on: Boolean(claim_host_on),
             multiple_claims_on: Boolean(multiple_claims_on),
-            claiming_finished_button_url,
-            claiming_finished_button_title,
             available_countries,
           }
         }
@@ -114,4 +90,4 @@ const updateCampaign = ({
   }
 }
 
-export default updateCampaign
+export default updateAdditionalCampaign

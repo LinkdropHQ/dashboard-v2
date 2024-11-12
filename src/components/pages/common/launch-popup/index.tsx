@@ -7,19 +7,27 @@ import {
   Content,
   LaunchStage,
   LaunchStageText,
+  LaunchStages,
   LaunchStageStatus
 } from './styled-components'
+import {
+  Loader
+} from 'components/common'
 import {
   TProps,
   TLaunchStep
 } from './types'
+import Icons from 'icons'
 
 export const LaunchPopupItem: FC<TLaunchStep> = ({
   title,
   status
 }) => {
   return <LaunchStage>
-    <LaunchStageStatus status={status} />
+    <LaunchStageStatus status={status}>
+      {status === 'current' && <Loader size='small' />}
+      {status === 'done' && <Icons.CheckboxIcon />}
+    </LaunchStageStatus>
     <LaunchStageText>
       {title}
     </LaunchStageText>
@@ -39,7 +47,9 @@ const LaunchPopup: FC<TProps> = ({
     </Header>
 
     <Content>
-      {children}
+      <LaunchStages>
+        {children}
+      </LaunchStages>
     </Content>
   </PopupStyled>
 }

@@ -57,7 +57,9 @@ const ClaimLinksWidget: FC<TProps> = ({
           <ErrorIcon>
             <Icons.RedWarningIcon />
           </ErrorIcon> :
-          <WidgetDoneIndicator done={Boolean(distributionMethod)} />
+          <WidgetDoneIndicator done={Boolean(distributionMethod)}>
+            {!!distributionMethod && <Icons.CheckboxIcon />}
+          </WidgetDoneIndicator>
         }
         {defineTitle(
           distributionMethod

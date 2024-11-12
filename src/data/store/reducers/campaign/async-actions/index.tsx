@@ -13,7 +13,9 @@ import addERC20Links from './add-erc20-links-v3'
 import addQRSetData from './add-qr-set-data'
 import addClaimLinksMethod from './add-claim-links-method-v3'
 import launch from './launch'
-import updateSettings from './update-settings'
+import updateAdditionalSettings from './update-additional-settings'
+import updateClaimAppSettings from './update-claim-app-settings'
+
 import setTokenContractData from './set-token-contract-data-v3'
 import getCampaignData from './get-campaign-data-v3'
 
@@ -21,7 +23,8 @@ export {
   createProxyAddress,
   getCampaignData,
   launch,
-  updateSettings,
+  updateAdditionalSettings,
+  updateClaimAppSettings,
   addClaimLinksMethod,
   addQRSetData,
   addERC20Links,

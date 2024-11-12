@@ -42,6 +42,9 @@ export const WidgetDoneIndicator = styled.div<{
   height: 20px;
   border-radius: 20px;
   margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 6px solid ${props => props.theme.buttonDisabledBackgroundColor};
 
   ${props => props.done && css`

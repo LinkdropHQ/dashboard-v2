@@ -11,7 +11,7 @@ import {
 } from 'types'
 import * as CommonComponents from 'components/pages/common'
 import {
-  updateSettings
+  updateClaimAppSettings
 } from 'data/store/reducers/campaign/async-actions'
 
 import { ExpandableWidget } from 'components/common'
@@ -54,9 +54,13 @@ const mapStateToProps = ({
 
 const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   return {
-    updateSettings: (campaign_id: string, data: TSettingsData, actionCallback?: (campaignId: string) => void) => {
+    updateSettings: (
+      campaign_id: string,
+      data: TSettingsData,
+      actionCallback?: (campaignId: string) => void
+    ) => {
       dispatch(
-        updateSettings({
+        updateClaimAppSettings({
           ...data,
           campaign_id,
           actionCallback
@@ -80,15 +84,10 @@ const ClaimAppSettings: FC<ReduxType> = ({
     additional_wallets_on,
     preferred_wallet_on,
     wallet,
-    claim_host,
     campaign_id,
-    available_countries_on,
     claiming_finished_button_on,
-    claim_host_on,
-    multiple_claims_on,
     claiming_finished_button_url,
     claiming_finished_button_title,
-    available_countries,
     claiming_finished_auto_redirect
     // @ts-ignore
   } = campaign
@@ -97,14 +96,9 @@ const ClaimAppSettings: FC<ReduxType> = ({
     additional_wallets_on,
     preferred_wallet_on,
     wallet,
-    claim_host,
-    available_countries_on,
     claiming_finished_button_on,
-    claim_host_on,
-    multiple_claims_on,
     claiming_finished_button_url,
     claiming_finished_button_title,
-    available_countries,
     claiming_finished_auto_redirect
   }
 
@@ -117,46 +111,11 @@ const ClaimAppSettings: FC<ReduxType> = ({
     <CommonComponents.ClaimAppSettings
       // @ts-ignore
       loading={loading}
-      countries={countries}
       campaignData={campaign}
       autoRedirectValue={claiming_finished_auto_redirect}
       additionalWalletsOnValue={Boolean(settingsData.additional_wallets_on)}
-      availableCountriesValue={settingsData.available_countries.map((currentCountry) => {
-        const country = countries.find(country => country.id === currentCountry)
-        return country
-      }).filter(item => item) as TCountry[]}
       preferredWalletValue={settingsData.wallet}
       preferredWalletToggleValue={settingsData.preferred_wallet_on}
-
-      customClaimHostValue={settingsData.claim_host}
-
-      customClaimHostSubmit={(
-        claimHost
-      ) => {
-        setSettingsData({
-          ...settingsData, claim_host: claimHost
-        })
-      }}
-      customClaimHostOnToggleValue={Boolean(settingsData.claim_host_on)}
-      customClaimHostOnToggleAction={(value) => {
-        setSettingsData({
-          ...settingsData, claim_host_on: value
-        })
-      }}
-      multipleClaimsOnToggleAction={(value) => {
-        setSettingsData({
-          ...settingsData, multiple_claims_on: value
-        })
-      }}
-      multipleClaimsOnToggleValue={Boolean(settingsData.multiple_claims_on)}
-
-      availableCountriesSubmit={(
-        value,
-      ) => {
-        setSettingsData({
-          ...settingsData, available_countries: value
-        })
-      }}
 
       walletsSubmit={(
         wallet,
@@ -190,13 +149,6 @@ const ClaimAppSettings: FC<ReduxType> = ({
         })
       }}
 
-      availableCountriesToggleAction={(value) => {
-        setSettingsData({
-          ...settingsData,
-          available_countries_on: value
-        })
-      }}
-
       preferredWalletToggleAction={(value) => {
         setSettingsData({
           ...settingsData,
@@ -205,11 +157,7 @@ const ClaimAppSettings: FC<ReduxType> = ({
       }}
 
       finalScreenButtonToggleValue={Boolean(settingsData.claiming_finished_button_on)}
-
-      availableCountriesToggleValue={Boolean(settingsData.available_countries_on)}
-    >
-
-    </CommonComponents.ClaimAppSettings>
+    />
 
     <ButtonsContainer>
       <ButtonStyled

@@ -8,5 +8,4 @@ export type TProps = {
   decimals: null | number
   error?: boolean
   chainId: number
-
 }

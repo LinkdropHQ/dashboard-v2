@@ -80,7 +80,9 @@ const ClaimLinksWidget: FC<TProps> = ({
           <ErrorIcon>
             <Icons.RedWarningIcon />
           </ErrorIcon>  :
-          <WidgetDoneIndicator done={!!(links)} /> 
+          <WidgetDoneIndicator done={!!(links)}>
+            {!!(links) && <Icons.CheckboxIcon />}
+          </WidgetDoneIndicator>
         }
         {defineTitle(symbol)}
       </WidgetTitleStyled>

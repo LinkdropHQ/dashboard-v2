@@ -38,6 +38,7 @@ import {
   InputSubtitle
 } from './styled-components'
 import ClaimAppSettings from './claim-app-settings'
+import AdvancedSettings from './advanced-settings'
 
 export {
   TransactionAside,
@@ -76,6 +77,7 @@ export {
   ThumbnailUpload,
   NewDispenserPopup,
   ClaimAppSettings,
+  AdvancedSettings,
   LaunchPopup,
   LaunchPopupItem
 }

@@ -17,13 +17,13 @@ const getTotalAmountERC20: TGetTotalAmountERC20 = (
 
   links.forEach(link => {
     if (link.token_amount) {
-      totalAmountFormatted = totalAmountFormatted.add(utils.parseUnits(link.token_amount, decimals))
+      totalAmountFormatted = totalAmountFormatted.add(utils.formatUnits(link.token_amount, decimals))
       totalAmount = totalAmount.add(BigNumber.from(link.token_amount))
       weiAmount = weiAmount.add(BigNumber.from(link.wei_amount))
-      weiAmountFormatted = weiAmountFormatted.add(utils.parseUnits(link.wei_amount || '0', 18))
+      weiAmountFormatted = weiAmountFormatted.add(utils.formatUnits(link.wei_amount || '0', 18))
     }
   })
-  
+
   return {
     amount_formatted: totalAmountFormatted,
     amount_original: totalAmount,

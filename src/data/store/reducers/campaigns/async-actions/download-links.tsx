@@ -87,7 +87,6 @@ const downloadLinks = (
         //     }
         //   })
         // }
->>>>>>> 24b133c (updates)
       } catch (err) {
         alertError('Check console for more info')
         console.error('Some error occured', err)

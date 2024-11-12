@@ -15,9 +15,11 @@ import {
 import {
   TableRow
 } from 'components/pages/common'
+import { Tooltip } from 'components/common'
 import Icons from 'icons'
 import { TTokenType } from 'types'
 import Wallets from './wallets'
+import FinalScreenButton from './final-screen-button'
 import wallets from 'configs/wallets'
 
 const settings = [
