@@ -67,12 +67,12 @@ const defineDispenserTypes = (
 ) => {
   return [
     {
-      title: 'Web2 Retrodrop',
+      title: 'Web2 Airdrop',
       text: 'Share tokens with any regular website users (Twitter/Github/Reddit/your website). Powered by Reclaim Protocol. Learn more at https://www.reclaimprotocol.org/',
       onClick: () => {
         createReclaimAndAddLinks(
           reclaimMappingPageRedirect,
-          `Reclaim set for ${campaignTitle}`,
+          `Web2 Airdrop for ${campaignTitle}`,
           campaignId,
           batchId,
           tokenAddress,
@@ -189,7 +189,7 @@ const defineDistributeButton = (
       return <ButtonStyled
         appearance='additional'
         size='extra-small'
-        title='Reclaim'
+        title='Web2 Airdrop'
         to={`/reclaims/${batch.qr_campaign}`}
       />
     }
@@ -348,7 +348,7 @@ const BatchesList: FC<TProps> = ({
                     title,
                     tokenAddress,
                     Boolean(sponsored),
-                    sdk ? encryptionKey : undefined
+                    sdk ? encryptionKey : undefined 
                   )
                 }}
               >

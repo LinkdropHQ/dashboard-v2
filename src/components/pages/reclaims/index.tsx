@@ -149,12 +149,12 @@ const Reclaims: FC<ReduxType> = ({
   if (items.length === 0) {
     return <>
       <InitialNote
-        title='Create Your First Web2 Retrodrop'
-        text="Start new Web2 Retrodrop campaign to distribute your tokens"
+        title='Create Your First Web2 Airdrop'
+        text="Start new Web2 Airdrop campaign to distribute your tokens"
         onClick={() => {
           history.push('/reclaims/new')
         }}
-        buttontText='New Web2 Retrodrop'
+        buttontText='New Web2 Airdrop'
       />
     </>
   }
@@ -165,7 +165,7 @@ const Reclaims: FC<ReduxType> = ({
     <WidgetComponent>
       <Header>
         <WidgetTitleStyled>
-          Web2 Retrodrops
+          Web2 Airdrops
           <Tooltip position='right' text='Share tokens with any regular website users (Twitter/Github/Reddit/your website). Powered by Reclaim Protocol. Learn more at https://www.reclaimprotocol.org/'>
             <Icons.InformationIcon />
           </Tooltip>

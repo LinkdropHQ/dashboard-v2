@@ -8,7 +8,7 @@ import {
 } from 'components/common'
 import { InputStyled } from './styled-components'
 
-const Redirect: FC<TProps> = ({
+const Reclaim: FC<TProps> = ({
   title,
   subtitle,
   onClose,
@@ -75,4 +75,4 @@ const Redirect: FC<TProps> = ({
   </AsidePopup>
 }
 
-export default Redirect
+export default Reclaim

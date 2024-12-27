@@ -378,7 +378,8 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       wallet: string,
       customClaimHost: string,
       customClaimHostOn: boolean,
-      encryptionKey?: string
+      encryptionKey?: string,
+      ssr?: boolean
     ) => {
       dispatch(
         downloadLinks(
@@ -394,7 +395,8 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
           wallet,
           customClaimHost,
           customClaimHostOn,
-          encryptionKey
+          encryptionKey,
+          ssr
         )
       )
     }
@@ -744,7 +746,8 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
               wallet,
               claim_host,
               claim_host_on,
-              encryptionKey
+              encryptionKey,
+              true
             )
           }}
           encryptionKey={encryptionKey}

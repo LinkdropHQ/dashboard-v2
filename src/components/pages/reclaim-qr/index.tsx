@@ -47,7 +47,7 @@ const settings = [
     id: 'timeframe',
     tooltip: 'Set an expiration date and time for the link, so users cannot claim tokens after it expires'
   }, {
-    title: 'Reclaim Settings',
+    title: 'Web2 Airdrop Settings',
     id: 'reclaim',
     subtitle: 'Share tokens with any regular website users (Twitter/Github/Reddit/your website). Powered by Reclaim Protocol. Learn more at https://www.reclaimprotocol.org/',
     tooltip: 'Share tokens with any regular website users (Twitter/Github/Reddit/your website). Powered by Reclaim Protocol.'
@@ -205,7 +205,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
 }
 
 const defineTitle = () => {
-  return 'Reclaim Give-away'
+  return 'Web2 Airdrop'
 }
 
 const defineSubtitle = (
@@ -227,7 +227,7 @@ const renderMainButton = (
 ) => {
   if (!reclaimAppId || !reclaimAppSecret || !reclaimProviderId) {
     return <WidgetButton
-      title='Configure Reclaim Settings'
+      title='Configure Web2 Airdrop Settings'
       appearance='action'
       onClick={openReclaimSettings}
     /> 
@@ -242,7 +242,7 @@ const renderMainButton = (
   }
 
   return <WidgetButton
-    title='Launch Reclaim App'
+    title='Launch Web2 Airdrop App'
     onClick={() => {
       if (reclaimUrl) {
         window.open(reclaimUrl, '_blank')

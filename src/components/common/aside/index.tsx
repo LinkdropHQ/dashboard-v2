@@ -75,7 +75,7 @@ const AsideComponent: FC<TProps & ReduxType> = ({
 
       <AsideMenuItem to='/reclaims' active={location.pathname.includes('/reclaims')}>
         <Icons.DynamicQRIcon />
-        <AsideMenuItemTitle className={AsideMenuItemTitleClassName}>Web2 Retrodrop (NEW)</AsideMenuItemTitle>
+        <AsideMenuItemTitle className={AsideMenuItemTitleClassName}>Web2 Airdrop</AsideMenuItemTitle>
       </AsideMenuItem>
   
       <AsideMenuItem to='/qr-manager' active={location.pathname.includes('/qr-manager')}>
