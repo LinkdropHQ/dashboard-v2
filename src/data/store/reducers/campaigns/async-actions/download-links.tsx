@@ -31,6 +31,7 @@ const downloadLinks = (
   customClaimHost: string,
   customClaimHostOn: boolean,
   encryptionKey?: string,
+  ssr?: boolean
 ) => {
   return async (
     dispatch: Dispatch<CampaignActions | UserActions | CampaignsActions>,
@@ -64,7 +65,8 @@ const downloadLinks = (
 
         if (result.data.success) {
           const { claim_links, batch } = result.data
-          const decryptedLinks = decryptLinks({
+
+          let decryptedLinks = decryptLinks({
             tokenType,
             links: claim_links,
             dashboardKey: encryptionKey || dashboardKey,
@@ -73,7 +75,8 @@ const downloadLinks = (
             chainId,
             wallet,
             customClaimHost,
-            customClaimHostOn
+            customClaimHostOn,
+            ssr
           })
 
           downloadLinksAsCSV(
@@ -81,6 +84,7 @@ const downloadLinks = (
             title,
             batch.created_at || ''
           )
+
           plausibleApi.invokeEvent({
             eventName: 'download_links',
             data: {

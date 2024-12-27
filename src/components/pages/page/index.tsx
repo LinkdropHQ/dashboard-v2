@@ -52,7 +52,7 @@ const defineTitle: TDefineTitle = (location) => {
       return 'New Batch'
     
     case locationUpdated.includes('/reclaims'):
-      return 'Reclaim Give-away'
+      return 'Web2 Airdrop'
     
     case locationUpdated.includes('/qrs/'):
     case locationUpdated.includes('/qrs'):

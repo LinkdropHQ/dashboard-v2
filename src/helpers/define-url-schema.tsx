@@ -5,6 +5,7 @@ import {
 import { TTokenType } from 'linkdrop-batch-sdk/dist/types'
 
 const defineUrlSchema = (
+  linkId: string,
   tokenType: TTokenType,
   decryptedClaimCode: string,
   chainId: number,
@@ -12,7 +13,8 @@ const defineUrlSchema = (
   version: number,
   wallet: string,
   customClaimHost?: string,
-  customClaimHostOn?: boolean
+  customClaimHostOn?: boolean,
+  ssr?: boolean
 ) => {
 
   if (customClaimHostOn && customClaimHost) {
@@ -29,6 +31,10 @@ const defineUrlSchema = (
       .replace('<CHAIN_ID>', String(chainId))
       .replace('<VERSION>', String(version))
     return coinbaseLink
+  }
+
+  if (ssr) {
+    return `${claimAppURL}/redeem/${linkId}?src=d&c=${chainId}#${decryptedClaimCode}`
   }
 
 

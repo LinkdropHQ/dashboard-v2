@@ -2,7 +2,7 @@ import { TLink, TLinkDecrypted, TTokenType }  from 'types'
 import { decrypt } from 'lib/crypto'
 import { defineClaimAppURL, defineUrlSchema } from 'helpers'
 
-type TDecryptLink = ({
+type TDecryptLinks = ({
   links,
   dashboardKey,
   tokenAddress,
@@ -11,7 +11,8 @@ type TDecryptLink = ({
   wallet,
   tokenType,
   customClaimHost,
-  customClaimHostOn
+  customClaimHostOn,
+  ssr
 } : {
   links: TLink[],
   dashboardKey: string,
@@ -21,11 +22,12 @@ type TDecryptLink = ({
   wallet: string,
   tokenType: TTokenType,
   customClaimHost?: string,
-  customClaimHostOn?: boolean
+  customClaimHostOn?: boolean,
+  ssr?: boolean
 }
 ) => TLinkDecrypted[]
 
-const decryptLinks: TDecryptLink = ({
+const decryptLinks: TDecryptLinks = ({
   links,
   dashboardKey,
   tokenAddress,
@@ -34,14 +36,16 @@ const decryptLinks: TDecryptLink = ({
   wallet,
   tokenType,
   customClaimHost,
-  customClaimHostOn
+  customClaimHostOn,
+  ssr
 }) => {
   const decryptedLinks = []
   const start = +new Date()
   const claimAppURL = defineClaimAppURL(
     userAddress,
     customClaimHost,
-    customClaimHostOn
+    customClaimHostOn,
+    ssr
   )
   for (let i = 0; i < links.length; i++) {
     const encryptedLink = links[i].encrypted_claim_link
@@ -56,6 +60,7 @@ const decryptLinks: TDecryptLink = ({
         const decryptedClaimCode = decrypt(encryptedClaimCode, dashboardKey)
 
         const claimUrl = defineUrlSchema(
+          links[i].link_id,
           tokenType,
           decryptedClaimCode,
           chainId,
@@ -63,7 +68,10 @@ const decryptLinks: TDecryptLink = ({
           3,
           wallet,
           customClaimHost,
-          customClaimHostOn
+          customClaimHostOn,
+
+          
+          ssr && !customClaimHostOn
         )
 
         decryptedLinks.push({

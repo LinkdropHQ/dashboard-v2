@@ -13,6 +13,7 @@ import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import * as asyncDispensersActions from 'data/store/reducers/dispensers/async-actions'
 import { useHistory } from 'react-router-dom'
+import { TextLink } from 'components/common'
 
 const mapStateToProps = ({
   campaigns: { campaigns },
@@ -65,11 +66,13 @@ const ReclaimQRCreate: FC<ReduxType> = ({
   const [ reclaimProviderId, setReclaimProviderId ] = useState<string>('')
 
   return <Container>
-    <WidgetComponent title='New reclaim QR'>
-      <WidgetSubtitle>Reclaim app is represented by a single link or QR code that you can share for multiple users to scan to claim a unique token. Scanning is limited within a certain timeframe</WidgetSubtitle>
+    <WidgetComponent title='New Web2 Airdrop QR'>
+      <WidgetSubtitle>
+        Share tokens with any regular website users (Twitter/Github/Reddit/your website). Powered by Reclaim Protocol. Learn more at <TextLink href='https://www.reclaimprotocol.org/' target='_blank'>https://www.reclaimprotocol.org/</TextLink>
+      </WidgetSubtitle>
       <InputComponent
         title='Title'
-        placeholder='My first reclaim app...'
+        placeholder='My first Web2 Airdrop app...'
         value={title}
         onChange={(value: string) => { setTitle(value); return value }}
       />
