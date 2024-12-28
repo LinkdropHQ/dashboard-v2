@@ -29,6 +29,11 @@ import {
   ButtonStyled,
   ButtonIcon
 } from './styled-components'
+
+import {
+  DownloadPopup
+} from './components'
+
 import Icons from 'icons'
 import { useHistory } from 'react-router-dom'
 import { TLinksBatch, TTokenType } from 'types'
@@ -245,6 +250,13 @@ const BatchesList: FC<TProps> = ({
     setShowPopup
   ] = useState<boolean | string>(false)
 
+  const [
+    downloadPopup,
+    setDownloadPopup
+  ] = useState<boolean>(false)
+
+  
+
   const dispenserOptions = defineDispenserTypes(
     createDispenserAndAddLinks,
     createQRSetAndAddLinks,
@@ -310,7 +322,7 @@ const BatchesList: FC<TProps> = ({
         setShowPopup(false)
       }}
     />}
-  
+
     <Container>
       {loading ? <LoaderStyled /> : <BatchList>
         <BatchListLabel>#</BatchListLabel>
@@ -323,6 +335,24 @@ const BatchesList: FC<TProps> = ({
           const dateFormatted = formatDate(batch.created_at || '')
           const timeFormatted = formatTime(batch.created_at || '')
           return <>
+            {downloadPopup && <DownloadPopup
+              onSubmit={(ssr) => {
+                setDownloadPopup(false)
+                downloadLinks(
+                  batch.batch_id,
+                  campaignId,
+                  title,
+                  tokenAddress,
+                  Boolean(sponsored),
+                  sdk ? encryptionKey : undefined,
+                  ssr
+                )
+              }}
+              onClose={() => {
+                setDownloadPopup(false)
+              }}
+            />}
+          
             <BatchListValue>
               {idx + 1}
             </BatchListValue>
@@ -342,14 +372,23 @@ const BatchesList: FC<TProps> = ({
                 disabled={batch.claim_links_count === 0}
                 size='extra-small'
                 onClick={() => {
-                  downloadLinks(
-                    batch.batch_id,
-                    campaignId,
-                    title,
-                    tokenAddress,
-                    Boolean(sponsored),
-                    sdk ? encryptionKey : undefined 
-                  )
+                  if (
+                    wallet === 'coinbase_wallet' ||
+                    customClaimHostOn
+                  ) {
+                    downloadLinks(
+                      batch.batch_id,
+                      campaignId,
+                      title,
+                      tokenAddress,
+                      Boolean(sponsored),
+                      sdk ? encryptionKey : undefined,
+                      false
+                    )
+                    return 
+                  }
+                  setDownloadPopup(true)
+
                 }}
               >
                 <ButtonIcon>

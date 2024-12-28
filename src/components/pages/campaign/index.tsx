@@ -731,7 +731,8 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
             title,
             tokenAddress,
             sponsored,
-            encryptionKey
+            encryptionKey,
+            ssr
           ) => {
             downloadLinks(
               batchId,
@@ -747,7 +748,7 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
               claim_host,
               claim_host_on,
               encryptionKey,
-              true
+              ssr
             )
           }}
           encryptionKey={encryptionKey}

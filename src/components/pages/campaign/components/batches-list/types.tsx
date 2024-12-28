@@ -70,7 +70,8 @@ export type TProps = {
     title: string,
     tokenAddress: string | null,
     sponsored: boolean,
-    encryptionKey?: string
+    encryptionKey?: string,
+    ssr?: boolean
   ) => void
   encryptionKey: string,
   tokenAddress: string | null,
