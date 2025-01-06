@@ -76,7 +76,7 @@ const secure = (
         const isDeployed = await factoryContract.isDeployed(address, id)
         let data
         let to
-        const proxyContract = await new ethers.Contract(proxyContractAddress, LinkdropMastercopy.abi, signer)
+        const proxyContract = new ethers.Contract(proxyContractAddress, LinkdropMastercopy.abi, signer)
         plausibleApi.invokeEvent({
           eventName: 'camp_step4_filled',
           data: {
@@ -91,12 +91,16 @@ const secure = (
         })
         
         if (!isDeployed) {
+
+          // first batch
           let iface = new utils.Interface(LinkdropFactory.abi)
           data = iface.encodeFunctionData('deployProxyWithSigner', [
             id, wallet, claimPattern === 'mint' ? 1 : 0
           ])
           to = contract.factory
         } else {
+
+          // additional batches
           let iface = new utils.Interface(LinkdropMastercopy.abi)
           data = iface.encodeFunctionData('addSigner', [
             wallet
