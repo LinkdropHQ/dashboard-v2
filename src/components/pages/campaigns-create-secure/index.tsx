@@ -274,9 +274,16 @@ const CampaignsCreateSecure: FC<ReduxType> = ({
     sponsored
   )
 
+  console.log({
+    totalNativeTokensAmount,
+    totalNativeTokensAmountToSecure,
+    totalComission
+  })
+
   return <Container>
     <WidgetContainer>
-      <WidgetComponent>
+      {/* commented to hide from UI */}
+      {/* <WidgetComponent>
         <Header>
           <WidgetTitleStyled>
             Recommended wallet for new users
@@ -314,7 +321,7 @@ const CampaignsCreateSecure: FC<ReduxType> = ({
 
         </InputsContainer>}
         
-      </WidgetComponent>
+      </WidgetComponent> */}
 
       <WidgetComponent>
         <Header>

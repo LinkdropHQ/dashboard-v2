@@ -255,6 +255,11 @@ const BatchesList: FC<TProps> = ({
     setDownloadPopup
   ] = useState<boolean>(false)
 
+  const [
+    popupAction,
+    setPopupAction
+  ] = useState<null | ((ssr: boolean) => void)>(null)
+
   
 
   const dispenserOptions = defineDispenserTypes(
@@ -331,28 +336,19 @@ const BatchesList: FC<TProps> = ({
         <BatchListLabel>Created at</BatchListLabel>
         <BatchListLabel>Links</BatchListLabel>
         <BatchListLabel>Distribution</BatchListLabel>
+        {downloadPopup && <DownloadPopup
+          onSubmit={(ssr) => {
+            popupAction && popupAction(ssr)
+            setDownloadPopup(false)
+          }}
+          onClose={() => {
+            setDownloadPopup(false)
+          }}
+        />}
         {batches && batches.map((batch, idx) => {
           const dateFormatted = formatDate(batch.created_at || '')
           const timeFormatted = formatTime(batch.created_at || '')
           return <>
-            {downloadPopup && <DownloadPopup
-              onSubmit={(ssr) => {
-                setDownloadPopup(false)
-                downloadLinks(
-                  batch.batch_id,
-                  campaignId,
-                  title,
-                  tokenAddress,
-                  Boolean(sponsored),
-                  sdk ? encryptionKey : undefined,
-                  ssr
-                )
-              }}
-              onClose={() => {
-                setDownloadPopup(false)
-              }}
-            />}
-          
             <BatchListValue>
               {idx + 1}
             </BatchListValue>
@@ -387,6 +383,17 @@ const BatchesList: FC<TProps> = ({
                     )
                     return 
                   }
+                  setPopupAction(() => {
+                    return (ssr: boolean) => downloadLinks(
+                      batch.batch_id,
+                      campaignId,
+                      title,
+                      tokenAddress,
+                      Boolean(sponsored),
+                      sdk ? encryptionKey : undefined,
+                      ssr
+                    )
+                  })
                   setDownloadPopup(true)
 
                 }}
