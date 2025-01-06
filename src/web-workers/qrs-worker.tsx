@@ -50,7 +50,6 @@ export class QRsWorker {
     qrOption: TQROption,
     claimAppUrl?: string
   ) {
-    console.log('ssss')
     const qrs: Blob[] = []
     const data: { link: string }[] = []
     for (let i = 0; i < qrsArray.length; i++) {
