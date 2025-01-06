@@ -36,12 +36,14 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       qrSetName: string,
       width: number,
       height: number,
+      ssr: boolean,
       successCallback?: () => void
     ) => dispatch(asyncQRsActions.downloadQRs({
       qrsArray,
       qrSetName,
       width,
       height,
+      ssr,
       successCallback
     }))
   }
@@ -59,7 +61,6 @@ const QR: FC<ReduxType> = ({
   const qr: TQRSet | undefined = qrs.find(qr => String(qr.set_id) === id)
 
   const campaignId = qr?.campaign?.campaign_id
-  const campaign = campaignId ? campaigns.find(campaign => campaign.campaign_id === campaignId) : undefined
   const history = useHistory()
   let { search } = useLocation();
 
@@ -68,12 +69,14 @@ const QR: FC<ReduxType> = ({
   useEffect(() => {
     const width = query.get('width')
     const height = query.get('height')
+    const ssr = query.get('ssr') === 'true'
     if (!qr || !qr.qr_array) { return alertError('qr_array is not provided') }
     downloadQRs(
       qr.qr_array,
       qr.set_name,
       Number(width),
       Number(height),
+      ssr,
       () => {
         history.push(`/qrs/${id}`)
       })

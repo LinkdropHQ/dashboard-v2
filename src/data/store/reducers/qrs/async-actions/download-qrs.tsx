@@ -26,12 +26,14 @@ const downloadQRs = ({
   qrSetName,
   width,
   height,
+  ssr,
   successCallback
 }: {
   qrsArray: TQRItem[],
   qrSetName: string,
   width: number,
   height: number,
+  ssr: boolean,
   successCallback?: () => void
 }) => {
   return async (
@@ -49,7 +51,10 @@ const downloadQRs = ({
 
     const callback = async (dashboardKey: string) => {
       const claimAppURL = defineClaimAppURL(
-        address
+        address,
+        undefined,
+        undefined,
+        ssr
       )
 
       let currentPercentage = 0
@@ -88,6 +93,7 @@ const downloadQRs = ({
           data,
           width, // qr width
           height, // qr height
+          ssr,
           dashboardKey,
           logoImageLoaded.width,
           logoImageLoaded.height,
