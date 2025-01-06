@@ -34,7 +34,8 @@ import {
   TableRow,
   TableValue,
   DownloadQRPopup,
-  UploadLinksPopup
+  UploadLinksPopup,
+  SSRDownloadPopup
 } from 'components/pages/common'
 import * as asyncQRsActions from 'data/store/reducers/qrs/async-actions'
 import { useHistory } from 'react-router-dom'
@@ -74,10 +75,12 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
     ) => dispatch(asyncQRsActions.mapQRsWithLinks({ setId, links, qrs, successCallback: callback })),
 
     downloadQRsAsCSV: (
-      id: string
+      id: string,
+      ssr: boolean
     ) => {
       dispatch(asyncQRsActions.downloadQRsAsCSV(
-        id
+        id,
+        ssr
       ))
     },
 
@@ -96,12 +99,12 @@ const QR: FC<ReduxType> = ({
   updateQRSetQuantity,
   getQRsArray,
   mappingLoader,
-  campaigns,
   uploadLoader,
   downloadQRsAsCSV,
   whitelisted
 }) => {
   const { id } = useParams<TLinkParams>()
+
 
   // @ts-ignore
   const qr: TQRSet | undefined = qrs.find(qr => String(qr.set_id) === id)
@@ -121,6 +124,11 @@ const QR: FC<ReduxType> = ({
   const [
     downloadPopup,
     toggleDownloadPopup
+  ] = useState<boolean>(false)
+
+  const [
+    ssrDownloadPopup,
+    setSSRDownloadPopup
   ] = useState<boolean>(false)
 
   const selectOptions: TSelectOption<TQRStatus>[] = qrStatus.map(status => ({
@@ -221,8 +229,22 @@ const QR: FC<ReduxType> = ({
     </UploadLinksPopup>}
 
     {id && downloadPopup && <DownloadQRPopup
-      onSubmit={(size: number) => history.push(`/qrs/${id}/download?width=${encodeURIComponent(size)}&height=${encodeURIComponent(size)}`)}
+      onSubmit={(size: number, ssr: boolean) => history.push(`/qrs/${id}/download?width=${encodeURIComponent(size)}&height=${encodeURIComponent(size)}&ssr=${ssr}`)}
       onClose={() => toggleDownloadPopup(false)}
+    />}
+
+    {ssrDownloadPopup && <SSRDownloadPopup
+      onSubmit={(ssr) => {
+        if (!qr.qr_array) { return }
+        downloadQRsAsCSV(
+          id as string,
+          ssr
+        )
+        setSSRDownloadPopup(false)
+      }}
+      onClose={() => {
+        setSSRDownloadPopup(false)
+      }}
     />}
     <WidgetComponent title='Manage set'>
       <WidgetSubtitle>Manage the quantity of QR codes and track their status</WidgetSubtitle>
@@ -276,10 +298,7 @@ const QR: FC<ReduxType> = ({
           appearance='action'
           disabled={defineIfDisabled()}
           onClick={() => {
-            if (!qr.qr_array) { return }
-            downloadQRsAsCSV(
-              id as string
-            )
+            setSSRDownloadPopup(true)
           }}
         />
       </Buttons>

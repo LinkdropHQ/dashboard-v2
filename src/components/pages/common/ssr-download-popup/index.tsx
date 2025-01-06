@@ -13,7 +13,7 @@ const DownloadPopup: FC<TProps> = ({
   onClose,
   onSubmit
 }) => {
-  const [ ssr, setSsr ] = useState<boolean>(false)
+  const [ ssr, setSSR ] = useState<boolean>(false)
   
   return <Popup
     title='Download Settings'
@@ -29,7 +29,7 @@ const DownloadPopup: FC<TProps> = ({
           label='Enable SSR Claim App (BETA)'
           value={ssr}
           onChange={(value) => {
-            setSsr(value)
+            setSSR(value)
           }}
         />
       </PopupFormContent>

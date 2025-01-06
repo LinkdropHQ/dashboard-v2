@@ -12,8 +12,7 @@ import { UserActions } from '../../user/types'
 
 const downloadQRsAsCSV = (
   id: string,
-  custom_claim_host?: string,
-  custom_claim_host_on?: boolean
+  ssr: boolean
 ) => {
   return async (
     dispatch: Dispatch<QRsActions> & Dispatch<UserActions>,
@@ -58,6 +57,7 @@ const downloadQRsAsCSV = (
           set_name,
           dashboardKey,
           address,
+          ssr,
           created_at
         )
         dispatch(actionsQR.setLoading(false))

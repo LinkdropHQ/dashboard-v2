@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 import { Button } from 'components/common'
-import { Input } from 'linkdrop-ui'
+import { Checkbox, Input } from 'linkdrop-ui'
+
+export const CheckboxComponent = styled(Checkbox)`
+  margin-bottom: 10px;
+`
 
 export const InputComponent = styled(Input)`
   margin-bottom: 10px;

@@ -6,7 +6,8 @@ import {
   PopupForm,
   WidgetButton,
   PopupFormContent,
-  Buttons
+  Buttons,
+  CheckboxComponent
 } from './styled-components'
 import { alertError } from 'helpers'
 
@@ -23,6 +24,8 @@ const DownloadPopup: FC<TProps> = ({
   onSubmit
 }) => {
   const [ formSize, setFormSize ] = useState('2')
+  const [ ssr, setSSR ] = useState(false)
+
   const showError = Number(formSize) > 5
   
   return <Popup
@@ -47,6 +50,13 @@ const DownloadPopup: FC<TProps> = ({
           error={showError ? 'Maximum size is limited by 5 inches' : undefined}
           note={showError ? undefined : 'Maximum size is limited by 5 inches'}
         />
+        <CheckboxComponent
+          label='Enable SSR Claim App (BETA)'
+          value={ssr}
+          onChange={(value) => {
+            setSSR(value)
+          }}
+        />
       </PopupFormContent>
       <Buttons>
         <WidgetButton
@@ -54,7 +64,7 @@ const DownloadPopup: FC<TProps> = ({
           onClick={() => {
             const currentSize = convertInchesToPixels(formSize)
             if (currentSize) {
-              onSubmit(currentSize)
+              onSubmit(currentSize, ssr)
             }
           }}
           title='Download'

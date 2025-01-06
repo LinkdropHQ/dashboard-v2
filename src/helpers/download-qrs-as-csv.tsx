@@ -7,13 +7,21 @@ const downloadQRsAsCSV = (
   title: string,
   dashboardKey: string,
   userAddress: string,
+  ssr: boolean,
   createdAt?: string
 ) => {
   const claimAppURL = defineClaimAppURL(
-    userAddress
+    userAddress,
+    undefined,
+    undefined,
+    ssr
   )
   const values = arr.map(item => {
-    const originalLink = `${claimAppURL}/#/qr/${decrypt(item.encrypted_qr_secret, dashboardKey)}`
+    const qrSecret = decrypt(item.encrypted_qr_secret, dashboardKey)
+    let originalLink = `${claimAppURL}/#/qr/${qrSecret}`
+    if (ssr) {
+      originalLink = `${claimAppURL}/qr#${qrSecret}`
+    }
     const updatedItem = {
       qr_link: originalLink
     }

@@ -42,6 +42,7 @@ export class QRsWorker {
     qrsArray: TQRItem[],
     width: number,
     height: number,
+    ssr: boolean,
     dashboardKey: string,
     logoImageWidth: number,
     logoImageHeight: number,
@@ -53,7 +54,10 @@ export class QRsWorker {
     const data: { link: string }[] = []
     for (let i = 0; i < qrsArray.length; i++) {
       const decrypted_qr_secret = decrypt(qrsArray[i].encrypted_qr_secret, dashboardKey)
-      const originalLink = `${claimAppUrl}/#/qr/${decrypted_qr_secret}`
+      let originalLink = `${claimAppUrl}/#/qr/${decrypted_qr_secret}`
+      if (ssr) {
+        originalLink =  `${claimAppUrl}/qr#${decrypted_qr_secret}`
+      }
 
       const qrCode = new QRCodeStyling({
         data: originalLink,

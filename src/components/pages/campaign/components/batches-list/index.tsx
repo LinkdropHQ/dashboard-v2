@@ -10,7 +10,8 @@ import {
   BatchListLabel,
   BatchListValue,
   Container,
-  NewDispenserPopup
+  NewDispenserPopup,
+  SSRDownloadPopup
 } from 'components/pages/common'
 import {
   formatTime,
@@ -30,9 +31,6 @@ import {
   ButtonIcon
 } from './styled-components'
 
-import {
-  DownloadPopup
-} from './components'
 
 import Icons from 'icons'
 import { useHistory } from 'react-router-dom'
@@ -336,7 +334,7 @@ const BatchesList: FC<TProps> = ({
         <BatchListLabel>Created at</BatchListLabel>
         <BatchListLabel>Links</BatchListLabel>
         <BatchListLabel>Distribution</BatchListLabel>
-        {downloadPopup && <DownloadPopup
+        {downloadPopup && <SSRDownloadPopup
           onSubmit={(ssr) => {
             popupAction && popupAction(ssr)
             setDownloadPopup(false)

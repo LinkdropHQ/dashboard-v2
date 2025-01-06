@@ -9,6 +9,7 @@ import ThumbnailUpload from './thumbnail-upload'
 import AttentionContainer from './attention-container'
 import InitialNote from './initial-note'
 import NewDispenserPopup from './new-dispenser-popup'
+import SSRDownloadPopup from './ssr-download-popup'
 
 import {
   Container,
@@ -46,6 +47,7 @@ export {
   InputSubtitle,
   WidgetAside,
   ErrorSpan,
+  SSRDownloadPopup,
   UploadedSpan,
   AsideContent,
   BatchList,
