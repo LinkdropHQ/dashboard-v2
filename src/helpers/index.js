@@ -87,10 +87,12 @@ import defineCoinbaseInstance from './define-coinbase-instance'
 import defineFirstTokenIdForUser from './define-first-token-id-for-user'
 import defineLastTokenIdForUser from './define-last-token-id-for-user'
 import defineIfUserOwnsTokenInArray from './define-if-user-owns-token-in-array'
+import uploadcareUpload from './uploadcare-upload'
 
 export {
   buf2hex,
   defineIfUserOwnsTokenInArray,
+  uploadcareUpload,
   defineCoinbaseInstance,
   defineFirstTokenIdForUser,
   defineLastTokenIdForUser,

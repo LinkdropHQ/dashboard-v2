@@ -1,6 +1,9 @@
 # Linkdrop Dashboard
 
 
+## 2.1.53
+- Uploadcare support
+
 ## 2.1.52
 - SSR Claim App support
 - UI updates

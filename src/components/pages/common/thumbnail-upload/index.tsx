@@ -57,9 +57,7 @@ const ThumbnailUpload: FC<TProps> = ({
         formatAllowed={formatAllowed}
         onChange={(thumbnail, file) => {
           thumbnail && setThumbnail(thumbnail)
-          if (file) {
-            setFile(file)
-          }
+          file && setFile(file)
         }}
       />
     </ThumbnailContainer>
