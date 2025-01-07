@@ -1,6 +1,10 @@
 # Linkdrop Dashboard
 
 
+## 2.1.52
+- SSR Claim App support
+- UI updates
+
 ## 2.1.51
 - minor updates
 
