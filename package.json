@@ -1,6 +1,6 @@
 {
   "name": "linkdrop-dashboard",
-  "version": "2.1.52-rc.0",
+  "version": "2.1.53-rc.0",
   "private": true,
   "dependencies": {
     "@craco/craco": "^7.1.0",
@@ -9,6 +9,7 @@
     "@progress/kendo-file-saver": "^1.1.1",
     "@reduxjs/toolkit": "^1.6.2",
     "@tanstack/react-query": "^5.40.0",
+    "@uploadcare/upload-client": "^6.14.2",
     "@walletconnect/auth-client": "^2.1.2",
     "@walletconnect/ethereum-provider": "^2.9.2",
     "@walletconnect/sign-client": "^2.9.2",

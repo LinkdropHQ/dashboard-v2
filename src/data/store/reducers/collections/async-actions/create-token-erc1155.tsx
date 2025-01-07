@@ -5,13 +5,23 @@ import { UserActions } from '../../user/types'
 import { IAppDispatch } from 'data/store'
 import { alertError } from 'helpers'
 import { RootState } from 'data/store'
-import { createThirdwebClient, getContract, defineChain, prepareContractCall, sendTransaction, readContract } from "thirdweb";
-import { nextTokenIdToMint, mintTo } from "thirdweb/extensions/erc1155";
-import { ethers5Adapter } from "thirdweb/adapters/ethers5";
+import {
+  createThirdwebClient,
+  getContract,
+  defineChain,
+  sendTransaction,
+} from "thirdweb"
+import { nextTokenIdToMint, mintTo } from "thirdweb/extensions/erc1155"
+import { ethers5Adapter } from "thirdweb/adapters/ethers5"
 import { collectionsApi } from 'data/api'
+import {
+  uploadcareUpload
+} from 'helpers'
 import { TCollectionToken, TCollection } from 'types'
-const { REACT_APP_THIRDWEB_CLIENT_ID } = process.env
 
+const {
+  REACT_APP_THIRDWEB_CLIENT_ID
+} = process.env
 
 function createTokenERC1155(
   collectionId: string,
@@ -45,7 +55,7 @@ function createTokenERC1155(
         clientId: REACT_APP_THIRDWEB_CLIENT_ID as string
       });
 
-      const contractInstance = await getContract({ client, chain, address: contractAddress })
+      const contractInstance = getContract({ client, chain, address: contractAddress })
 
       const nft = {
         name: tokenName,
@@ -59,28 +69,47 @@ function createTokenERC1155(
 
       const nextTokenId = await nextTokenIdToMint({ contract: contractInstance })
 
-      const transaction = await mintTo({
+      const transaction = mintTo({
         contract: contractInstance,
         to: account.address,
         supply: 0n,
         nft
       })
-      const txResult = await sendTransaction({
+
+      await sendTransaction({
         transaction,
         account
-      });
+      })
 
-      const result: { data: { success: boolean, token: TCollectionToken } } = await collectionsApi.addToken(collectionId, {
+      // UPLOADCARE
+      // can be uploadcare image, or placeholder, or base64 video
+      const fileToSave = (thumbnail && thumbnail.includes('video')) ? thumbnail : await uploadcareUpload(
+        thumbnail,
+        file
+      )
+      // UPLOADCARE
+
+
+      const result: {
+        data: {
+          success: boolean,
+          token: TCollectionToken
+        }
+      } = await collectionsApi.addToken(collectionId, {
         name: tokenName,
         description,
         copies: String(copiesAmount),
         properties,
         token_id: String(nextTokenId),
-        thumbnail
+        thumbnail: fileToSave
       })
 
       if (result.data.success) {
-        const collections: { data: { collections: TCollection[] } } = await collectionsApi.get()
+        const collections: {
+          data: {
+            collections: TCollection[]
+          }
+        } = await collectionsApi.get()
         dispatch(actionsCollections.setCollections(collections.data.collections))
 
         if (callback) {
