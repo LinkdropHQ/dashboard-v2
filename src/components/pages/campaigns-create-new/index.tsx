@@ -20,7 +20,7 @@ import { InformationContainer, TextLink } from 'components/common'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions'
-import { TTokenType, TLinkParams, TNFTContract, TERC20Contract } from 'types'
+import { TTokenType, TRouterURLParams, TNFTContract, TERC20Contract } from 'types'
 import { useHistory } from 'react-router-dom'
 import { CampaignActions } from 'data/store/reducers/campaign/types'
 import { Dispatch } from 'redux'
@@ -149,7 +149,7 @@ const CampaignsCreateNew: FC<ReduxType> = ({
   proxyContractAddress
 }) => {
   const history = useHistory()
-  const { id } = useParams<TLinkParams>()
+  const { id } = useParams<TRouterURLParams>()
 
   useEffect(preventPageClose(), [])
 

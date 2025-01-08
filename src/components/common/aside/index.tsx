@@ -18,7 +18,7 @@ import LinkdropLogo from 'images/linkdrop-aside.png'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import Icons from 'icons'
-import { defineNetworkName, defineIfFeatureIsAvailable } from 'helpers'
+import { defineNetworkName } from 'helpers'
 import { plausibleApi } from 'data/api'
 import { TProps } from './types'
 

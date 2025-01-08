@@ -5,8 +5,6 @@ import TAssetsData, {
   TDefineTotalAmountERC20,
   TTotalAmount
 } from './assets-data'
-import TOwners from './owners'
-import TCommunities from './communities'
 import IMetamaskError from './metamask-error'
 import TTokenType from './token-type'
 import TWallet from './wallet'
@@ -14,11 +12,12 @@ import TSelectOption from './select-option'
 import TLink from './link'
 import TFormatDate from './format-date'
 import TFormatTime from './format-time'
-import TLinkParams from './link-params'
+import TRouterURLParams from './router-url-params'
 import TFileFormat from './file-format'
 import { TContractListItem } from './contract-list-item'
 import TCoinbaseInstance from './coinbase-instance'
 import { TSystem } from './system'
+import { TDistributionMethod } from './distribution-method'
 import {
   TQRStatus,
   TQRSet,
@@ -37,13 +36,10 @@ import TBase64File from './base64-file'
 import TCampaignNew from './campaign-new'
 import TLinkDecrypted from './link-decrypted'
 import TClaimPattern from './claim-pattern'
-import TDistributionPattern from './distribution-pattern'
 import { TLinkContent } from './link-contents'
 import TQRImageOptions from './qr-image-options'
 import TAuthorizationStep from './authorization-step'
 import TQROption, { DotType, CornerSquareType, CornerDotType } from './qr-option'
-import TSingleLinkData from './single-link-data'
-import TLinkDetails from './link-details'
 import TButtonAppearance from './button-appearance'
 import TNFTContract from './nft-contract'
 import TERC20Contract from './erc20-contract'
@@ -52,7 +48,6 @@ import { TERC20TokenList, TERC20TokenItem, TERC20TokenOriginalItem } from './erc
 import TButtonAppearance from './button-appearance'
 import TCampaignCreateStep from './campaign-create-step'
 import TCampaignDraft from './campaign-draft'
-import TFeatureName from './feature-name'
 import { TDispenserStats } from './dispenser-stats'
 import TMnemonicContract from './mnemonic-contract'
 import {
@@ -83,8 +78,8 @@ export {
   TZerionERC20Item,
   TZerionERC20ItemRelationships,
   TZerionERC20ItemAttributes,
+  TDistributionMethod,
   TCampaignCreateStep,
-  TFeatureName,
   TDispenserWhitelistType,
   TButtonAppearance,
   TCollectionStatus,
@@ -93,9 +88,7 @@ export {
   TERC20TokenList,
   TNFTContract,
   TNFTToken,
-  TLinkDetails,
   TSystem,
-  TSingleLinkData,
   TButtonAppearance,
   TQROption,
   TDispenserStatus,
@@ -116,9 +109,7 @@ export {
   TDispenserUpdateData,
   TCampaignStatus,
   TAssetsData,
-  TOwners,
   TERC20TokenOriginalItem,
-  TCommunities,
   TAsset,
   IMetamaskError,
   TWallet,
@@ -127,7 +118,7 @@ export {
   TLink,
   TTotalAmount,
   TFormatDate,
-  TLinkParams,
+  TRouterURLParams,
   TQRStatus,
   TQRSet,
   TQRItem,
@@ -135,7 +126,6 @@ export {
   TBase64File,
   TCampaignNew,
   TLinkDecrypted,
-  TDistributionPattern,
   TCollection,
   TCollectionToken,
   TCoinbaseInstance

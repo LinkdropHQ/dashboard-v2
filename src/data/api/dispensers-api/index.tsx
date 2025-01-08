@@ -196,7 +196,6 @@ const requests = {
       withCredentials: true
     })
   },
-
 }
 
 export default requests

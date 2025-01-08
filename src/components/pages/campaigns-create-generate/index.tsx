@@ -10,7 +10,7 @@ import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions'
 import { useHistory } from 'react-router-dom'
-import { TLinkParams } from 'types'
+import { TRouterURLParams } from 'types'
 import { useParams } from 'react-router-dom'
 import { TCallback } from './types'
 import { preventPageClose } from 'helpers'
@@ -48,7 +48,7 @@ const CampaignsCreateGenerate: FC<ReduxType> = ({
   tokenStandard
 }) => {
   const history = useHistory()
-  const { id } = useParams<TLinkParams>()
+  const { id } = useParams<TRouterURLParams>()
 
   useEffect(() => {
     if (!tokenStandard) { return }

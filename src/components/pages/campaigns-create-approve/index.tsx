@@ -3,10 +3,17 @@ import {
   StyledRadio,
   InstructionNoteStyled,
 } from './styled-components'
-import { Erc20, Erc721, Erc1155, CSVUploadPopup, SDKLinks, AsideContents } from './components'
+import {
+  Erc20,
+  Erc721,
+  Erc1155,
+  CSVUploadPopup,
+  SDKLinks,
+  AsideContents
+} from './components'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { TAssetsData, TLinkContent, TLinkParams, TTokenType, TTotalAmount } from 'types'
+import { TAssetsData, TLinkContent, TRouterURLParams, TTokenType, TTotalAmount } from 'types'
 import { TDefineComponent, TLinksContent } from './types'
 import { RootState, IAppDispatch } from 'data/store'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions'
@@ -397,7 +404,7 @@ const CampaignsCreateApprove: FC<ReduxType> = ({
   ] = useState<TAssetsData>([])
 
   const history = useHistory()
-  const { type, id } = useParams<TLinkParams>()
+  const { type, id } = useParams<TRouterURLParams>()
   const queryParams = useQuery()
   const currentCampaign = id ? campaigns.find(campaign => campaign.campaign_id === id) : null
   const currentTokenAddress = currentCampaign ? currentCampaign.token_address : tokenAddress

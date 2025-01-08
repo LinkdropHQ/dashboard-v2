@@ -121,7 +121,6 @@ const defineContractsOptions = (
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const ChooseContractPopup: FC<TProps & ReduxType> = ({
-  onClose,
   getContracts,
   getERC20Contracts,
   contracts,
@@ -156,7 +155,7 @@ const ChooseContractPopup: FC<TProps & ReduxType> = ({
   return <AsidePopup
     title='Choose tokens'
     subtitle='Choose tokens tokens you’d like to dispense.'
-    onClose={onClose}
+    onClose={() => setCurrentStep(null)}
 
     actionDisabled={!contract}
     action={() => {

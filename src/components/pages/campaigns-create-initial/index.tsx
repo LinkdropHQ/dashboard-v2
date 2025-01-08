@@ -2,7 +2,11 @@ import { FC, useEffect } from 'react'
 import { RootState } from 'data/store';
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { TLinkParams, TClaimPattern, TCollection, TCampaign } from 'types'
+import {
+  TRouterURLParams,
+  TClaimPattern,
+  TCollection
+} from 'types'
 import { useHistory } from 'react-router-dom'
 import { IAppDispatch } from 'data/store'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions'
@@ -70,7 +74,7 @@ const CampaignsCreateInitial: FC<ReduxType> = ({
   tokenAddress,
   collections
 }) => {
-  const { type, id } = useParams<TLinkParams>()
+  const { type, id } = useParams<TRouterURLParams>()
   const campaign = id ? campaigns.find(campaign => campaign.campaign_id === id) : null
 
   const history = useHistory()

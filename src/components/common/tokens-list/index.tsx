@@ -11,20 +11,30 @@ import {
 } from './styled-components'
 import { 
   TProps,
-  TTokenItem
+  TSelectAction
 } from './types'
+import { TContractListItem } from "types"
 
 
-export const TokenItem: FC<TTokenItem> = ({
-  tokenAddress,
-  title,
-  price,
-  balance,
-  image,
+
+export const TokenItem: FC<
+  {
+    contract: TContractListItem,
+    onSelect: TSelectAction
+  }
+> = ({
+  contract,
   onSelect
 }) => {
+  const {
+    tokenAddress,
+    title,
+    price,
+    balance,
+    image
+  } = contract
   return <Token onClick={() => {
-    onSelect && onSelect(tokenAddress)
+    onSelect && onSelect(contract)
   }}>
     <TokenImage src={image} />
     <TokenContent>
@@ -42,13 +52,16 @@ export const TokenItem: FC<TTokenItem> = ({
 }
 
 const TokensList: FC<TProps> = ({
-  tokens,
+  contracts,
   onSelect
 }) => {
   return <TokenList>
-    {tokens.map(token => {
+    {contracts.map(contract => {
       return <TokenListItem>
-        <TokenItem {...token} onSelect={onSelect} />
+        <TokenItem
+          contract={contract}
+          onSelect={onSelect}
+        />
       </TokenListItem>
     })}
   </TokenList>

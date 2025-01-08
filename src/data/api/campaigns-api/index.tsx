@@ -1,9 +1,11 @@
 import axios from 'axios'
 import { TLink, TCampaignNew } from 'types'
 import {
-  TGetLimitsTGetOneCampaign,
   TCreateСampaign,
-  TUpdateCampaign
+  TGetOneCampaign,
+  TUpdateCampaign,
+  TSaveBatchV3,
+  TAddClaimLinksMethod
 } from './types'
 const {
   REACT_APP_SERVER_URL,
@@ -18,18 +20,20 @@ const campaignsApi = axios.create({
 })
 
 const requests: {
-  getOne: TGetLimitsTGetOneCampaign,
+  getOne: TGetOneCampaign,
   createV3: TCreateСampaign,
-
+  update: TUpdateCampaign,
+  saveBatchV3: TSaveBatchV3,
+  addClaimLinksMethod: TAddClaimLinksMethod,
   // will update later
   create: any,
   get: any,
-  update: TUpdateCampaign,
   saveBatch: any,
   getBatches: any,
   getReport: any,
   getBatch: any
 } = {
+
   create: (
     campaign: TCampaignNew
   ) => campaignsApi.post('/linkdrop/campaigns', {
@@ -46,14 +50,19 @@ const requests: {
     chain_id,
     campaign_number,
     proxy_contract_address,
-    creator_address
+    creator_address,
+    encrypted_signer_key,
+    signer_address
   }) => {
     return campaignsApi.post(`/linkdrop/campaigns`, {
       title,
       chain_id,
       campaign_number,
       proxy_contract_address,
-      creator_address
+      creator_address,
+      encrypted_signer_key,
+      signer_address,
+      proxy_contract_version: '1'
     }, {
       withCredentials: true
     })
@@ -93,10 +102,31 @@ const requests: {
     })
   },
 
+  addClaimLinksMethod: ({
+    campaign_id
+  }) => {
+    return campaignsApi.post(`/linkdrop/campaigns/${campaign_id}/distribution-method`, {
+      type: 'CLAIM_LINKS'
+    }, { withCredentials: true })
+  },
+
   getOne: (
-    campaign_id: string | number
+    campaign_id
   ) => {
     return campaignsApi.get(`/linkdrop/campaigns/${campaign_id}`, { withCredentials: true })
+  },
+
+  saveBatchV3: ({
+    campaign_id,
+    claim_links
+  }) => {
+    return campaignsApi.post(
+      `/linkdrop/campaigns/${campaign_id}/save-batch`,
+      {
+        claim_links
+      },
+      { withCredentials: true }
+    )
   },
 
   saveBatch: (

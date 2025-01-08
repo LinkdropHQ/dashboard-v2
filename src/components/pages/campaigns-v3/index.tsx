@@ -67,10 +67,10 @@ const CampaignsPage: FC<ReduxType> = ({
       onSubmit={(title) => {
         createCampaign(
           title,
-          campaignId => history.push(`/campaigns/${campaignId}`)
+          campaignId => history.push(`/campaigns/${campaignId}/draft`)
         )
       }}
-      onClose={() => setShowPopup}
+      onClose={() => setShowPopup(true)}
     />}
   </>
   

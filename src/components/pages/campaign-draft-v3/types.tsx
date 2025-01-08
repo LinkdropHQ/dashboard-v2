@@ -1,6 +1,6 @@
 export type TStep = 
-  'approve_erc20' |
-  'approve_erc721' |
-  'approve_erc1155' |
+  'set_erc20_links' |
+  'set_erc721_links' |
+  'set_erc1155_links' |
   'choose_contract' |
-  'secure'
+  'choose_distribution_method'

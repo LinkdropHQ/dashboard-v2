@@ -1,10 +1,7 @@
-import { TFeatureName } from 'types'
-
 type TAddressConfig = Record<
   string,
   {
     qrConfig?: string
-    betaFeaturesAvailable?: TFeatureName[]
     claimAppUrl?: string
   }
 >

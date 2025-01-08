@@ -53,7 +53,6 @@ import defineDispenserStatus from './define-dispenser-status'
 import defineDispenserStatusName from './define-dispenser-status-name'
 import writeCampaignToLS from './write-campaign-to-ls'
 import getCampaignsFromLS from './get-campaigns-from-ls'
-import defineIfFeatureIsAvailable from './define-if-feature-is-available'
 import defineIfLinksHasEqualContents from './define-if-links-has-equal-contents'
 import defineLinkTokenType from './define-link-token-type'
 import preventPageClose from './prevent-page-close'
@@ -129,7 +128,6 @@ export {
   defineNetworkIcon,
   getCampaignsFromLS,
   defineIfLinksHasEqualContents,
-  defineIfFeatureIsAvailable,
   writeCampaignToLS,
   defineDispenserStatus,
   defineDispenserStatusName,

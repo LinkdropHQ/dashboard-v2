@@ -2,7 +2,7 @@ import { FC, useState, useMemo, useEffect } from 'react'
 import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { TCountry, TLinkParams } from 'types'
+import { TCountry, TRouterURLParams } from 'types'
 import { utils } from 'ethers'
 import {
   WidgetComponent,
@@ -146,7 +146,7 @@ const CampaignsCreateSecure: FC<ReduxType> = ({
   expirationDate,
   countriesList
 }) => {
-  const { id } = useParams<TLinkParams>()
+  const { id } = useParams<TRouterURLParams>()
   // @ts-ignore
   const nativeTokenSymbol = defineNativeTokenSymbol({ chainId })
 

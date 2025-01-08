@@ -8,7 +8,8 @@ import { UserActions } from '../../user/types'
 import { RootState } from 'data/store'
 import {
   alertError,
-  createProxy
+  createProxy,
+  getContractVersion
 } from 'helpers'
 import { ethers } from 'ethers'
 import * as actionsAsyncUser from '../../user/async-actions'
@@ -16,7 +17,7 @@ import { encrypt } from 'lib/crypto'
 
 const createCampaign = (
   title: string,
-  callback?: (
+  actionCallback?: (
     campaignId: string
   ) => void
 ) => {
@@ -28,7 +29,8 @@ const createCampaign = (
       user: {
         sdk,
         address,
-        chainId
+        chainId,
+        signer
       }
     } = getState()
 
@@ -53,7 +55,7 @@ const createCampaign = (
   
         dispatch(actionsCampaign.setSignerKey(privateKey))
         dispatch(actionsCampaign.setSignerAddress(wallet))
-    
+
         const { data } = await campaignsApi.createV3({
           title,
           chain_id: String(chainId),
@@ -61,17 +63,19 @@ const createCampaign = (
           proxy_contract_address: proxyContractAddress,
           creator_address: address,
           encrypted_signer_key: encrypt(privateKey, dashboardKey),
-          signer_address: wallet,
-          proxy_contract_version: ''
+          signer_address: wallet
         })
   
         if (data.success) {
-          if (callback) {
-            callback(data.campaign.campaign_id)
+          if (actionCallback) {
+            actionCallback(data.campaign.campaign_id)
           }
         }
         
       } catch (err) {
+        console.error({
+          err
+        })
         alertError('Some error occured. Please check console for more info')
       }
     }

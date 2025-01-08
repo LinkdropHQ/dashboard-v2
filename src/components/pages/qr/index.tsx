@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { useParams, Redirect } from 'react-router-dom'
 import {
-  TLinkParams, 
+  TRouterURLParams, 
   TQRSet,
   TQRStatus,
   TSelectOption,
@@ -101,7 +101,7 @@ const QR: FC<ReduxType> = ({
   downloadQRsAsCSV,
   whitelisted
 }) => {
-  const { id } = useParams<TLinkParams>()
+  const { id } = useParams<TRouterURLParams>()
 
   // @ts-ignore
   const qr: TQRSet | undefined = qrs.find(qr => String(qr.set_id) === id)

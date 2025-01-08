@@ -7,19 +7,21 @@ import {
   Page,
   Campaigns,
   Campaign,
-  CampaignsCreateInitial,
-  CampaignsCreateApprove,
-  CampaignsCreateSecure,
-  CampaignsCreateGenerate,
-  QR,
   Main,
-  CampaignsCreateNew,
-  QRDownload,
-  QRCreate,
-  QRManager,
-  DispenserCreate,
-  Dispenser,
-  DynamicQRCreate,
+  // CampaignDispenserGenerate,
+  // CampaignQRsGenerate,
+  // CampaignsCreateInitial,
+  // CampaignsCreateApprove,
+  // CampaignsCreateSecure,
+  // CampaignsCreateGenerate,
+  // QR,
+  // CampaignsCreateNew,
+  // QRDownload,
+  // QRCreate,
+  // QRManager,
+  // DispenserCreate,
+  // Dispenser,
+  // DynamicQRCreate,
   Collections,
   CollectionAddToken,
   CollectionsCreateInitial,
@@ -28,7 +30,9 @@ import {
   CampaignQRsGenerate,
   ReclaimQR,
   ReclaimQRCreate,
-  Reclaims
+  Reclaims,
+  CampaignsV3,
+  CampaignDraft
 } from 'components/pages'
 import { connect } from 'react-redux'
 import { RootState } from 'data/store'
@@ -41,6 +45,12 @@ const AppRouter: FC<ReduxType> = ({ address }) => {
     <Page>
       <Switch>
         <ProtectedRoute
+          path='/campaigns'
+          exact={true}
+          loggedIn={Boolean(address)}
+          component={CampaignsV3}
+        />
+        {/* <ProtectedRoute
           path='/campaigns/new'
           exact={true}
           loggedIn={Boolean(address)}
@@ -59,16 +69,16 @@ const AppRouter: FC<ReduxType> = ({ address }) => {
           exact={true}
           loggedIn={Boolean(address)}
           component={CampaignsCreateNew}
-        />
+        /> */}
 
         <ProtectedRoute
-          path='/campaigns/:id'
+          path='/campaigns/:id/draft'
           exact={true}
           loggedIn={Boolean(address)}
-          component={Campaign}
+          component={CampaignDraft}
         />
 
-        <ProtectedRoute
+        {/* <ProtectedRoute
           path='/campaigns/:id/dispenser/generate'
           exact={true}
           loggedIn={Boolean(address)}
@@ -80,7 +90,7 @@ const AppRouter: FC<ReduxType> = ({ address }) => {
           exact={true}
           loggedIn={Boolean(address)}
           component={CampaignQRsGenerate}
-        />
+        /> */}
 
         <ProtectedRoute
           path='/campaigns'
@@ -117,7 +127,7 @@ const AppRouter: FC<ReduxType> = ({ address }) => {
           component={CollectionAddToken}
         />
 
-        <ProtectedRoute
+        {/* <ProtectedRoute
           path='/dispensers/new'
           exact={true}
           loggedIn={Boolean(address)}
@@ -251,7 +261,7 @@ const AppRouter: FC<ReduxType> = ({ address }) => {
           exact={true}
           loggedIn={Boolean(address)}
           component={QRDownload}
-        />
+        /> */}
 
         <Route path='/' exact={true}>
           <Main />

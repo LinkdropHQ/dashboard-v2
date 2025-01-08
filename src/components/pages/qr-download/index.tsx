@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react'
 import { useParams, Redirect, useLocation } from 'react-router-dom'
-import { TLinkParams, TQRSet, TQRItem } from 'types'
+import { TRouterURLParams, TQRSet, TQRItem } from 'types'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -47,6 +47,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   }
 }
 
+// @ts-ignore
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const QR: FC<ReduxType> = ({
@@ -55,7 +56,7 @@ const QR: FC<ReduxType> = ({
   downloadLoader,
   campaigns
 }) => {
-  const { id } = useParams<TLinkParams>()
+  const { id } = useParams<TRouterURLParams>()
   const qr: TQRSet | undefined = qrs.find(qr => String(qr.set_id) === id)
 
   const campaignId = qr?.campaign?.campaign_id
