@@ -1,20 +1,17 @@
-
-import { Dispatch } from 'redux';
-import * as actionsCampaign from '../actions';
-import { CampaignActions } from '../types';
-import { TAssetsData, TLinkContent } from 'types'
+import { Dispatch } from 'redux'
+import { CampaignActions } from '../types'
+import { TAssetsData, TLink } from 'types'
 import { IAppDispatch } from 'data/store'
+import { convertLinksContentERC20V3 } from 'helpers'
 
 function setAssetsData(
-  assets: TAssetsData,
-  assetsOriginal: TLinkContent[],
+  claim_links: TLink[],
   callback?: () => void
 ) {
   return async (
     dispatch: Dispatch<CampaignActions> & IAppDispatch
   ) => {
-    dispatch(actionsCampaign.setAssets(assets))
-    dispatch(actionsCampaign.setAssetsOriginal(assetsOriginal))
+    const assets = convertLinksContentERC20V3
     try {
       if (callback) {
         callback()

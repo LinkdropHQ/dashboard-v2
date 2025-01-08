@@ -57,7 +57,6 @@ const mapStateToProps = ({
     decimals,
     proxyContractAddress,
     title,
-    assets,
     symbol,
     approved,
     collectionId
@@ -88,7 +87,6 @@ const mapStateToProps = ({
   chainId,
   title,
   symbol,
-  assets,
   comission,
   whitelisted
 })
@@ -128,17 +126,17 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
       isNewCampaign: boolean,
       callback: () => void
     ) => {
-      dispatch(
-        userAsyncActions.approveERC20(
-          assets,
-          totalAmount,
-          assetsOriginal,
-          sdk,
-          sponsored,
-          isNewCampaign,
-          callback
-        )
-        )
+      // dispatch(
+        // userAsyncActions.approveERC20(
+        //   assets,
+        //   totalAmount,
+        //   assetsOriginal,
+        //   sdk,
+        //   sponsored,
+        //   isNewCampaign,
+        //   callback
+        // )
+      // )
     },
     approveAllERC20: (
       assets: TAssetsData,
@@ -148,70 +146,52 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
       isNewCampaign: boolean,
       callback: () => void
     ) => {
-      dispatch(
-        userAsyncActions.approveAllERC20(
-          assets,
-          assetsOriginal,
-          sdk,
-          sponsored,
-          isNewCampaign,
-          callback
-        )
-        )
+      // dispatch(
+      //   userAsyncActions.approveAllERC20(
+      //     assets,
+      //     assetsOriginal,
+      //     sdk,
+      //     sponsored,
+      //     isNewCampaign,
+      //     callback
+      //   )
+      // )
     },
     approveERC721: (
-      assets: TAssetsData,
-      assetsOriginal: TLinkContent[],
       sdk: boolean,
       sponsored: boolean,
-      isNewCampaign: boolean,
       callback: () => void
     ) => {
       dispatch(
         userAsyncActions.approveERC721(
-          assets,
-          assetsOriginal,
           sdk,
           sponsored,
-          isNewCampaign,
           callback
         )
       )
     },
     approveERC1155: (
-      assets: TAssetsData,
-      assetsOriginal: TLinkContent[],
       sdk: boolean,
       sponsored: boolean,
-      isNewCampaign: boolean,
       callback: () => void
     ) => {
       dispatch(
         userAsyncActions.approveERC1155(
-          assets,
-          assetsOriginal,
           sdk,
           sponsored,
-          isNewCampaign,
           callback
         )
       )
     },
     grantRole: (
-      assets: TAssetsData,
-      assetsOriginal: TLinkContent[],
       sdk: boolean,
       sponsored: boolean,
-      isNewCampaign: boolean,
       callback: () => void
     ) => {
       dispatch(
         userAsyncActions.grantRole(
-          assets,
-          assetsOriginal,
           sdk,
           sponsored,
-          isNewCampaign,
           callback
         )
       )
@@ -222,15 +202,16 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
       campaignAsyncActions.getUserNFTs(tokenType)
     ),
     setAssetsData: (
-      assets: TAssetsData,
-      assetsOriginal: TLinkContent[],
-      callback: () => void
-    ) => dispatch(campaignAsyncActions.setAssetsData(
-        assets,
-        assetsOriginal,
-        callback
-      )
-    ),
+      // assets: TAssetsData,
+      // assetsOriginal: TLinkContent[],
+      // callback: () => void
+    ) => {
+      // dispatch(campaignAsyncActions.setAssetsData(
+      //   assets,
+      //   assetsOriginal,
+      //   callback
+      // )
+    },
     clearCampaign: () => {
       dispatch(
         campaignActions.clearCampaign()
@@ -406,6 +387,7 @@ const CampaignsCreateApprove: FC<ReduxType> = ({
   const history = useHistory()
   const { type, id } = useParams<TRouterURLParams>()
   const queryParams = useQuery()
+  // @ts-ignore
   const currentCampaign = id ? campaigns.find(campaign => campaign.campaign_id === id) : null
   const currentTokenAddress = currentCampaign ? currentCampaign.token_address : tokenAddress
   const currentCampaignChainId = currentCampaign ? currentCampaign.chain_id : chainId
@@ -621,11 +603,8 @@ const CampaignsCreateApprove: FC<ReduxType> = ({
           }
           if (claimPattern === 'mint') {
             return grantRole(
-              assetsCurrent,
-              dataCurrent,
               sdk,
               sponsored,
-              !Boolean(id),
               callback
             )
           }
@@ -652,20 +631,14 @@ const CampaignsCreateApprove: FC<ReduxType> = ({
             )
           } else if (tokenStandard === 'ERC721') {
             approveERC721(
-              assetsCurrent,
-              dataCurrent,
               sdk,
               sponsored,
-              !Boolean(id),
               callback
             )
           } else {
             approveERC1155(
-              assetsCurrent,
-              dataCurrent,
               sdk,
               sponsored,
-              !Boolean(id),
               callback
             )
           }

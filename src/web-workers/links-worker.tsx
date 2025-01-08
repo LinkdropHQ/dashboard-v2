@@ -118,11 +118,9 @@ export class LinksWorker {
     links: TLink[],
     tokenAddress: string,
     signerKey: string,
-    nativeTokensPerLink: string,
     dashboardKey: string,
     proxyContractAddress: string,
-    proxyContractVersion: string,
-    expirationDate: number
+    proxyContractVersion: string
   ) : Promise<any> {
 
     try {
@@ -133,10 +131,10 @@ export class LinksWorker {
         let result
         if (type === 'ERC20') {
           result = await this.createERC20Link(
-            String(nativeTokensPerLink),
+            links[i].wei_amount || '0',
             tokenAddress,
             links[i].token_amount || '0',
-            String(expirationDate),
+            links[i].expiration_time,
             chainId,
             signerKey,
             dashboardKey,
@@ -145,10 +143,10 @@ export class LinksWorker {
           )
         } else if (type === 'ERC721') {
           result = await this.createERC721Link(
-            String(nativeTokensPerLink),
+            links[i].wei_amount || '0',
             tokenAddress,
             String(links[i].token_id || '0'),
-            String(expirationDate),
+            links[i].expiration_time,
             chainId,
             signerKey,
             dashboardKey,
@@ -158,11 +156,11 @@ export class LinksWorker {
 
         } else {
           result = await this.createERC1155Link(
-            String(nativeTokensPerLink),
+            links[i].wei_amount || '0',
             tokenAddress,
             String(links[i].token_id || '0'),
             links[i].token_amount || '0',
-            String(expirationDate),
+            links[i].expiration_time,
             chainId,
             signerKey,
             dashboardKey,
@@ -177,8 +175,8 @@ export class LinksWorker {
             token_amount: links[i].token_amount || '0',
             link_id: result.link_id,
             sender_signature: result.sender_signature,
-            expiration_time: String(expirationDate),
-            wei_amount: String(nativeTokensPerLink)
+            expiration_time: links[i].expiration_time,
+            wei_amount: links[i].wei_amount || '0',
           }
           
           this.newLinks = [...this.newLinks, linkData]

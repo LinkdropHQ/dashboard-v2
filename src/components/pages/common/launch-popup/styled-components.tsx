@@ -1,10 +1,10 @@
-import styled from "styled-components"
-import { MiniPopup } from "components/common"
+import styled, { css } from "styled-components"
 import {
   TLaunchStepStatus
 } from './types'
+import { Popup } from "linkdrop-ui"
 
-export const MiniPopupStyled = styled(MiniPopup)`
+export const PopupStyled = styled(Popup)`
 
 `
 
@@ -41,15 +41,19 @@ export const LaunchStageStatus =  styled.div<{
   height: 20px;
   border-radius: 20px;
 
+  ${props => props.status === 'done' && css`
+    background-color: ${props.theme.primaryHighlightColor};
+  `}
 
-  background: pink;
+  ${props => props.status === 'disabled' && css`
+    background-color: ${props.theme.disabledStageColor};
+  `}
+
+  ${props => props.status === 'current' && css`
+    background-color: pink;
+  `}
 `
 
 export const LaunchStageText =  styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 20px;
 
-
-  background: pink;
 `

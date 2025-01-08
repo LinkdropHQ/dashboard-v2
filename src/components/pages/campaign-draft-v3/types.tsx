@@ -4,4 +4,5 @@ export type TStep =
   'set_erc1155_links' |
   'choose_contract' |
   'choose_distribution_method' |
-  'set_qr-set'
+  'set_qr-set' |
+  'launch'

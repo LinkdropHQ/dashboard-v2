@@ -58,20 +58,17 @@ const mapStateToProps = ({
     campaigns
   },
   campaign: {
-    assets,
     symbol,
     tokenStandard,
     loading,
     title,
     tokenAddress,
     claimPattern,
-    assetsOriginal,
     sdk,
     sponsored,
     expirationDate
   },
 }: RootState) => ({
-  assets,
   symbol,
   title,
   chainId,
@@ -80,7 +77,6 @@ const mapStateToProps = ({
   campaigns,
   tokenStandard,
   loading,
-  assetsOriginal,
   claimPattern,
   sdk,
   sponsored,
@@ -129,7 +125,6 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatcherToProps>
 
 const CampaignsCreateSecure: FC<ReduxType> = ({
-  assets,
   symbol,
   chainId,
   campaigns,
@@ -139,371 +134,371 @@ const CampaignsCreateSecure: FC<ReduxType> = ({
   tokenAddress,
   title,
   claimPattern,
-  assetsOriginal,
   sdk,
   sponsored,
   comission,
   expirationDate,
   countriesList
 }) => {
-  const { id } = useParams<TRouterURLParams>()
-  // @ts-ignore
-  const nativeTokenSymbol = defineNativeTokenSymbol({ chainId })
+  // const { id } = useParams<TRouterURLParams>()
+  // // @ts-ignore
+  // const nativeTokenSymbol = defineNativeTokenSymbol({ chainId })
 
-  // @ts-ignore
-  const currentCampaign = id ? campaigns.find(campaign => campaign.campaign_id === id) : null
-  const currentCampaignTitle = currentCampaign ? currentCampaign.title : title
-  const currentTokenAddress = currentCampaign ? currentCampaign.token_address : tokenAddress
-  const currentCampaignChainId = currentCampaign ? currentCampaign.chain_id : chainId
-  const currentCampaignTokenStandard = currentCampaign ? currentCampaign.token_standard : tokenStandard
-  const currentCampaignTokenSymbol = currentCampaign ? currentCampaign.symbol : symbol
-  const currentCampaignClaimPattern = currentCampaign ? currentCampaign.claim_pattern : claimPattern
+  // // @ts-ignore
+  // const currentCampaign = id ? campaigns.find(campaign => campaign.campaign_id === id) : null
+  // const currentCampaignTitle = currentCampaign ? currentCampaign.title : title
+  // const currentTokenAddress = currentCampaign ? currentCampaign.token_address : tokenAddress
+  // const currentCampaignChainId = currentCampaign ? currentCampaign.chain_id : chainId
+  // const currentCampaignTokenStandard = currentCampaign ? currentCampaign.token_standard : tokenStandard
+  // const currentCampaignTokenSymbol = currentCampaign ? currentCampaign.symbol : symbol
+  // const currentCampaignClaimPattern = currentCampaign ? currentCampaign.claim_pattern : claimPattern
 
-  const currentCampaignPreferredWalletOn = currentCampaign ? Boolean(currentCampaign.preferred_wallet_on) : false
-  const currentCampaignAdditionalWalletsOn = currentCampaign ? Boolean(currentCampaign.additional_wallets_on) : true
-  const expirationTime = momentNoOffsetGetTime()
-  const currentAvailableCountriesOn = currentCampaign ? Boolean(currentCampaign.available_countries_on) : false
+  // const currentCampaignPreferredWalletOn = currentCampaign ? Boolean(currentCampaign.preferred_wallet_on) : false
+  // const currentCampaignAdditionalWalletsOn = currentCampaign ? Boolean(currentCampaign.additional_wallets_on) : true
+  // const expirationTime = momentNoOffsetGetTime()
+  // const currentAvailableCountriesOn = currentCampaign ? Boolean(currentCampaign.available_countries_on) : false
 
-  const allWallets = useMemo(() => {
-    const options = wallets
-      .filter(wallet => {
-        if (!chainId) { return false }
+  // const allWallets = useMemo(() => {
+  //   const options = wallets
+  //     .filter(wallet => {
+  //       if (!chainId) { return false }
+  //       if (!sponsored && !wallet.available_for_not_sponsored) {return false }
+  //       const isAvailableForClient = defineIfWalletIsAvailableForClient(
+  //         wallet
+  //       )
+  //       if (!isAvailableForClient) {
+  //         return false
+  //       }
+  //       // @ts-ignore
+  //       const result = wallet.chains.includes(String(chainId)) && wallet.token_types.includes(currentCampaignTokenStandard)
+  //       return result
+  //     })
+  //   return options
+  // }, [chainId])
+
+
+  // const currentCampaignAvailableCountries = useMemo(() => {
+  //   if (!currentCampaign) {
+  //     return []
+  //   }
+  //   const countries = currentCampaign.available_countries
+  //     .map(countryId => {
+  //       const country = countriesList.find(country => country.id === countryId) as TCountry
+  //       return {
+  //         id: country.id,
+  //         name: country.name
+  //       }
+  //     })
+
+  //   return countries
+  // }, [chainId])
+
+  // const walletsOptions = useMemo(() => {
+  //   const options = allWallets
+  //     .map(wallet => ({
+  //       label: wallet.name,
+  //       value: wallet.id
+  //     }))
+  //   return options
+  // }, [])
+
+  // const currentCampaignWallet = currentCampaign ? currentCampaign.wallet : (walletsOptions[0] || {}).value
+
+  // const [
+  //   currentWallet,
+  //   setCurrentWallet
+  // ] = useState<string>(currentCampaignWallet)
+
+  // const [
+  //   linksExpirationDate,
+  //   setLinksExpirationDate
+  // ] =  useState<Date>(new Date())
+
+  // const [
+  //   countries,
+  //   setCountries
+  // ] =  useState<TCountry[]>(currentCampaignAvailableCountries)
+
+  // const [
+  //   enableExpirationDate,
+  //   setEnableExpirationDate
+  // ] =  useState<boolean>(false)
+
+  // const [
+  //   enableAvailableCountries,
+  //   setEnableAvailableCountries
+  // ] =  useState<boolean>(currentAvailableCountriesOn)
+
+  // const [
+  //   enablePreferredWalletOn,
+  //   setEnablePreferredWalletOn
+  // ] =  useState<boolean>(currentCampaignPreferredWalletOn)
+
+  // const [
+  //   additionalWalletsOn,
+  //   setAdditionalWalletsOn
+  // ] =  useState<boolean>(currentCampaignAdditionalWalletsOn)
+
+  // const [
+  //   addNativeTokens,
+  //   setAddNativeTokens
+  // ] =  useState<boolean>(false)
+
+  // const [ hours, setHours ] = useState(expirationTime.hours)
+  // const [ minutes, setMinutes ] = useState(expirationTime.minutes)
+  // const [ useEscrowedNativeToken, setUseEscrowedNativeToken ] = useState(false)
+
+  // useEffect(preventPageClose(), [])
+
+  // const history = useHistory()
+  // const [ nativeTokensAmount, setNativeTokensAmount ] = useState<string>('')
+
+  // if (!assets || !symbol || !chainId) { return null }
+
+  // const {
+  //   totalNativeTokensAmount,
+  //   totalComission,
+  //   totalNativeTokensAmountToSecure
+  // } = countNativeTokensToSecure(
+  //   nativeTokensAmount,
+  //   assets,
+  //   comission,
+  //   sponsored
+  // )
+
+  // return <Container>
+  //   <WidgetContainer>
+  //     <WidgetComponent>
+  //       <Header>
+  //         <WidgetTitleStyled>
+  //           Recommended wallet for new users
+  //         </WidgetTitleStyled>
+  //         <ToggleStyled
+  //           value={enablePreferredWalletOn}
+  //           disabled={loading || Boolean(currentCampaign)}
+  //           onChange={((value) => {
+  //             setEnablePreferredWalletOn(value)
+  //           })}
+  //         />
+  //       </Header>
+  //       <WidgetSubtitle>
+  //       Toggle this option to recommend a specific crypto wallet for users who don’t yet have one. If toggled off, the Coinbase Smart Wallet will be set as the default recommendation
+  //       </WidgetSubtitle>
+  //       {enablePreferredWalletOn && <InputsContainer>
+  //         <SelectStyled
+  //           options={walletsOptions}
+  //           title='Preferred wallet'
+  //           disabled={loading || Boolean(currentCampaign)}
+  //           onChange={({ value }) => {
+  //             setCurrentWallet(value)
+  //           }}
+  //           value={walletsOptions.find(wallet => wallet.value === currentWallet)}
+  //         />
+
+  //         <CheckboxStyled
+  //           label='Allow claiming to other web3 wallets (via Wallet Connect)'
+  //           value={additionalWalletsOn}
+  //           disabled={loading || Boolean(currentCampaign)}
+  //           onChange={value => {
+  //             setAdditionalWalletsOn(value)
+  //           }}
+  //         />
+
+  //       </InputsContainer>}
         
-        if (!sponsored && !wallet.available_for_not_sponsored) {return false }
-        const isAvailableForClient = defineIfWalletIsAvailableForClient(
-          wallet
-        )
-        if (!isAvailableForClient) {
-          return false
-        }
-        // @ts-ignore
-        const result = wallet.chains.includes(String(chainId)) && wallet.token_types.includes(currentCampaignTokenStandard)
-        return result
-      })
-    return options
-  }, [chainId])
+  //     </WidgetComponent>
 
+  //     <WidgetComponent>
+  //       <Header>
+  //         <WidgetTitleStyled>
+  //           Link expiration
+  //         </WidgetTitleStyled>
+  //         <ToggleStyled
+  //           value={enableExpirationDate}
+  //           disabled={loading || Boolean(currentCampaign)}
+  //           onChange={((value) => {
+  //             setEnableExpirationDate(value)
+  //           })}
+  //         />
+  //       </Header>
+  //       <WidgetSubtitle>
+  //         You can set up the link expiration, so that users will not be able to claim after certain day and time
+  //       </WidgetSubtitle>
+  //       {enableExpirationDate && <DateTimeContainer>
+  //         <DatePickerStyled
+  //           title='Expiration date'
+  //           note='Enter expiration date'
+  //           dateFormat='dd MMM yyyy'
+  //           disabled={loading}
+  //           onChange={(value) => setLinksExpirationDate(value)}
+  //           value={linksExpirationDate}
+  //           minDate={new Date(new Date().setDate(new Date().getDate() -1))}
+  //         />
 
-  const currentCampaignAvailableCountries = useMemo(() => {
-    if (!currentCampaign) {
-      return []
-    }
-    const countries = currentCampaign.available_countries
-      .map(countryId => {
-        const country = countriesList.find(country => country.id === countryId) as TCountry
-        return {
-          id: country.id,
-          name: country.name
-        }
-      })
+  //         <SelectStyled
+  //           title='Hours'
+  //           value={hours}
+  //           disabled={loading}
+  //           options={selectOptionsHours}
+  //           onChange={(option) => setHours(option)}
+  //         />
 
-    return countries
-  }, [chainId])
+  //         <SelectStyled
+  //           title='Minutes'
+  //           disabled={loading}
+  //           value={minutes}
+  //           options={selectOptionsMinutes}
+  //           onChange={(option) => setMinutes(option)}
+  //         />
 
-  const walletsOptions = useMemo(() => {
-    const options = allWallets
-      .map(wallet => ({
-        label: wallet.name,
-        value: wallet.id
-      }))
-    return options
-  }, [])
+  //         <Note>UTC+0</Note>
 
-  const currentCampaignWallet = currentCampaign ? currentCampaign.wallet : (walletsOptions[0] || {}).value
+  //       </DateTimeContainer>}
+  //     </WidgetComponent>
 
-  const [
-    currentWallet,
-    setCurrentWallet
-  ] = useState<string>(currentCampaignWallet)
+  //     {!sdk && <WidgetComponent>
+  //       <Header>
+  //         <WidgetTitleStyled>
+  //           Include extra {nativeTokenSymbol}
+  //         </WidgetTitleStyled>
+  //         <ToggleStyled
+  //           value={addNativeTokens}
+  //           disabled={loading}
+  //           onChange={((value) => {
+  //           if (!value) {
+  //             setNativeTokensAmount('')
+  //           }
+  //           setAddNativeTokens(value)
+  //         })} />
+  //       </Header>
+  //       <WidgetSubtitle>Include native tokens to each link as an extra bonus for receiver</WidgetSubtitle>
+  //       {addNativeTokens && <>
+  //         <StyledInput
+  //           title={`${nativeTokenSymbol} to include`}
+  //           value={nativeTokensAmount}
+  //           disabled={loading}
+  //           note='This amount of native tokens will be included to each link as a bonus for receiver'
+  //           onChange={value => {
+  //             if (/^[0-9.]+$/.test(value) || value === '') {
+  //               setNativeTokensAmount(value)
+  //             }
+  //             return value
+  //           }}
+  //         />
+  //         {currentCampaign && <CheckboxStyled
+  //           label={`Use ${nativeTokenSymbol} previously escrowed on the contract`}
+  //           value={useEscrowedNativeToken}
+  //           disabled={loading}
+  //           onChange={value => {
+  //             setUseEscrowedNativeToken(value)
+  //           }}
+  //         />}
+  //       </>}
+  //     </WidgetComponent>}
+  //   </WidgetContainer>
 
-  const [
-    linksExpirationDate,
-    setLinksExpirationDate
-  ] =  useState<Date>(new Date())
-
-  const [
-    countries,
-    setCountries
-  ] =  useState<TCountry[]>(currentCampaignAvailableCountries)
-
-  const [
-    enableExpirationDate,
-    setEnableExpirationDate
-  ] =  useState<boolean>(false)
-
-  const [
-    enableAvailableCountries,
-    setEnableAvailableCountries
-  ] =  useState<boolean>(currentAvailableCountriesOn)
-
-  const [
-    enablePreferredWalletOn,
-    setEnablePreferredWalletOn
-  ] =  useState<boolean>(currentCampaignPreferredWalletOn)
-
-  const [
-    additionalWalletsOn,
-    setAdditionalWalletsOn
-  ] =  useState<boolean>(currentCampaignAdditionalWalletsOn)
-
-  const [
-    addNativeTokens,
-    setAddNativeTokens
-  ] =  useState<boolean>(false)
-
-
-  const [ hours, setHours ] = useState(expirationTime.hours)
-  const [ minutes, setMinutes ] = useState(expirationTime.minutes)
-  const [ useEscrowedNativeToken, setUseEscrowedNativeToken ] = useState(false)
-
-  useEffect(preventPageClose(), [])
-
-  const history = useHistory()
-  const [ nativeTokensAmount, setNativeTokensAmount ] = useState<string>('')
-
-  if (!assets || !symbol || !chainId) { return null }
-
-  const {
-    totalNativeTokensAmount,
-    totalComission,
-    totalNativeTokensAmountToSecure
-  } = countNativeTokensToSecure(
-    nativeTokensAmount,
-    assets,
-    comission,
-    sponsored
-  )
-
-  return <Container>
-    <WidgetContainer>
-      <WidgetComponent>
-        <Header>
-          <WidgetTitleStyled>
-            Recommended wallet for new users
-          </WidgetTitleStyled>
-          <ToggleStyled
-            value={enablePreferredWalletOn}
-            disabled={loading || Boolean(currentCampaign)}
-            onChange={((value) => {
-              setEnablePreferredWalletOn(value)
-            })}
-          />
-        </Header>
-        <WidgetSubtitle>
-        Toggle this option to recommend a specific crypto wallet for users who don’t yet have one. If toggled off, the Coinbase Smart Wallet will be set as the default recommendation
-        </WidgetSubtitle>
-        {enablePreferredWalletOn && <InputsContainer>
-          <SelectStyled
-            options={walletsOptions}
-            title='Preferred wallet'
-            disabled={loading || Boolean(currentCampaign)}
-            onChange={({ value }) => {
-              setCurrentWallet(value)
-            }}
-            value={walletsOptions.find(wallet => wallet.value === currentWallet)}
-          />
-
-          <CheckboxStyled
-            label='Allow claiming to other web3 wallets (via Wallet Connect)'
-            value={additionalWalletsOn}
-            disabled={loading || Boolean(currentCampaign)}
-            onChange={value => {
-              setAdditionalWalletsOn(value)
-            }}
-          />
-
-        </InputsContainer>}
-        
-      </WidgetComponent>
-
-      <WidgetComponent>
-        <Header>
-          <WidgetTitleStyled>
-            Link expiration
-          </WidgetTitleStyled>
-          <ToggleStyled
-            value={enableExpirationDate}
-            disabled={loading || Boolean(currentCampaign)}
-            onChange={((value) => {
-              setEnableExpirationDate(value)
-            })}
-          />
-        </Header>
-        <WidgetSubtitle>
-          You can set up the link expiration, so that users will not be able to claim after certain day and time
-        </WidgetSubtitle>
-        {enableExpirationDate && <DateTimeContainer>
-          <DatePickerStyled
-            title='Expiration date'
-            note='Enter expiration date'
-            dateFormat='dd MMM yyyy'
-            disabled={loading}
-            onChange={(value) => setLinksExpirationDate(value)}
-            value={linksExpirationDate}
-            minDate={new Date(new Date().setDate(new Date().getDate() -1))}
-          />
-
-          <SelectStyled
-            title='Hours'
-            value={hours}
-            disabled={loading}
-            options={selectOptionsHours}
-            onChange={(option) => setHours(option)}
-          />
-
-          <SelectStyled
-            title='Minutes'
-            disabled={loading}
-            value={minutes}
-            options={selectOptionsMinutes}
-            onChange={(option) => setMinutes(option)}
-          />
-
-          <Note>UTC+0</Note>
-
-        </DateTimeContainer>}
-      </WidgetComponent>
-
-      {!sdk && <WidgetComponent>
-        <Header>
-          <WidgetTitleStyled>
-            Include extra {nativeTokenSymbol}
-          </WidgetTitleStyled>
-          <ToggleStyled
-            value={addNativeTokens}
-            disabled={loading}
-            onChange={((value) => {
-            if (!value) {
-              setNativeTokensAmount('')
-            }
-            setAddNativeTokens(value)
-          })} />
-        </Header>
-        <WidgetSubtitle>Include native tokens to each link as an extra bonus for receiver</WidgetSubtitle>
-        {addNativeTokens && <>
-          <StyledInput
-            title={`${nativeTokenSymbol} to include`}
-            value={nativeTokensAmount}
-            disabled={loading}
-            note='This amount of native tokens will be included to each link as a bonus for receiver'
-            onChange={value => {
-              if (/^[0-9.]+$/.test(value) || value === '') {
-                setNativeTokensAmount(value)
-              }
-              return value
-            }}
-          />
-          {currentCampaign && <CheckboxStyled
-            label={`Use ${nativeTokenSymbol} previously escrowed on the contract`}
-            value={useEscrowedNativeToken}
-            disabled={loading}
-            onChange={value => {
-              setUseEscrowedNativeToken(value)
-            }}
-          />}
-        </>}
-      </WidgetComponent>}
-    </WidgetContainer>
       
-    <Aside
-      back={{
-        action: () => {
-          history.goBack()
-        }
-      }}
-      next={{
-        action: () => {
-          const finalExpirationDate = enableExpirationDate ? +new Date(momentNoOffsetWithTimeUpdate(linksExpirationDate, Number(hours.value), Number(minutes.value))) : expirationDate
+  //    <Aside
+  //      back={{
+  //        action: () => {
+  //          history.goBack()
+  //        }
+  //      }}
+  //      next={{
+  //        action: () => {
+  //        const finalExpirationDate = enableExpirationDate ? +new Date(momentNoOffsetWithTimeUpdate(linksExpirationDate, Number(hours.value), Number(minutes.value))) : expirationDate
 
-          const redirectURL = currentCampaign ? `/campaigns/edit/${tokenStandard}/${currentCampaign.campaign_id}/generate` : `/campaigns/new/${tokenStandard}/generate`
-          secure(
-            totalNativeTokensAmountToSecure,
-            nativeTokensAmount,
-            useEscrowedNativeToken,
-            String(currentWallet),
-            enablePreferredWalletOn,
-            countries,
-            enableAvailableCountries,
-            finalExpirationDate,
-            additionalWalletsOn,
-            () => history.push(redirectURL)
-          )
-        },
-        title: 'Launch campaign',
-        disabled: loading,
-        loading
-      }}
-      loading={loading}
-      title="Summary"
-      subtitle="Check and confirm details"
-    >
-      <AsideContent>
-        <TableRow>
-          <TableText>Title of campaign</TableText>
-          <TableValueShorten>{currentCampaignTitle}</TableValueShorten>
-        </TableRow>
-
-        {currentTokenAddress && <TableRow>
-          <TableText>Token address</TableText>
-          <TableValue>{shortenString(currentTokenAddress)}</TableValue>
-        </TableRow>}
-
-        {currentCampaignTokenSymbol && <TableRow>
-          <TableText>Token Name</TableText>
-          <TableValue>{currentCampaignTokenSymbol}</TableValue>
-        </TableRow>}
-
-        {currentCampaignTokenStandard && <TableRow>
-          <TableText>Token standard</TableText>
-          <TableValue>{currentCampaignTokenStandard}</TableValue>
-        </TableRow>}
-
-        {currentCampaignChainId && <TableRow>
-          <TableText>Network</TableText>
-          <TableValue>{defineNetworkName(Number(currentCampaignChainId))}</TableValue>
-        </TableRow>}
-
-        {!sdk && currentCampaignTokenStandard && assetsOriginal && <AssetsList
-          data={assetsOriginal}
-          claimPattern={currentCampaignClaimPattern}
-          type={currentCampaignTokenStandard}
-        />}
-
-        {!sdk && assets && <TableRow>
-          <TableText>Total links</TableText>
-          <TableValue>{assets.length}</TableValue>
-        </TableRow>}
-
-        <TableRow>
-          <TableText>Claim pattern</TableText>
-          <TableValue>{currentCampaignClaimPattern}</TableValue>
-        </TableRow>
-
-        {!sdk && <>
-          <AsideDivider />
-
-          <TableRow>
-            <TableText>To be secured (sponsorship)</TableText>
-            <TableValue>{String(utils.formatUnits(totalComission, 18))} {nativeTokenSymbol}</TableValue>
-          </TableRow>
-
-          <TableRow>
-            <TableText>Included into the links</TableText>
-            <TableValue>{String(utils.formatUnits(totalNativeTokensAmount, 18))} {nativeTokenSymbol}</TableValue>
-          </TableRow>
-
-          <AsideDivider />
-
-          <TableRow>
-            <TableText>Total amount</TableText>
-            <TableValue>{String(utils.formatUnits(totalNativeTokensAmountToSecure, 18))} {nativeTokenSymbol}</TableValue>
-          </TableRow>
-        </>}
+  //         const redirectURL = currentCampaign ? `/campaigns/edit/${tokenStandard}/${currentCampaign.campaign_id}/generate` : `/campaigns/new/${tokenStandard}/generate`
+  //         secure(
+  //           totalNativeTokensAmountToSecure,
+  //           nativeTokensAmount,
+  //           useEscrowedNativeToken,
+  //           String(currentWallet),
+  //           enablePreferredWalletOn,
+  //           countries,
+  //           enableAvailableCountries,
+  //           finalExpirationDate,
+  //           additionalWalletsOn,
+  //           () => history.push(redirectURL)
+  //         )
+  //       },
+  //       title: 'Launch campaign',
+  //       disabled: loading,
+  //       loading
+  //     }}
+  //     loading={loading}
+  //     title="Summary"
+  //     subtitle="Check and confirm details"
+  //   >
+  //     <AsideContent>
+  //       <TableRow>
+  //         <TableText>Title of campaign</TableText>
+  //         <TableValueShorten>{currentCampaignTitle}</TableValueShorten>
+  //       </TableRow>
 
 
-      </AsideContent>
-    </Aside>
-  </Container>
+  //       {currentTokenAddress && <TableRow>
+  //         <TableText>Token address</TableText>
+  //         <TableValue>{shortenString(currentTokenAddress)}</TableValue>
+  //       </TableRow>}
+
+  //       {currentCampaignTokenSymbol && <TableRow>
+  //         <TableText>Token Name</TableText>
+  //         <TableValue>{currentCampaignTokenSymbol}</TableValue>
+  //       </TableRow>}
+
+  //       {currentCampaignTokenStandard && <TableRow>
+  //         <TableText>Token standard</TableText>
+  //         <TableValue>{currentCampaignTokenStandard}</TableValue>
+  //       </TableRow>}
+
+  //       {currentCampaignChainId && <TableRow>
+  //         <TableText>Network</TableText>
+  //         <TableValue>{defineNetworkName(Number(currentCampaignChainId))}</TableValue>
+  //       </TableRow>}
+
+  //       {!sdk && currentCampaignTokenStandard && assetsOriginal && <AssetsList
+  //         data={assetsOriginal}
+  //         claimPattern={currentCampaignClaimPattern}
+  //         type={currentCampaignTokenStandard}
+  //       />}
+
+  //       {!sdk && assets && <TableRow>
+  //         <TableText>Total links</TableText>
+  //         <TableValue>{assets.length}</TableValue>
+  //       </TableRow>}
+
+  //       <TableRow>
+  //         <TableText>Claim pattern</TableText>
+  //         <TableValue>{currentCampaignClaimPattern}</TableValue>
+  //       </TableRow>
+
+  //       {!sdk && <>
+  //         <AsideDivider />
+
+  //         <TableRow>
+  //           <TableText>To be secured (sponsorship)</TableText>
+  //           <TableValue>{String(utils.formatUnits(totalComission, 18))} {nativeTokenSymbol}</TableValue>
+  //         </TableRow>
+
+  //         <TableRow>
+  //           <TableText>Included into the links</TableText>
+  //           <TableValue>{String(utils.formatUnits(totalNativeTokensAmount, 18))} {nativeTokenSymbol}</TableValue>
+  //         </TableRow>
+
+  //         <AsideDivider />
+
+  //         <TableRow>
+  //           <TableText>Total amount</TableText>
+  //           <TableValue>{String(utils.formatUnits(totalNativeTokensAmountToSecure, 18))} {nativeTokenSymbol}</TableValue>
+  //         </TableRow>
+  //       </>}
+
+
+  //     </AsideContent>
+  //   </Aside>
+  // </Container>
+  return null
 }
 
 // @ts-ignore

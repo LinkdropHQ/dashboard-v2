@@ -114,7 +114,7 @@ const createDispenserAndAddLinks = ({
           }
 
           if (getLinksResult.data.success) {
-            const { claim_links, batch } = getLinksResult.data
+            const { claim_links } = getLinksResult.data
 
             const decryptedLinks = decryptLinks({
               links: claim_links,

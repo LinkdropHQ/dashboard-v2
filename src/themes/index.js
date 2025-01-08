@@ -9,7 +9,7 @@ const themes = {
 		disabledTextColor: '#979797', // disabled color of text
 		dangerTextColor: '#FF2C2C', // danger color of text
 		noteTextColor: '#C5C7CD', // note color of text
-
+		disabledStageColor: '#9D9D9D',
 		primaryBorderColor: '#E4E4E4',
 		secondaryBorderColor: '#FFF',
 		extraBorderColor: '#979797',

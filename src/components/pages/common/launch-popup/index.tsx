@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import {
-  MiniPopupStyled,
+  PopupStyled,
   Title,
   Subtitle,
   Header,
@@ -32,7 +32,7 @@ const LaunchPopup: FC<TProps> = ({
   title = 'Launching...',
   text
 }) => {
-  return <MiniPopupStyled onClose={onClose}>
+  return <PopupStyled onClose={onClose}>
     <Header>
       <Title>{title}</Title>
       <Subtitle>{text}</Subtitle>
@@ -41,7 +41,7 @@ const LaunchPopup: FC<TProps> = ({
     <Content>
       {children}
     </Content>
-  </MiniPopupStyled>
+  </PopupStyled>
 }
 
 export default LaunchPopup

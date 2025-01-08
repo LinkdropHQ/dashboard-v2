@@ -6,7 +6,8 @@ import {
   TUpdateCampaign,
   TSaveBatchV3,
   TAddClaimLinksMethod,
-  TLaunchClaimLinks
+  TLaunchClaimLinks,
+  TGetBatch
 } from './types'
 const {
   REACT_APP_SERVER_URL,
@@ -27,12 +28,13 @@ const requests: {
   saveBatchV3: TSaveBatchV3,
   addClaimLinksMethod: TAddClaimLinksMethod,
   launchClaimLinks: TLaunchClaimLinks,
+  getBatch: TGetBatch,
+
   // will update later
   get: any,
   saveBatch: any,
   getBatches: any,
-  getReport: any,
-  getBatch: any
+  getReport: any
 } = {
 
   launchClaimLinks: ({
@@ -118,12 +120,16 @@ const requests: {
 
   saveBatchV3: ({
     campaign_id,
-    claim_links
+    claim_links,
+    token_address,
+    token_standard
   }) => {
     return campaignsApi.post(
       `/linkdrop/campaigns/${campaign_id}/save-batch`,
       {
-        claim_links
+        claim_links,
+        token_address,
+        token_standard
       },
       { withCredentials: true }
     )

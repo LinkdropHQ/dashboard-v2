@@ -64,10 +64,13 @@ import { TQRManagerItem, TQRManagerItemType } from './qr-manager-item'
 import TCampaignLaunch from './campaign-launch'
 import TLaunchStage from './launch-stage'
 
+import { TTotalAmountERC20 } from './total-amount-erc20-v3'
+
 export {
   TCampaign,
   TQRManagerItem,
   TQRManagerItemType,
+  TTotalAmountERC20,
   TStatus,
   TZerionNetworkItem,
   TCampaignLaunch,

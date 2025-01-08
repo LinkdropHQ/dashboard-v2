@@ -11,8 +11,8 @@ import {
   TokensListStyled,
   AsidePopupStyled
 } from './styled-components'
-import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
+import { RootState, IAppDispatch } from 'data/store'
 import { CampaignActions } from 'data/store/reducers/campaign/types'
 import { Dispatch } from 'redux'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
@@ -67,13 +67,11 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
     setContractData: (
       tokenStandard: TTokenType,
       tokenAddress: string,
-      isSBT: boolean,
       callback: () => void
     ) => dispatch(
       campaignAsyncActions.setContractData(
         tokenStandard,
         tokenAddress,
-        isSBT,
         callback
       )
     ),
@@ -96,7 +94,7 @@ const defineContractsOptions = (
         tokenAddress: contract.address,
         balance: utils.formatUnits(contract.totalBalance as string, contract.decimals),
         type: contract.tokenType,
-        image: contract.image.thumbnailUrl
+        image: (contract.image || {}).thumbnailUrl || ''
       }
     })
   }
@@ -174,7 +172,7 @@ const ChooseContractPopup: FC<TProps & ReduxType> = ({
       setContractData(
         contract.type,
         contract.tokenAddress,
-        currentSwitcherValue === 'sbt',
+        // currentSwitcherValue === 'sbt',
         () => {
           // @ts-ignore
           setCurrentStep('set_erc20_links')

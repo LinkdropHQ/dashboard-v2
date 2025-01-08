@@ -16,11 +16,8 @@ import { plausibleApi } from 'data/api'
 import * as actionsAsyncCampaigns from '../../campaigns/async-actions'
 
 const grantRole = (
-  assets: TAssetsData,
-  assetsOriginal: TLinkContent[],
   sdk: boolean,
   sponsored: boolean,
-  isNewCampaign: boolean,
   callback?: () => void
 ) => {
   return async (
@@ -28,10 +25,8 @@ const grantRole = (
     getState: () => RootState
   ) => {
     dispatch(campaignActions.setLoading(true))
-    dispatch(campaignActions.setAssets(assets))
     dispatch(campaignActions.setSdk(sdk))
     dispatch(campaignActions.setSponsored(sponsored))
-    dispatch(campaignActions.setAssetsOriginal(assetsOriginal))
     const {
       user: {
         address,

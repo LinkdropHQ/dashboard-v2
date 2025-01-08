@@ -1,8 +1,6 @@
 import { Dispatch } from 'redux'
 import * as actionsCampaigns from '../actions'
-
 import { CampaignsActions } from '../types'
-
 import { RootState } from 'data/store'
 import { campaignsApi } from 'data/api'
 
@@ -31,8 +29,7 @@ const getCampaignBatches = ({
         if (lastBatch) {
           const batchData = await campaignsApi.getBatch(campaign_id, lastBatch.batch_id)
           if (batchData.data.success) {
-            const { claim_links, batch } = batchData.data
-            expirationDate = claim_links[0].expiration_time as number
+            
           }
         }
 

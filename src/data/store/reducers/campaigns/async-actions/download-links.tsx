@@ -55,44 +55,39 @@ const downloadLinks = (
       try {
 
         const result = await campaignsApi.getBatch(campaignId, batchId)
-        console.log({ encryptionKey })
-        /* let encKey = String(dashboardKey)
-         * if (sdk) {
-         *   console.log("SDK is on. Using sdk key")
-         *   encKey = createEncryptionKey(signerAddress, 
-         * } */
-
-        if (result.data.success) {
-          const { claim_links, batch } = result.data
-          const decryptedLinks = decryptLinks({
-            tokenType,
-            links: claim_links,
-            dashboardKey: encryptionKey || dashboardKey,
-            tokenAddress,
-            userAddress: address,
-            chainId,
-            wallet,
-            customClaimHost,
-            customClaimHostOn
-          })
-
-          downloadLinksAsCSV(
-            decryptedLinks,
-            title,
-            batch.created_at || ''
-          )
-          plausibleApi.invokeEvent({
-            eventName: 'download_links',
-            data: {
-              network: defineNetworkName(chainId),
-              token_type: tokenType as string,
-              claim_pattern: claimPattern,
-              distribution: sdk ? 'sdk' : 'manual',
-              sponsorship: sponsored ? 'sponsored' : 'non sponsored',
-              preferred_wallet: wallet
-            }
-          })
-        }
+  
+        // if (result.data.success) {
+        //   const { claim_links, batch } = result.data
+        //   const decryptedLinks = decryptLinks({
+        //     tokenType,
+        //     links: claim_links,
+        //     dashboardKey: String(dashboardKey),
+        //     tokenAddress,
+        //     userAddress: address,
+        //     chainId,
+        //     wallet,
+        //     customClaimHost,
+        //     customClaimHostOn
+        //   })
+  
+        //   downloadLinksAsCSV(
+        //     decryptedLinks,
+        //     title,
+        //     batch.created_at || ''
+        //   )
+        //   plausibleApi.invokeEvent({
+        //     eventName: 'download_links',
+        //     data: {
+        //       network: defineNetworkName(chainId),
+        //       token_type: tokenType as string,
+        //       claim_pattern: claimPattern,
+        //       distribution: sdk ? 'sdk' : 'manual',
+        //       sponsorship: sponsored ? 'sponsored' : 'non sponsored',
+        //       preferred_wallet: wallet
+        //     }
+        //   })
+        // }
+>>>>>>> 24b133c (updates)
       } catch (err) {
         alertError('Check console for more info')
         console.error('Some error occured', err)

@@ -7,7 +7,7 @@ type TLink = {
   encrypted_claim_link?: string
   expiration_time: string
   wei_amount?: string
-  id?: string // mongo
+  _id?: string // mongo
 }
 
 export default TLink

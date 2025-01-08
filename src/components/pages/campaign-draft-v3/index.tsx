@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import {
   TStep
 } from './types'
@@ -13,11 +13,13 @@ import {
   ClaimLinksWidget,
   Aside,
   SetQRSet,
-  ClaimAppSettings
+  ClaimAppSettings,
+  LaunchProcessPopup
 } from './components'
 import {
   TDistributionMethod,
-  TRouterURLParams
+  TRouterURLParams,
+  TTokenType
 } from 'types'
 import {
   Redirect,
@@ -37,10 +39,19 @@ import Icons from 'icons'
 const mapStateToProps = ({
   campaigns: {
     campaigns
+  },
+  campaign: {
+    decimals,
+    symbol,
+    links
   }
 }: RootState) => ({
-  campaigns
+  campaigns,
+  decimals,
+  symbol,
+  links
 })
+
 
 const defineDistributionMethods = (
   setCurrentStep: (currentStep: TStep) => void,
@@ -82,6 +93,7 @@ const defineDistributionMethods = (
 const definePopup = (
   currentStep: TStep | null,
   setCurrentStep: (currentStep: TStep | null) => void,
+  campaignId: string,
   addClaimLinksMethod: () => void
 ) => {
   switch (
@@ -116,6 +128,14 @@ const definePopup = (
         setCurrentStep={setCurrentStep}
       />
     
+    case 'launch':
+      return <LaunchProcessPopup
+        title='Generating claim links...'
+        campaignId={campaignId}
+        text='Distribute 10 USDC in each of the 100 claims'
+        onClose={() => setCurrentStep(null)}
+      />
+    
     default:
       return null
   }
@@ -135,6 +155,40 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
         })
       )
     },
+    getCampaignData: (
+      campaignId: string,
+    ) => {
+      dispatch(
+        campaignAsyncActions.getCampaignData({
+          campaign_id: campaignId,
+          callback: async () => {}
+        })
+      )
+    },
+    getTokenContractData: (
+      tokenAddress: string,
+      tokenType: TTokenType
+    ) => {
+      dispatch(
+        campaignAsyncActions.setTokenContractData(
+          tokenAddress,
+          tokenType
+        )
+      )
+    },
+    launch: (
+      campaignId: string,
+      proxyContractAddress: string,
+      callback: () => void
+    ) => {
+      dispatch(
+        campaignAsyncActions.launch(
+          campaignId,
+          proxyContractAddress,
+          callback
+        )
+      )
+    }
   }
 }
 
@@ -144,7 +198,13 @@ type ReduxType = ReturnType<typeof mapDispatcherToProps> &
 
 const CampaignDraft: FC<ReduxType> = ({
   campaigns,
-  addClaimLinksMethod
+  addClaimLinksMethod,
+  getTokenContractData,
+  decimals,
+  symbol,
+  links,
+  launch,
+  getCampaignData
 }) => {
   const [
     currentStep,
@@ -155,9 +215,53 @@ const CampaignDraft: FC<ReduxType> = ({
 
   // @ts-ignore
   const currentCampaign = campaigns.find(campaign => campaign.campaign_id === id)
+
+  useEffect(() => {
+    
+    getCampaignData(id)
+  }, [])
+
+  useEffect(() => {
+    if (
+      currentCampaign &&
+      currentCampaign.token_address &&
+      currentCampaign.token_standard
+    ) {
+      // @ts-ignore
+      getTokenContractData(
+        currentCampaign.token_address,
+        currentCampaign.token_standard
+      )
+    }
+  }, [
+    currentCampaign?.token_address
+  ])
+
+  // useEffect(() => {
+  //   if (
+  //     currentCampaign &&
+  //     decimals &&
+  //     symbol &&
+  //     links.length > 0
+  //   ) {
+  //     // @ts-ignore
+      
+  //   }
+  // }, [
+  //   currentCampaign?.token_address,
+  //   links,
+  //   //
+  //   decimals,
+  //   symbol
+  // ])
+
+
+
+
   if (!currentCampaign) {
     return <Redirect to='campaigns' />
   }
+
   return <Container>
     <Content>
       <ClaimLinksWidget
@@ -179,7 +283,16 @@ const CampaignDraft: FC<ReduxType> = ({
       draft={currentCampaign.draft}
       token={currentCampaign.token_address}
       chainId={currentCampaign.chain_id}
-      campaignId={id}
+      launch={() => {
+        setCurrentStep('launch')
+        launch(
+          id,
+          currentCampaign.proxy_contract_address,
+          () => {
+            setCurrentStep(null)
+          }
+        )
+      }}
       distributionMethod={currentCampaign.distribution_method}
     />
     
@@ -187,7 +300,7 @@ const CampaignDraft: FC<ReduxType> = ({
       definePopup(
         currentStep,
         setCurrentStep,
-
+        id,
         // @ts-ignore
         () => addClaimLinksMethod(
           currentCampaign.campaign_id,

@@ -96,18 +96,6 @@ export function setDecimals (decimals: number | null) {
   })
 }
 
-export function setAssets (assets: TAssetsData | null) {
-  return action(Constants.CAMPAIGN_SET_ASSETS, {
-    assets
-  })
-}
-
-export function setAssetsOriginal (assetsOriginal: TLinkContent[] | null) {
-  return action(Constants.CAMPAIGN_SET_ASSETS_ORIGINAL, {
-    assetsOriginal
-  })
-}
-
 export function setSymbol (symbol: string | null) {
   return action(Constants.CAMPAIGN_SET_SYMBOL, {
     symbol

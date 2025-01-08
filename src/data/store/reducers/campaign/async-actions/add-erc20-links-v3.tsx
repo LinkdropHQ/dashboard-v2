@@ -2,8 +2,12 @@ import { campaignsApi } from "data/api"
 import { Dispatch } from 'redux'
 import * as actionsCampaign from '../actions'
 import * as actionsUser from '../../user/actions'
+import * as actionsCampaigns from '../../campaigns/actions'
+
 import { CampaignActions } from '../types'
 import { UserActions } from '../../user/types'
+import { CampaignsActions } from '../../campaigns/types'
+
 import { RootState } from 'data/store'
 import {
   alertError,
@@ -21,22 +25,20 @@ const addERC20Links = (
   actionCallback: () => void
 ) => {
   return async (
-    dispatch: Dispatch<CampaignActions | UserActions>,
+    dispatch: Dispatch<CampaignActions | UserActions | CampaignsActions>,
     getState: () => RootState
   ) => {
     dispatch(actionsCampaign.setLoading(true))
 
     const {
-      user: {
-        sdk,
-        address,
-        chainId
-      },
       campaign: {
         expirationDate,
         decimals,
         tokenAddress,
         tokenStandard
+      },
+      campaigns: {
+        campaigns
       }
     } = getState()
 
@@ -62,6 +64,23 @@ const addERC20Links = (
 
       if (result.data.success) {
         dispatch(actionsCampaign.setLinks(links))
+
+        const campaignsUpdated = campaigns.map(campaign => {
+          if (campaign.campaign_id === campaignId) {
+            return {
+              ...campaign,
+              token_address: tokenAddress as string,
+              token_standard: tokenStandard as TTokenType
+            }
+          }
+
+          return campaign
+        })
+
+        dispatch(
+          actionsCampaigns.updateCampaigns(campaignsUpdated)
+        )
+
         if (actionCallback) {
           actionCallback()
         }

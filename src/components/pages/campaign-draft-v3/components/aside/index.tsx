@@ -9,37 +9,26 @@ import {
   TableValue,
   AsideContent,
   TableValueShorten,
-  AssetsList,
-  AsideDivider
 } from 'components/pages/common'
 import { Tag, TextLink } from 'components/common'
 import {
   defineExplorerUrl,
   shortenString
 } from 'helpers'
-import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions/index'
-import { Dispatch } from 'redux'
-import { CampaignActions } from 'data/store/reducers/campaign/types'
-import { IAppDispatch } from 'data/store'
+
 import { connect } from 'react-redux'
 import {
   ButtonsContainer,
   ButtonStyled
 } from '../../styled-components'
+import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions/index'
+import { Dispatch } from 'redux'
+import { CampaignActions } from 'data/store/reducers/campaign/types'
+import { IAppDispatch } from 'data/store'
 
 const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>) => {
   return {
-    launchClaimLinks: (
-      campaignId: string,
-      callback?: (campaign_id: string) => void
-    ) => {
-      dispatch(
-        campaignAsyncActions.launchClaimLinks({
-          campaign_id: campaignId,
-          callback
-        })
-      )
-    }
+    
   }
 }
 
@@ -49,12 +38,11 @@ type ReduxType = ReturnType<typeof mapDispatcherToProps> &
 
 const AsideComponent: FC<ReduxType> = ({
   title,
-  campaignId,
   draft,
   token,
   chainId,
   distributionMethod,
-  launchClaimLinks
+  launch
 }) => {
   const scannerUrl = defineExplorerUrl(chainId, `/address/${token || ''}`)
   console.log({
@@ -95,14 +83,8 @@ const AsideComponent: FC<ReduxType> = ({
         <ButtonStyled
           appearance='action'
           onClick={() => {
-            launchClaimLinks(
-              campaignId,
-              () => {
-                alert('created')
-              }
-            )
+            launch()
           }}
-
           disabled={!token || !distributionMethod}
         >
           Launch

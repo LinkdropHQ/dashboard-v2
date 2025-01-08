@@ -13,7 +13,6 @@ import { TTokenType } from "types"
 const setContractData = (
   tokenStandard: TTokenType,
   tokenAddress: string,
-  isSBT: boolean,
   callback: () => void
 ) => {
   return async (
