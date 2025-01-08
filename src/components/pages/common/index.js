@@ -36,6 +36,7 @@ import {
   InputContainer,
   InputSubtitle
 } from './styled-components'
+import ClaimAppSettings from './claim-app-settings'
 
 export {
   TransactionAside,
@@ -72,5 +73,6 @@ export {
   WidgetSectionSubtitle,
   TokenImage,
   ThumbnailUpload,
-  NewDispenserPopup
+  NewDispenserPopup,
+  ClaimAppSettings
 }

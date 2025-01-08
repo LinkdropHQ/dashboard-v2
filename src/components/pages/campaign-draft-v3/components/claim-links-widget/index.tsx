@@ -1,14 +1,35 @@
 import { FC } from 'react'
-import { WidgetStyled } from '../../styled-components'
+import {
+  WidgetStyled,
+  ButtonStyled,
+  WidgetHeader,
+  WidgetTitleStyled
+} from '../../styled-components'
+import {
+  WidgetSubtitle
+} from 'components/pages/common'
 import { TProps } from './types'
 
 const ClaimLinksWidget: FC<TProps> = ({
   setCurrentStep
 }) => {
   return <WidgetStyled>
-    CLAIM LINKS
+    <WidgetHeader>
+      <WidgetTitleStyled>
+        Token
+      </WidgetTitleStyled>
+      <ButtonStyled
+        appearance='action'
+        size='small'
+        onClick={() => setCurrentStep('choose_contract')}
+      >
+        Choose
+      </ButtonStyled>
+    </WidgetHeader>
+    <WidgetSubtitle>
+      Select tokens, NFTs or SBTs from your wallet and add them to your drop.
+    </WidgetSubtitle>
 
-    <button onClick={() => setCurrentStep('choose_contract')}>CHOOSE</button>
   </WidgetStyled>
 }
 

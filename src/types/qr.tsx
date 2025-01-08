@@ -16,17 +16,14 @@ export type TQRItem = {
 }
 
 export type TQRSet = {
-  set_name: string
   qr_quantity: number
-  status: TQRStatus
+  set_name?: string
   set_id?: number | string
-  creator_address: string
   created_at?: string
   qr_array?: TQRItem[]
   links_uploaded?: boolean
   updated_at?: string
-  campaign: {
-    campaign_id: string
-    title: string
-  }
+  status?: any
+  creator_address?: string
+  campaign?: any
 }

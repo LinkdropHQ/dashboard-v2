@@ -121,7 +121,7 @@ const ApproveERC20: FC<ReduxType> = ({
       value={amountPerClaim}
       disabled={loading}
       onChange={(value) => {
-        if (/^[0-9]+$/.test(value) || value === '') {
+        if (/^[0-9.]+$/.test(value) || value === '') {
           setAmountPerClaim(value)
         }
         return value
@@ -156,7 +156,7 @@ const ApproveERC20: FC<ReduxType> = ({
       value={weiAmount}
       disabled={loading}
       onChange={(value) => {
-        if (/^[0-9]+$/.test(value) || value === '') {
+        if (/^[0-9.]+$/.test(value) || value === '') {
           setWeiAmount(value)
         }
         return value

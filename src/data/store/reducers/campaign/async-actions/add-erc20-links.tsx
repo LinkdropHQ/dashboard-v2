@@ -48,7 +48,7 @@ const addERC20Links = (
             utils.parseUnits(amountPerLink, decimals as number)
           ),
           expiration_time: String(expirationDate),
-          wei_amount: weiAmount
+          wei_amount: weiAmount ? utils.parseUnits(weiAmount, decimals as number).toString() : '0'
         })
       }
 

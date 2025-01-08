@@ -1,15 +1,32 @@
 import { FC } from 'react'
-import { WidgetStyled } from '../../styled-components'
+import {
+  WidgetStyled,
+  ButtonStyled,
+  WidgetHeader,
+  WidgetTitleStyled
+} from '../../styled-components'
+import {
+  WidgetSubtitle
+} from 'components/pages/common'
 import { TProps } from './types'
 
-const DistributionWidget: FC<TProps> = ({
+const ClaimLinksWidget: FC<TProps> = ({
   setCurrentStep
 }) => {
   return <WidgetStyled>
-    DISTRIBUTION WIDGET
-
-    <button onClick={() => setCurrentStep('choose_distribution_method')}>CHOOSE</button>
+    <WidgetHeader>
+      <WidgetTitleStyled>
+        Distribution
+      </WidgetTitleStyled>
+      <ButtonStyled
+        appearance='action'
+        size='small'
+        onClick={() => setCurrentStep('choose_distribution_method')}
+      >
+        Choose
+      </ButtonStyled>
+    </WidgetHeader>
   </WidgetStyled>
 }
 
-export default DistributionWidget
+export default ClaimLinksWidget

@@ -70,14 +70,14 @@ const QR: FC<ReduxType> = ({
     const width = query.get('width')
     const height = query.get('height')
     if (!qr || !qr.qr_array) { return alertError('qr_array is not provided') }
-    downloadQRs(
-      qr.qr_array,
-      qr.set_name,
-      Number(width),
-      Number(height),
-      () => {
-        history.push(`/qrs/${id}`)
-      })
+    // downloadQRs(
+    //   qr.qr_array,
+    //   qr.set_name,
+    //   Number(width),
+    //   Number(height),
+    //   () => {
+    //     history.push(`/qrs/${id}`)
+    //   })
   }, [])
 
   useEffect(preventPageClose(), [])

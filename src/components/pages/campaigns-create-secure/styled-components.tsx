@@ -15,6 +15,15 @@ export const Header = styled.div`
   margin-bottom: 16px;
 `
 
+export const WidgetTitleStyled = styled(WidgetTitle)`
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+`
+
+
 export const CheckboxStyled = styled(Checkbox)`
 
 `
@@ -30,13 +39,6 @@ export const StyledInput = styled(Input)`
 `
 
 
-export const WidgetTitleStyled = styled(WidgetTitle)`
-  max-width: 400px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0;
-`
 
 export const ToggleStyled = styled(Toggle)`
 

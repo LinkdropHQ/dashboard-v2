@@ -1,7 +1,7 @@
 export type TProps = {
   title: string
   className?: string
-  subtitle: string
+  subtitle?: string
   children?: React.ReactNode
   note?: string
   onClose: () => void

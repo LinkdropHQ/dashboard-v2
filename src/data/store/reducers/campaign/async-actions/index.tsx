@@ -12,9 +12,11 @@ import createNewBatch from './create-new-batch'
 import create from './create-v3'
 import setContractData from './set-contract-data-v3'
 import addERC20Links from './add-erc20-links'
+import addQRSetData from './add-qr-set-data'
 
 export {
   createProxyAddress,
+  addQRSetData,
   addERC20Links,
   setContractData,
   createNewBatch,

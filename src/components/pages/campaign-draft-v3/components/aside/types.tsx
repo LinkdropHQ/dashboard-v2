@@ -4,6 +4,7 @@ export type TProps = {
   title: string
   draft: boolean
   token?: string 
-  distributionMethod?: TDistributionMethod 
+  distributionMethod?: TDistributionMethod
+  chainId: number
 }
 

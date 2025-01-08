@@ -53,13 +53,13 @@ const downloadQRsAsCSV = (
           return dispatch(actionsQR.setLoading(false))
         }
 
-        downloadQRsAsCSVHelper(
-          qr_array,
-          set_name,
-          dashboardKey,
-          address,
-          created_at
-        )
+        // downloadQRsAsCSVHelper(
+        //   qr_array,
+        //   set_name,
+        //   dashboardKey,
+        //   address,
+        //   created_at
+        // )
         dispatch(actionsQR.setLoading(false))
 
       } catch (err) {
