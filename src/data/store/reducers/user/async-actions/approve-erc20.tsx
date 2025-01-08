@@ -145,9 +145,6 @@ const approve = (
           }
         })
         dispatch(campaignActions.setApproved(true))
-        isNewCampaign && dispatch(actionsAsyncCampaigns.addCampaignToDrafts(
-          'secure'
-        ))
         if (callback) { callback() }
       }
     } catch (err) {

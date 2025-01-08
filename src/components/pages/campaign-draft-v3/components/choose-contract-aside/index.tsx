@@ -7,18 +7,22 @@ import {
   TProps
 } from './types'
 import {
-  SwitcherStyled
+  SwitcherStyled,
+  TokensListStyled,
+  AsidePopupStyled
 } from './styled-components'
-import {
-  AsidePopup,
-  TokensList
-} from 'components/common'
 import { RootState, IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 import { CampaignActions } from 'data/store/reducers/campaign/types'
 import { Dispatch } from 'redux'
 import * as userAsyncActions from 'data/store/reducers/user/async-actions'
-import { TNFTContract, TERC20Contract, TTokenType, TCollection, TContractListItem } from 'types'
+import {
+  TNFTContract,
+  TERC20Contract,
+  TTokenType,
+  TCollection,
+  TContractListItem
+} from 'types'
 import { utils } from 'ethers'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions'
 
@@ -64,7 +68,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>
       tokenStandard: TTokenType,
       tokenAddress: string,
       isSBT: boolean,
-      callback?: () => void
+      callback: () => void
     ) => dispatch(
       campaignAsyncActions.setContractData(
         tokenStandard,
@@ -152,9 +156,10 @@ const ChooseContractPopup: FC<TProps & ReduxType> = ({
   }, [currentSwitcherValue])
 
 
-  return <AsidePopup
+  return <AsidePopupStyled
     title='Choose tokens'
     subtitle='Choose tokens tokens you’d like to dispense.'
+    // @ts-ignore
     onClose={() => setCurrentStep(null)}
 
     actionDisabled={!contract}
@@ -162,11 +167,15 @@ const ChooseContractPopup: FC<TProps & ReduxType> = ({
       if (!contract) {
         return alert('No contract chosen')
       }
+      // @ts-ignore
       setContractData(
         contract.type,
         contract.tokenAddress,
         currentSwitcherValue === 'sbt',
-        () => {}
+        () => {
+          // @ts-ignore
+          setCurrentStep('set_erc20_links')
+        }
       )
     }}
   >
@@ -197,18 +206,19 @@ const ChooseContractPopup: FC<TProps & ReduxType> = ({
       }}
     />
 
-    <TokensList
+    <TokensListStyled
       contracts={defineContractsOptions(
         contracts,
         contractsERC20,
         collections,
         currentSwitcherValue
       )}
+      activeContract={contract?.tokenAddress}
       onSelect={(contract) => {
         setContract(contract)
       }}
     />
-  </AsidePopup>
+  </AsidePopupStyled>
 }
 
 // @ts-ignore

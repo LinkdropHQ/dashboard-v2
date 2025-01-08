@@ -161,7 +161,12 @@ const requests: {
     batch_id: string | number
   ) => {
     return campaignsApi.get(`/linkdrop/campaigns/${campaign_id}/batches/${batch_id}`, { withCredentials: true })
-  }
+  },
+
+  // launch: POST (`/linkdrop/campaigns/${campaign_id}/launch`, {
+  //   distribution_method: ...,
+  //   claim_links: []
+  // })
 }
 
 export default requests

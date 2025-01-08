@@ -39,7 +39,7 @@ const AsidePopup: FC<TProps> = ({
         />}
       </Title>
       <Subtitle>{subtitle}</Subtitle>
-      <Content>
+      <Content className='aside-popup__content'>
         {children}
       </Content>
       {action && <Controls>

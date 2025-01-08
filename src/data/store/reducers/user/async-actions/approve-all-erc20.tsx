@@ -116,10 +116,6 @@ const approve = (
           }
         })
         dispatch(campaignActions.setApproved(true))
-              // initial step passed
-        isNewCampaign && dispatch(actionsAsyncCampaigns.addCampaignToDrafts(
-          'secure'
-        ))
         if (callback) { callback() }
       }
     } catch (err) {

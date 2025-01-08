@@ -47,7 +47,6 @@ import { TNFTToken } from './nft-token'
 import { TERC20TokenList, TERC20TokenItem, TERC20TokenOriginalItem } from './erc20-token-list'
 import TButtonAppearance from './button-appearance'
 import TCampaignCreateStep from './campaign-create-step'
-import TCampaignDraft from './campaign-draft'
 import { TDispenserStats } from './dispenser-stats'
 import TMnemonicContract from './mnemonic-contract'
 import {
@@ -83,7 +82,6 @@ export {
   TDispenserWhitelistType,
   TButtonAppearance,
   TCollectionStatus,
-  TCampaignDraft,
   TERC20TokenItem,
   TERC20TokenList,
   TNFTContract,

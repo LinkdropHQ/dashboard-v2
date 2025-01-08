@@ -9,4 +9,6 @@ export type TProps = {
     onSelect?: TSelectAction
   })[]
   onSelect: TSelectAction
+  activeContract?: string
+  className?: string
 }

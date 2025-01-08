@@ -1,5 +1,5 @@
-import { TCampaignDraft } from "types"
+import { TCampaign } from "types"
 
 export type TProps = {
-  drafts: TCampaignDraft[]
+  drafts: TCampaign[]
 }

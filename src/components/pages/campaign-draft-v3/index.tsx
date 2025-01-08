@@ -63,7 +63,7 @@ const CampaignDraft: FC<ReduxType> = ({
   const [
     currentStep,
     setCurrentStep
-  ] = useState<TStep | null>('choose_contract')
+  ] = useState<TStep | null>(null)
 
   const { type, id } = useParams<TRouterURLParams>()
   const currentCampaign = campaigns.find(campaign => campaign.campaign_id === id)
@@ -87,8 +87,6 @@ const CampaignDraft: FC<ReduxType> = ({
       token={currentCampaign.token_address}
       distributionMethod={currentCampaign.distribution_method}
     />
-
-
     
     {
       definePopup(

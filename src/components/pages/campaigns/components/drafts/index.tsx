@@ -23,9 +23,6 @@ import {
 } from 'helpers'
 import Icons from 'icons'
 import { useHistory } from 'react-router-dom'
-import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions'
-import * as campaignsAsyncActions from 'data/store/reducers/campaigns/async-actions'
-import { IAppDispatch } from 'data/store'
 import { connect } from 'react-redux'
 
 const defineDraftUrl = (
@@ -44,37 +41,8 @@ const defineDraftUrl = (
   }
 }
 
-const mapDispatcherToProps = (dispatch: IAppDispatch) => {
-  return {
-    openDraft: (
-      id: string,
-      callback: () => void
-    ) => {
-      dispatch(
-        campaignAsyncActions.openDraft(
-          id,
-          callback
-        )
-      )
-    },
-    deleteDraft: (
-      id: string
-    ) => {
-      dispatch(
-        campaignsAsyncActions.removeCampaignFromDrafts(
-          id
-        )
-      )
-    }
-  }
-}
-
-type ReduxType = ReturnType<typeof mapDispatcherToProps>
-
-const Drafts: FC<TProps & ReduxType> = ({
-  drafts,
-  openDraft,
-  deleteDraft
+const Drafts: FC<TProps> = ({
+  drafts
 }) => {
   const history = useHistory()
 
@@ -84,60 +52,37 @@ const Drafts: FC<TProps & ReduxType> = ({
     <BatchListLabel>Token</BatchListLabel>
     <BatchListLabelTextAlignRight>Actions</BatchListLabelTextAlignRight>
     {drafts.map(campaign => {
-    const {
-      id,
-      campaign: campaignData,
-      step,
-      chainId,
-      createdAt
-    } = campaign
-    const scanUrl = defineExplorerUrl(Number(chainId), `/address/${campaignData.tokenAddress}`)
 
-    const dateCreatedFormatted = formatDate(createdAt || '')
-    return <>
-      <BatchListValue>
-        {dateCreatedFormatted}
-      </BatchListValue>
-      <BatchListValueFixed>{campaignData.title}</BatchListValueFixed>
-      <BatchListValue>
-        <TextLink href={scanUrl as string} target='_blank'>
-          {shortenString(campaignData.tokenAddress as string)}
-        </TextLink>
-      </BatchListValue>
-      <BatchListValue>
-        <Buttons>
-          <ButtonStyled
-            appearance='additional'
-            size='extra-small'
-            onClick={() => {
-              const url = defineDraftUrl(
-                step,
-                campaignData.tokenStandard as TTokenType
-              )
+      const scanUrl = defineExplorerUrl(Number(campaign.chain_id), `/address/${campaign.token_address}`)
 
-              openDraft(
-                String(id),
-                () => history.push(url)
-              )
-            }}
-          >
-            Continue
-          </ButtonStyled>
-
-          <ButtonStyled
-            appearance='additional'
-            size='extra-small'
-            onClick={() => {
-              deleteDraft(id as string)
-            }}
-          >
-            <Icons.TrashIcon />
-          </ButtonStyled>
-        </Buttons>
-        
-      </BatchListValue>
-    </>})}
+      const dateCreatedFormatted = formatDate(campaign.created_at || '')
+      return <>
+        <BatchListValue>
+          {dateCreatedFormatted}
+        </BatchListValue>
+        <BatchListValueFixed>{campaign.title}</BatchListValueFixed>
+        <BatchListValue>
+          <TextLink href={scanUrl as string} target='_blank'>
+            {shortenString(campaign.token_address as string)}
+          </TextLink>
+        </BatchListValue>
+        <BatchListValue>
+          <Buttons>
+            <ButtonStyled
+              appearance='additional'
+              size='extra-small'
+              onClick={() => {
+                history.push(`/campaigns/${campaign.campaign_id}/draft`)
+              }}
+            >
+              Continue
+            </ButtonStyled>
+          </Buttons>
+          
+        </BatchListValue>
+      </>}
+    )}
   </DraftsListStyled> : null
 }
 
-export default connect(null, mapDispatcherToProps)(Drafts)
+export default Drafts

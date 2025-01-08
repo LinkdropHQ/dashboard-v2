@@ -50,9 +50,6 @@ const grantRole = (
     if (approved) {
       await sleep(2000)
       dispatch(campaignActions.setLoading(false))
-      isNewCampaign && dispatch(actionsAsyncCampaigns.addCampaignToDrafts(
-        'secure'
-      ))
       if (callback) { callback() }
       return
     }
@@ -79,6 +76,7 @@ const grantRole = (
       }
 
       dispatch(campaignActions.setClaimPattern('mint'))
+      // @ts-ignore
       const contract = contracts[chainId]
       const gasPrice = await signer.getGasPrice()
       const oneGwei = utils.parseUnits('1', 'gwei')
@@ -133,9 +131,6 @@ const grantRole = (
           }
         })
         dispatch(campaignActions.setApproved(true))
-        isNewCampaign && dispatch(actionsAsyncCampaigns.addCampaignToDrafts(
-          'secure'
-        ))
         if (callback) { callback() }
       }
     } catch (err) {

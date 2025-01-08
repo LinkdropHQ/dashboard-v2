@@ -3,8 +3,7 @@ import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import { Loader } from 'components/common'
 import {
-  TCampaign,
-  TCampaignDraft
+  TCampaign
 } from 'types'
 import {
   Header,
@@ -20,7 +19,7 @@ import {
   TProps,
   TCampaignsType
 } from './types'
-import { NewCampaign } from './components'
+import { CreateCampaign } from './components'
 import {
   CampaignsItems,
   Drafts,
@@ -30,7 +29,6 @@ import {
 const mapStateToProps = ({
   campaigns: {
     campaigns,
-    drafts,
     loading
   },
   user: {
@@ -43,7 +41,6 @@ const mapStateToProps = ({
   address,
   chainId,
   loading,
-  drafts,
   userLoading
 })
 
@@ -59,7 +56,7 @@ const getActiveCampaigns = (
 }
 
 const getDrafts = (
-  drafts: TCampaignDraft[]
+  drafts: TCampaign[]
 ) => {
   return <Drafts
     drafts={drafts}
@@ -70,7 +67,6 @@ const CampaignsPage: FC<ReduxType & TProps> = ({
   campaigns,
   address,
   loading,
-  drafts,
   chainId,
   userLoading
 }) => {
@@ -81,14 +77,14 @@ const CampaignsPage: FC<ReduxType & TProps> = ({
   ] = useState<TCampaignsType>('ACTIVE')
 
   const currentAddressCampaigns = campaigns.filter(campaign => {
-    return campaign.creator_address.toLocaleLowerCase() === address.toLocaleLowerCase()
+    return (campaign.creator_address.toLocaleLowerCase() === address.toLocaleLowerCase()) && !campaign.draft
   })
 
   const [ newCampaignPopup, setNewCampaignPopup ] = useState(false)
 
   // @ts-ignore
-  const currentAddressDrafts = drafts.filter(draft => {
-    return draft.creatorAddress.toLocaleLowerCase() === address.toLocaleLowerCase() && draft.chainId === chainId
+  const currentAddressDrafts = campaigns.filter(campaign => {
+    return campaign.draft
   })
 
   const defineContent = () => {
@@ -124,13 +120,13 @@ const CampaignsPage: FC<ReduxType & TProps> = ({
         onClick={() => {setNewCampaignPopup(true)}}
         buttontText='New Campaign'
       />
-      {newCampaignPopup && <NewCampaign onClose={() => setNewCampaignPopup(false)} />}
+      {newCampaignPopup && <CreateCampaign onClose={() => setNewCampaignPopup(false)} />}
     </>
   }
 
   return <>
     <WidgetComponentStyled>
-      {newCampaignPopup && <NewCampaign onClose={() => setNewCampaignPopup(false)} />}
+      {newCampaignPopup && <CreateCampaign onClose={() => setNewCampaignPopup(false)} />}
       <Header>
         <WidgetTitleStyled>Claim links</WidgetTitleStyled>
         <ContainerButton

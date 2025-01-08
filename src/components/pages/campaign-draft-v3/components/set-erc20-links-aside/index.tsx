@@ -16,22 +16,15 @@ import {
 import {
   useParams
 } from 'react-router-dom'
-import * as userAsyncActions from 'data/store/reducers/user/async-actions/index'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions/index'
-
-import { RootState, IAppDispatch } from 'data/store'
 import { Dispatch } from 'redux'
 import { CampaignActions } from 'data/store/reducers/campaign/types'
 import {
-  TAssetsData,
-  TLinkContent,
-  TTotalAmount,
   TRouterURLParams
 } from 'types'
-import {
-  convertLinksContentERC20V3
-} from 'helpers'
+
 import { connect } from 'react-redux'
+import { RootState, IAppDispatch } from 'data/store'
 
 const mapStateToProps = ({
   campaign: {
@@ -152,6 +145,7 @@ const ApproveERC20: FC<ReduxType> = ({
       value={weiEnabled}
       label={`Include extra ETH`}
       disabled={loading}
+      size='small'
       onChange={((value) => {
         setWeiEnabled(value)
       })}

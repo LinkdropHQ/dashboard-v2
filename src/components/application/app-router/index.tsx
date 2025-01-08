@@ -48,7 +48,7 @@ const AppRouter: FC<ReduxType> = ({ address }) => {
           path='/campaigns'
           exact={true}
           loggedIn={Boolean(address)}
-          component={CampaignsV3}
+          component={Campaigns}
         />
         {/* <ProtectedRoute
           path='/campaigns/new'

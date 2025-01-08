@@ -45,10 +45,6 @@ function setInitialData(
         }
       })
 
-      isNewCampaign && dispatch(actionsAsyncCampaigns.addCampaignToDrafts(
-        'initial'
-      ))
-
       if (callback) {
         callback()
       }

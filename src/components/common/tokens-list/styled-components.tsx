@@ -11,7 +11,9 @@ export const TokenListItem = styled.li`
   margin: 0;
 `
 
-export const Token = styled.article`
+export const Token = styled.article<{
+  active: boolean
+}>`
   padding: 12px 16px;
   display: grid;
   grid-template-columns: 32px 1fr max-content;
@@ -19,8 +21,12 @@ export const Token = styled.article`
   align-items: center;
 
   &:hover {
-    background: pink;
+    background: ${props => props.theme.menuItemActive};
   }
+
+  ${props => props.active && `
+    background: ${props.theme.menuItemActive};
+  `}
 `
 
 export const TokenImage = styled.img`
@@ -36,6 +42,10 @@ export const TokenTitle = styled.h4`
   margin: 0 0 2px;
   font-size: 16px;
   line-height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 290px;
 `
 
 export const TokenBalance = styled.p`

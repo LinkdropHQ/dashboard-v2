@@ -50,11 +50,6 @@ function applyClaimPattern(
           claim_pattern: claimPattern
         }
       })
-      
-      // initial step passed
-      isNewCampaign && dispatch(actionsAsyncCampaigns.addCampaignToDrafts(
-        'approve'
-      ))
 
       if (callback) {
         callback()

@@ -14,9 +14,7 @@ const setContractData = (
   tokenStandard: TTokenType,
   tokenAddress: string,
   isSBT: boolean,
-  callback?: (
-    campaignId: string
-  ) => void
+  callback: () => void
 ) => {
   return async (
     dispatch: Dispatch<CampaignActions | UserActions>,
@@ -24,13 +22,9 @@ const setContractData = (
   ) => {
 
     try {
-      
-      // if (data.success) {
-      //   if (callback) {
-      //     callback(data.campaign.campaign_id)
-      //   }
-      // }
-      
+      dispatch(actionsCampaign.setTokenStandard(tokenStandard))
+      dispatch(actionsCampaign.setTokenAddress(tokenAddress))
+      callback()   
     } catch (err) {
       alertError('Some error occured. Please check console for more info')
     }

@@ -1,10 +1,10 @@
-import NewCampaign from './new-campaign'
+import CreateCampaign from './create-campaign'
 import CampaignsItems from './campaigns-items'
 import Drafts from './drafts'
 import Tabs from './tabs'
 
 export {
-  NewCampaign,
+  CreateCampaign,
   CampaignsItems,
   Drafts,
   Tabs

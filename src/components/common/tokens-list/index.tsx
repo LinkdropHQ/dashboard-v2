@@ -20,11 +20,13 @@ import { TContractListItem } from "types"
 export const TokenItem: FC<
   {
     contract: TContractListItem,
-    onSelect: TSelectAction
+    onSelect: TSelectAction,
+    activeContract?: string
   }
 > = ({
   contract,
-  onSelect
+  onSelect,
+  activeContract
 }) => {
   const {
     tokenAddress,
@@ -33,9 +35,12 @@ export const TokenItem: FC<
     balance,
     image
   } = contract
-  return <Token onClick={() => {
-    onSelect && onSelect(contract)
-  }}>
+  return <Token
+    active={activeContract === tokenAddress}
+    onClick={() => {
+      onSelect && onSelect(contract)
+    }}
+  >
     <TokenImage src={image} />
     <TokenContent>
       <TokenTitle>
@@ -53,14 +58,17 @@ export const TokenItem: FC<
 
 const TokensList: FC<TProps> = ({
   contracts,
-  onSelect
+  onSelect,
+  activeContract,
+  className
 }) => {
-  return <TokenList>
+  return <TokenList className={className}>
     {contracts.map(contract => {
       return <TokenListItem>
         <TokenItem
           contract={contract}
           onSelect={onSelect}
+          activeContract={activeContract}
         />
       </TokenListItem>
     })}

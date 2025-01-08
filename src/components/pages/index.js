@@ -28,7 +28,6 @@ import ReclaimQR from './reclaim-qr'
 
 // V3
 import CampaignDraft from './campaign-draft-v3'
-import CampaignsV3 from './campaigns-v3'
 
 export {
   Page,

@@ -51,8 +51,6 @@ import defineQROptions from './define-qr-options'
 import defineDispenserAppUrl from './define-dispenser-app-url'
 import defineDispenserStatus from './define-dispenser-status'
 import defineDispenserStatusName from './define-dispenser-status-name'
-import writeCampaignToLS from './write-campaign-to-ls'
-import getCampaignsFromLS from './get-campaigns-from-ls'
 import defineIfLinksHasEqualContents from './define-if-links-has-equal-contents'
 import defineLinkTokenType from './define-link-token-type'
 import preventPageClose from './prevent-page-close'
@@ -126,9 +124,7 @@ export {
   defineLinkTokenType,
   getMinterRole,
   defineNetworkIcon,
-  getCampaignsFromLS,
   defineIfLinksHasEqualContents,
-  writeCampaignToLS,
   defineDispenserStatus,
   defineDispenserStatusName,
   defineQROptions,

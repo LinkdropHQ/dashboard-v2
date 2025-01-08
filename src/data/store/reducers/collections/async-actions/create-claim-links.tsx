@@ -73,9 +73,6 @@ function createClaimLinks (
           sdk,
           address
         )
-        dispatch(actionsAsyncCampaigns.addCampaignToDrafts(
-          'approve'
-        ))
 
         if (callback) {
           callback(`/campaigns/new/${tokenType}/approve?token_id=${tokenId}&links_amount=${linksAmount}&collection_id=${collectionId}`)

@@ -203,7 +203,6 @@ const generateERC20Link = ({
               preferred_wallet: wallet
             }
           })
-          dispatch(actionsAsyncCampaigns.removeCurrentCampaignFromDrafts())
           if (callback) {
             const campaigns: { data: { campaigns_array: TCampaign[] } } = await campaignsApi.get(chainId)
             dispatch(campaignsActions.updateCampaigns(campaigns.data.campaigns_array))

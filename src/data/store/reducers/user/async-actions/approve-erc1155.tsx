@@ -49,9 +49,6 @@ const approve = (
       dispatch(campaignActions.setLoading(true))
       await sleep(2000)
       dispatch(campaignActions.setLoading(false))
-      isNewCampaign && dispatch(actionsAsyncCampaigns.addCampaignToDrafts(
-        'secure'
-      ))
       if (callback) { callback() }
       return
     }
@@ -109,9 +106,6 @@ const approve = (
           }
         })
         dispatch(campaignActions.setApproved(true))
-        isNewCampaign && dispatch(actionsAsyncCampaigns.addCampaignToDrafts(
-          'secure'
-        ))
         if (callback) { callback() }
       }
     } catch (err) {
