@@ -13,9 +13,15 @@ import create from './create-v3'
 import setContractData from './set-contract-data-v3'
 import addERC20Links from './add-erc20-links'
 import addQRSetData from './add-qr-set-data'
+import addClaimLinksMethod from './add-claim-links-method'
+import launchClaimLinks from './launch-claim-links-v3'
+import updateSettings from './update-settings'
 
 export {
   createProxyAddress,
+  launchClaimLinks,
+  updateSettings,
+  addClaimLinksMethod,
   addQRSetData,
   addERC20Links,
   setContractData,

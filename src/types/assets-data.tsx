@@ -12,7 +12,10 @@ export type TTotalAmount = {
   original_amount?: BigNumber;
 }
 
-export type TDefineTotalAmountERC20 = (assets: TAsset[], decimals?: number | null) => TTotalAmount
+export type TDefineTotalAmountERC20 = (
+  assets: TAsset[],
+  decimals?: number | null
+) => TTotalAmount
 
 type TAssetsData = TAsset[]
 

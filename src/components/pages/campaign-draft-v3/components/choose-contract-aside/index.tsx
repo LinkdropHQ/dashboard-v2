@@ -87,6 +87,9 @@ const defineContractsOptions = (
   currentSwitcherValue: string | null
 ) => {
   if (currentSwitcherValue === 'tokens') {
+    console.log({
+      contractsERC20
+    })
     return contractsERC20.map(contract => {
       return {
         title: contract.symbol,

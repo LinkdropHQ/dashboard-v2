@@ -4,7 +4,7 @@ import * as actionsAsyncCampaigns from '../../campaigns/async-actions'
 import { CampaignActions } from '../types'
 import { UserActions } from '../../user/types'
 import { RootState, IAppDispatch } from 'data/store'
-import { TCampaignNew, TCampaign } from 'types'
+import { TCampaign } from 'types'
 import { CampaignsActions } from '../../campaigns/types'
 import { campaignsApi } from 'data/api'
 import { encrypt } from 'lib/crypto'
@@ -158,57 +158,57 @@ const generateERC20Link = ({
           batch_description: 'legacy property'
         }
         
-        const newCampaign: TCampaignNew = {
-          campaign_number: id,
-          encrypted_signer_key: encrypt(signerKey, dashboardKey as string),
-          signer_address: signerAddress,
-          token_address: tokenAddress,
-          draft: true,
-          creator_address: address,
-          distribution_method: 'CLAIM_LINKS',
-          wallet,
-          sdk,
-          symbol,
-          title: title || '',
-          token_standard: tokenStandard,
-          chain_id: String(chainId),
-          proxy_contract_address: proxyContractAddress,
-          claim_pattern: claimPattern,
-          proxy_contract_version: version,
-          sponsored,
-          available_countries: countriesWhitelist,
-          available_countries_on: countriesWhitelistOn,
-          preferred_wallet_on: preferredWalletOn,
-          additional_wallets_on: additionalWalletsOn,
-          collection_id: collectionId ? collectionId : undefined,
-          collection_token_id: collectionTokenId ? collectionTokenId : undefined,
-          claim_host: '',
-          claim_host_on: false,
-          multiple_claims_on: false,
-          ...batch
-        }
+        // const newCampaign: TCampaignNew = {
+        //   campaign_number: id,
+        //   encrypted_signer_key: encrypt(signerKey, dashboardKey as string),
+        //   signer_address: signerAddress,
+        //   token_address: tokenAddress,
+        //   draft: true,
+        //   creator_address: address,
+        //   distribution_method: 'CLAIM_LINKS',
+        //   wallet,
+        //   sdk,
+        //   symbol,
+        //   title: title || '',
+        //   token_standard: tokenStandard,
+        //   chain_id: String(chainId),
+        //   proxy_contract_address: proxyContractAddress,
+        //   claim_pattern: claimPattern,
+        //   proxy_contract_version: version,
+        //   sponsored,
+        //   available_countries: countriesWhitelist,
+        //   available_countries_on: countriesWhitelistOn,
+        //   preferred_wallet_on: preferredWalletOn,
+        //   additional_wallets_on: additionalWalletsOn,
+        //   collection_id: collectionId ? collectionId : undefined,
+        //   collection_token_id: collectionTokenId ? collectionTokenId : undefined,
+        //   claim_host: '',
+        //   claim_host_on: false,
+        //   multiple_claims_on: false,
+        //   ...batch
+        // }
 
-        const result = await campaignsApi.create(newCampaign)
-        if (result.data.success) {
-          const { campaign } = result.data
-          plausibleApi.invokeEvent({
-            eventName: 'camp_created',
-            data: {
-              network: defineNetworkName(chainId),
-              token_type: tokenStandard as string,
-              claim_pattern: claimPattern,
-              distribution: sdk ? 'sdk' : 'manual',
-              sponsorship: sponsored ? 'sponsored' : 'non sponsored',
-              extra_token: !nativeTokensPerLink?.eq('0') ? 'yes' : 'no',
-              preferred_wallet: wallet
-            }
-          })
-          if (callback) {
-            const campaigns: { data: { campaigns_array: TCampaign[] } } = await campaignsApi.get(chainId)
-            dispatch(campaignsActions.updateCampaigns(campaigns.data.campaigns_array))
-            callback(campaign.campaign_id)
-          }
-        }
+        // const result = await campaignsApi.create(newCampaign)
+        // if (result.data.success) {
+        //   const { campaign } = result.data
+        //   plausibleApi.invokeEvent({
+        //     eventName: 'camp_created',
+        //     data: {
+        //       network: defineNetworkName(chainId),
+        //       token_type: tokenStandard as string,
+        //       claim_pattern: claimPattern,
+        //       distribution: sdk ? 'sdk' : 'manual',
+        //       sponsorship: sponsored ? 'sponsored' : 'non sponsored',
+        //       extra_token: !nativeTokensPerLink?.eq('0') ? 'yes' : 'no',
+        //       preferred_wallet: wallet
+        //     }
+        //   })
+        //   if (callback) {
+        //     const campaigns: { data: { campaigns_array: TCampaign[] } } = await campaignsApi.get(chainId)
+        //     dispatch(campaignsActions.updateCampaigns(campaigns.data.campaigns_array))
+        //     callback(campaign.campaign_id)
+        //   }
+        // }
       }
       terminateWorkers(workers)
       dispatch(actionsCampaign.clearCampaign())

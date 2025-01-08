@@ -6,5 +6,6 @@ export type TProps = {
   token?: string 
   distributionMethod?: TDistributionMethod
   chainId: number
+  campaignId: string
 }
 

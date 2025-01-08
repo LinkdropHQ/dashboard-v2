@@ -1,6 +1,13 @@
 import { ActionType } from 'typesafe-actions';
 import * as actions from './actions'
-import { TTokenType, TLinkContent, TClaimPattern, TAssetsData, TLink } from 'types'
+import {
+  TTokenType,
+  TLinkContent,
+  TClaimPattern,
+  TAssetsData,
+  TLink,
+  TLaunchStage
+} from 'types'
 import { BigNumber } from 'ethers'
 
 export interface CampaignState {
@@ -26,10 +33,7 @@ export interface CampaignState {
   linksGenerateLoader: number
   sdk: boolean
   expirationDate: number
-  links: {
-    date: string,
-    links: TLink[],
-  }[]
+  links: TLink[]
   countriesWhitelist: string[]
   countriesWhitelistOn: boolean
   preferredWalletOn: boolean
@@ -42,6 +46,8 @@ export interface CampaignState {
   claimHost: string | null
   claimHostOn: boolean
   multipleClaimsOn: boolean
+
+  launchStage: TLaunchStage
 }
 
 export type CampaignActions = ActionType<typeof actions>;

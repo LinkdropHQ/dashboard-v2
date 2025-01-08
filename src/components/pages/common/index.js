@@ -9,6 +9,7 @@ import ThumbnailUpload from './thumbnail-upload'
 import AttentionContainer from './attention-container'
 import InitialNote from './initial-note'
 import NewDispenserPopup from './new-dispenser-popup'
+import LaunchPopup, { LaunchPopupItem } from "./launch-popup"
 
 import {
   Container,
@@ -74,5 +75,7 @@ export {
   TokenImage,
   ThumbnailUpload,
   NewDispenserPopup,
-  ClaimAppSettings
+  ClaimAppSettings,
+  LaunchPopup,
+  LaunchPopupItem
 }

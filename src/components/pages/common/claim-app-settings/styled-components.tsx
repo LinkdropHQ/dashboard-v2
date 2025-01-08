@@ -26,3 +26,7 @@ export const TableTextStyled = styled(TableText)`
     display: block;
   }
 `
+
+export const Container = styled.div`
+  margin-bottom: 20px;
+`

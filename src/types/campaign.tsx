@@ -45,7 +45,6 @@ type TCampaign = {
   claim_host_on: boolean
   multiple_claims_on: boolean
 
-
   // v3
   draft: boolean
   distribution_method: TDistributionMethod

@@ -4,15 +4,19 @@ import { Link } from 'react-router-dom'
 
 export const AsidePopupStyled = styled(AsidePopup)`
   display: grid;
-  grid-template-rows: min-content min-content 1fr min-content;
+  grid-template-rows: min-content min-content 1fr;
   height: 100vh;
-  min-width: 614px;
+  padding-bottom: 24px;
+
+  .aside-popup__content {
+    overflow-y: auto;
+  }
 `
 
 export const Option = styled.div`
   display: grid;
   padding: 24px;
-  grid-template-columns: 154px 1fr;
+  grid-template-columns: 1fr;
   gap: 32px;
   align-items: center;
   cursor: pointer;
@@ -31,9 +35,10 @@ export const OptionTitle = styled.h4`
   font-size: 16px;
   line-height: 24px;
   align-items: center;
-  display: flex;
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  gap: 8px;
   color: ${props => props.theme.primaryTextColor};
-  justify-content: space-between;
 `
 
 export const OptionText = styled.p`
@@ -41,15 +46,6 @@ export const OptionText = styled.p`
   font-size: 14px;
   color: ${props => props.theme.primaryTextColor};
   line-height: 20px;
-`
-
-export const OptionImage = styled.div`
-  width: 100%;
-
-  svg {
-    max-width: 100%;
-    height: auto;
-  }
 `
 
 export const OptionContent = styled.div`

@@ -13,7 +13,7 @@ export type TCreateСampaign = ({
   proxy_contract_address,
   creator_address,
   // encrypted_signer_key,
-  signer_address
+  // signer_address
 }: {
   title: string,
   chain_id: string,
@@ -21,5 +21,5 @@ export type TCreateСampaign = ({
   proxy_contract_address: string,
   creator_address: string,
   // encrypted_signer_key: string,
-  signer_address: string
+  // signer_address: string
 }) => Promise<AxiosResponse<TCreateСampaignResponse>>

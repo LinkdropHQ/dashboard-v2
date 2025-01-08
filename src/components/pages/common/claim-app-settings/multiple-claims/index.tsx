@@ -19,6 +19,10 @@ const MultipleClaims: FC<TProps> = ({
     onClose={onClose}
     toggleAction={toggleAction}
     toggleState={toggleValue}
+    action={() => {
+      onClose()
+    }}
+    actionTitle='OK'
   />
 }
 

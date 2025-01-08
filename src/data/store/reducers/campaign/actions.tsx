@@ -1,6 +1,6 @@
 import { action } from 'typesafe-actions'
 import { Constants } from './constants'
-import { TTokenType, TAssetsData, TLinkContent, TLink, TClaimPattern } from 'types'
+import { TTokenType, TAssetsData, TLinkContent, TLink, TClaimPattern, TLaunchStage } from 'types'
 import { BigNumber } from 'ethers'
 import { CampaignState } from './types'
 
@@ -167,10 +167,15 @@ export function setSponsored (sponsored: boolean) {
 }
 
 
-export function setLinks (links: TLink[], date: string) {
+export function setLinks (links: TLink[]) {
   return action(Constants.CAMPAIGN_SET_LINKS, {
-    links,
-    date
+    links
+  })
+}
+
+export function setLaunchStage (launchStage: TLaunchStage) {
+  return action(Constants.CAMPAIGN_SET_LAUNCH_STAGE, {
+    launchStage
   })
 }
 

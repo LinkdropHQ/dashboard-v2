@@ -1,7 +1,6 @@
 import {
   FC,
-  useState,
-  useEffect
+  useState
 } from 'react'
 import {
   TProps
@@ -17,14 +16,15 @@ import {
   useParams
 } from 'react-router-dom'
 import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions/index'
-import { Dispatch } from 'redux'
 import { CampaignActions } from 'data/store/reducers/campaign/types'
 import {
-  TRouterURLParams
+  TRouterURLParams,
+  TTokenType
 } from 'types'
+import { Dispatch } from 'redux'
+import { RootState, IAppDispatch } from 'data/store'
 
 import { connect } from 'react-redux'
-import { RootState, IAppDispatch } from 'data/store'
 
 const mapStateToProps = ({
   campaign: {

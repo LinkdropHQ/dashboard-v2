@@ -5,7 +5,8 @@ import {
 import {
   TableValueStyled,
   ButtonStyled,
-  TableTextStyled
+  TableTextStyled,
+  Container
 } from './styled-components'
 import {
   TProps,
@@ -318,7 +319,7 @@ const Settings: FC<TProps> = ({
     multipleClaimsOnToggleValue,
   ) : null
 
-  return <>
+  return <Container>
     {currentSetting && null}
     {popup}
     {settings.map(setting => {
@@ -348,7 +349,7 @@ const Settings: FC<TProps> = ({
         enabledLabel
       )})
     }
-  </>
+  </Container>
 }
 
 export default Settings

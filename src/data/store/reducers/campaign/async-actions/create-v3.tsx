@@ -50,11 +50,7 @@ const createCampaign = (
           throw new Error('proxyContractAddress is not defined')
         }
   
-        const newWallet = ethers.Wallet.createRandom()
-        const { address: wallet, privateKey } = newWallet
-  
-        dispatch(actionsCampaign.setSignerKey(privateKey))
-        dispatch(actionsCampaign.setSignerAddress(wallet))
+
 
         const { data } = await campaignsApi.createV3({
           title,
@@ -63,7 +59,7 @@ const createCampaign = (
           proxy_contract_address: proxyContractAddress,
           creator_address: address,
           // encrypted_signer_key: encrypt(privateKey, dashboardKey),
-          signer_address: wallet
+          // signer_address: wallet
         })
   
         if (data.success) {

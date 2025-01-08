@@ -3,7 +3,8 @@ import {
   WidgetStyled,
   ButtonStyled,
   WidgetHeader,
-  WidgetTitleStyled
+  WidgetTitleStyled,
+  WidgetContent
 } from '../../styled-components'
 import {
   WidgetSubtitle
@@ -26,10 +27,11 @@ const ClaimLinksWidget: FC<TProps> = ({
         Choose
       </ButtonStyled>
     </WidgetHeader>
-    <WidgetSubtitle>
-      Select tokens, NFTs or SBTs from your wallet and add them to your drop.
-    </WidgetSubtitle>
-
+    <WidgetContent>
+      <WidgetSubtitle>
+        Select tokens, NFTs or SBTs from your wallet and add them to your drop.
+      </WidgetSubtitle>
+    </WidgetContent>
   </WidgetStyled>
 }
 

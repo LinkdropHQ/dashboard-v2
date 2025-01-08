@@ -12,21 +12,55 @@ import {
   AssetsList,
   AsideDivider
 } from 'components/pages/common'
-import { TextLink } from 'components/common'
+import { Tag, TextLink } from 'components/common'
 import {
   defineExplorerUrl,
   shortenString
 } from 'helpers'
+import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions/index'
+import { Dispatch } from 'redux'
+import { CampaignActions } from 'data/store/reducers/campaign/types'
+import { IAppDispatch } from 'data/store'
+import { connect } from 'react-redux'
+import {
+  ButtonsContainer,
+  ButtonStyled
+} from '../../styled-components'
 
-const AsideComponent: FC<TProps> = ({
+const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>) => {
+  return {
+    launchClaimLinks: (
+      campaignId: string,
+      callback?: (campaign_id: string) => void
+    ) => {
+      dispatch(
+        campaignAsyncActions.launchClaimLinks({
+          campaign_id: campaignId,
+          callback
+        })
+      )
+    }
+  }
+}
+
+// @ts-ignore
+type ReduxType = ReturnType<typeof mapDispatcherToProps> &
+                 TProps
+
+const AsideComponent: FC<ReduxType> = ({
   title,
+  campaignId,
   draft,
   token,
   chainId,
-  distributionMethod
+  distributionMethod,
+  launchClaimLinks
 }) => {
   const scannerUrl = defineExplorerUrl(chainId, `/address/${token || ''}`)
-
+  console.log({
+    token,
+    distributionMethod
+  })
   return <Aside
     title="Summary"
     subtitle="Check and confirm details"
@@ -37,6 +71,13 @@ const AsideComponent: FC<TProps> = ({
         <TableValueShorten>{title}</TableValueShorten>
       </TableRow>
 
+      <TableRow>
+        <TableText>Status</TableText>
+        <TableValue>
+          <Tag title='Draft' status='info'  />
+        </TableValue>
+      </TableRow>
+
       {token && <TableRow>
         <TableText>Token address</TableText>
         <TableValue>
@@ -44,10 +85,35 @@ const AsideComponent: FC<TProps> = ({
         </TableValue>
       </TableRow>}
 
-      
+      <TableRow>
+        <TableText>Distribution</TableText>
+        <TableValue>
+          {distributionMethod || '-'}
+        </TableValue>
+      </TableRow>
+      <ButtonsContainer>
+        <ButtonStyled
+          appearance='action'
+          onClick={() => {
+            launchClaimLinks(
+              campaignId,
+              () => {
+                alert('created')
+              }
+            )
+          }}
+
+          disabled={!token || !distributionMethod}
+        >
+          Launch
+        </ButtonStyled>
+      </ButtonsContainer>
     </AsideContent>
   </Aside>
 }
 
-
-export default AsideComponent
+// @ts-ignore
+export default connect(
+  null,
+  mapDispatcherToProps
+)(AsideComponent)

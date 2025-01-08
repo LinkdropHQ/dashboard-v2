@@ -1,11 +1,12 @@
 import axios from 'axios'
-import { TLink, TCampaignNew } from 'types'
+import { TLink } from 'types'
 import {
   TCreateСampaign,
   TGetOneCampaign,
   TUpdateCampaign,
   TSaveBatchV3,
-  TAddClaimLinksMethod
+  TAddClaimLinksMethod,
+  TLaunchClaimLinks
 } from './types'
 const {
   REACT_APP_SERVER_URL,
@@ -25,8 +26,8 @@ const requests: {
   update: TUpdateCampaign,
   saveBatchV3: TSaveBatchV3,
   addClaimLinksMethod: TAddClaimLinksMethod,
+  launchClaimLinks: TLaunchClaimLinks,
   // will update later
-  create: any,
   get: any,
   saveBatch: any,
   getBatches: any,
@@ -34,12 +35,16 @@ const requests: {
   getBatch: any
 } = {
 
-  create: (
-    campaign: TCampaignNew
-  ) => campaignsApi.post('/linkdrop/campaigns', {
-    ...campaign
-  }, { withCredentials: true }),
-
+  launchClaimLinks: ({
+    campaign_id,
+    claim_links,
+    campaign
+  }) => {
+    return campaignsApi.post(`/linkdrop/campaigns/${campaign_id}/launch`, {
+      claim_links,
+      campaign
+    }, { withCredentials: true })
+  },
   get: (chain_id: number | string) => {
     return campaignsApi.get(`/linkdrop/campaigns?chain_id=${chain_id}`, { withCredentials: true })
   },
@@ -51,8 +56,6 @@ const requests: {
     campaign_number,
     proxy_contract_address,
     creator_address,
-    // encrypted_signer_key,
-    signer_address
   }) => {
     return campaignsApi.post(`/linkdrop/campaigns`, {
       title,
@@ -60,9 +63,6 @@ const requests: {
       campaign_number,
       proxy_contract_address,
       creator_address,
-      // encrypted_signer_key,
-      signer_address,
-      proxy_contract_version: '3'
     }, {
       withCredentials: true
     })
@@ -106,7 +106,7 @@ const requests: {
     campaign_id
   }) => {
     return campaignsApi.post(`/linkdrop/campaigns/${campaign_id}/distribution-method`, {
-      type: 'CLAIM_LINKS'
+      distribution_method: 'CLAIM_LINKS'
     }, { withCredentials: true })
   },
 
@@ -131,14 +131,12 @@ const requests: {
 
   saveBatch: (
     campaign_id: string | number,
-    claim_links: TLink[],
-    batch_description: string
+    claim_links: TLink[]
   ) => {
     return campaignsApi.post(
       `/linkdrop/campaigns/${campaign_id}/save-batch`,
       {
-        claim_links,
-        batch_description
+        claim_links
       },
       { withCredentials: true }
     )

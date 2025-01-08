@@ -73,8 +73,18 @@ import { ReactComponent as UndoIcon } from 'icons/undo-icon.svg'
 import { ReactComponent as SBTTokensIcon } from './sbt-tokens-icon.svg'
 import { ReactComponent as NFTTokensIcon } from './nft-tokens-icon.svg'
 
+import { ReactComponent as DistributionClaimLinksIcon } from './distribution-claim-links-icon.svg'
+import { ReactComponent as DistributionDispenserIcon } from './distribution-dispenser-icon.svg'
+import { ReactComponent as DistributionDynamicIcon } from './distribution-dynamic-qr-icon.svg'
+import { ReactComponent as DistributionQRSetIcon } from './distribution-qr-set-icon.svg'
+
+
 const Icons = {
   EthereumLogo,
+  DistributionClaimLinksIcon,
+  DistributionDispenserIcon,
+  DistributionDynamicIcon,
+  DistributionQRSetIcon,
   ArchiveIcon,
   SBTTokensIcon,
   DownloadFileIcon,

@@ -28,12 +28,10 @@ import {
   TDispenser,
   TDispenserUpdateData,
   TDispenserLinks,
-  TDispenserWhitelistType,
-  TDispenserWhitelistItemAddress
+  TDispenserWhitelistType
 } from './dispenser'
 import TLinksBatch from './links-batch'
 import TBase64File from './base64-file'
-import TCampaignNew from './campaign-new'
 import TLinkDecrypted from './link-decrypted'
 import TClaimPattern from './claim-pattern'
 import { TLinkContent } from './link-contents'
@@ -63,6 +61,8 @@ import { TZerionNetworkItem } from './zerion-network-item'
 import TCountry from './country'
 import { TStatus } from './status'
 import { TQRManagerItem, TQRManagerItemType } from './qr-manager-item'
+import TCampaignLaunch from './campaign-launch'
+import TLaunchStage from './launch-stage'
 
 export {
   TCampaign,
@@ -70,6 +70,7 @@ export {
   TQRManagerItemType,
   TStatus,
   TZerionNetworkItem,
+  TCampaignLaunch,
   TContractListItem,
   TDispenserStats,
   TCountry,
@@ -114,6 +115,7 @@ export {
   TSelectOption,
   TDefineTotalAmountERC20,
   TLink,
+  TLaunchStage,
   TTotalAmount,
   TFormatDate,
   TRouterURLParams,
@@ -122,7 +124,6 @@ export {
   TQRItem,
   TLinksBatch,
   TBase64File,
-  TCampaignNew,
   TLinkDecrypted,
   TCollection,
   TCollectionToken,

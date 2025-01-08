@@ -94,7 +94,9 @@ const getERC20Contracts = () => {
 
               const contractAddress = token.contractAddress.toLocaleLowerCase()
               const tokenListInstance = tokenListERC20[contractAddress]
-
+              console.log({
+                tokenListInstance
+              })
               if (!tokenListInstance) {
                 continue
               }

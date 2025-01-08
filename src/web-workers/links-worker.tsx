@@ -1,6 +1,6 @@
 import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 import { expose } from 'comlink'
-import { TLink, TAssetsData, TTokenType } from 'types'
+import { TLink, TTokenType } from 'types'
 const { REACT_APP_SERVER_URL, REACT_APP_ZUPLO_API_KEY } = process.env
 
 export class LinksWorker {
@@ -115,7 +115,7 @@ export class LinksWorker {
     type: TTokenType,
     linkdropMasterAddress: string,
     chainId: string | number,
-    assets: TAssetsData,
+    links: TLink[],
     tokenAddress: string,
     signerKey: string,
     nativeTokensPerLink: string,
@@ -129,13 +129,13 @@ export class LinksWorker {
       this.createSDK(
         linkdropMasterAddress
       )
-      for (let i = 0; i < assets.length; i++) {
+      for (let i = 0; i < links.length; i++) {
         let result
         if (type === 'ERC20') {
           result = await this.createERC20Link(
             String(nativeTokensPerLink),
             tokenAddress,
-            assets[i].amount || '0',
+            links[i].token_amount || '0',
             String(expirationDate),
             chainId,
             signerKey,
@@ -147,7 +147,7 @@ export class LinksWorker {
           result = await this.createERC721Link(
             String(nativeTokensPerLink),
             tokenAddress,
-            String(assets[i].id || '0'),
+            String(links[i].token_id || '0'),
             String(expirationDate),
             chainId,
             signerKey,
@@ -160,8 +160,8 @@ export class LinksWorker {
           result = await this.createERC1155Link(
             String(nativeTokensPerLink),
             tokenAddress,
-            String(assets[i].id || '0'),
-            assets[i].amount || '0',
+            String(links[i].token_id || '0'),
+            links[i].token_amount || '0',
             String(expirationDate),
             chainId,
             signerKey,
@@ -173,8 +173,8 @@ export class LinksWorker {
         if (result) {
           const linkData = {
             encrypted_claim_code: result.encrypted_claim_code,
-            token_id: String(assets[i].id || '0'),
-            token_amount: assets[i].amount || '0',
+            token_id: String(links[i].token_id || '0'),
+            token_amount: links[i].token_amount || '0',
             link_id: result.link_id,
             sender_signature: result.sender_signature,
             expiration_time: String(expirationDate),
@@ -182,7 +182,7 @@ export class LinksWorker {
           }
           
           this.newLinks = [...this.newLinks, linkData]
-          const percentageFinished = Math.round(this.newLinks.length / assets.length * 100) / 100
+          const percentageFinished = Math.round(this.newLinks.length / links.length * 100) / 100
           if (this.currentPercentageFinished < percentageFinished) {
             this.currentPercentageFinished = percentageFinished
             this.cb(this.currentPercentageFinished)

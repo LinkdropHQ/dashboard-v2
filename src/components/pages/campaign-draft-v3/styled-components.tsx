@@ -28,7 +28,6 @@ export const WidgetHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
 `
 
 export const WidgetTitleStyled = styled(WidgetTitle)`
@@ -37,4 +36,13 @@ export const WidgetTitleStyled = styled(WidgetTitle)`
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
+`
+
+export const WidgetContent = styled.div`
+  padding-top: 16px;
+`
+export const ButtonsContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: end;
 `

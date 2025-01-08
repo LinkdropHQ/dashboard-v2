@@ -3,13 +3,14 @@ import {
   WidgetStyled,
   ButtonStyled,
   WidgetHeader,
-  WidgetTitleStyled
+  WidgetTitleStyled,
+  WidgetContent
 } from '../../styled-components'
-
 import { TProps } from './types'
 
 const ClaimLinksWidget: FC<TProps> = ({
-  setCurrentStep
+  setCurrentStep,
+  distributionMethod
 }) => {
   return <WidgetStyled>
     <WidgetHeader>
@@ -24,6 +25,9 @@ const ClaimLinksWidget: FC<TProps> = ({
         Choose
       </ButtonStyled>
     </WidgetHeader>
+    <WidgetContent>
+      {distributionMethod}
+    </WidgetContent>
   </WidgetStyled>
 }
 

@@ -13,7 +13,7 @@ import { ethers, utils } from 'ethers'
 import * as actionsAsyncUser from '../../user/async-actions'
 import { TLink, TTokenType } from 'types'
 
-const addERC20Links = (
+const addERC1155Links = (
   campaignId: string,
   amountPerLink: string,
   linksAmount: string,
@@ -27,11 +27,6 @@ const addERC20Links = (
     dispatch(actionsCampaign.setLoading(true))
 
     const {
-      user: {
-        sdk,
-        address,
-        chainId
-      },
       campaign: {
         expirationDate,
         decimals,
@@ -77,4 +72,4 @@ const addERC20Links = (
   }
 }
 
-export default addERC20Links
+export default addERC1155Links

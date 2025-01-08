@@ -4,7 +4,6 @@ import {
   Option,
   OptionText,
   OptionTitle,
-  OptionImage,
   OptionContent
 } from './styled-components'
 import { TProps } from './types'
@@ -18,11 +17,9 @@ const defineDispenser = (
   onClick: () => void
 ) => {
   return <Option onClick={onClick}>
-    <OptionImage>
-      {image}
-    </OptionImage>
     <OptionContent>
       <OptionTitle>
+        {image}
         {title}
         <Icons.ArrowRightIcon />
       </OptionTitle>
@@ -44,7 +41,6 @@ const NewDispenserPopup: FC<TProps> = ({
     subtitle={subtitle}
     onClose={onClose}
   >
-
     {dispenserOptions.map(dispenser => {
       return defineDispenser(
         dispenser.title,

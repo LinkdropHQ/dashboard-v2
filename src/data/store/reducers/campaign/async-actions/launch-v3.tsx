@@ -63,7 +63,7 @@ const createCampaign = (
           proxy_contract_address: proxyContractAddress,
           creator_address: address,
           // encrypted_signer_key: encrypt(privateKey, dashboardKey),
-          signer_address: wallet
+          // signer_address: wallet
         })
   
         if (data.success) {

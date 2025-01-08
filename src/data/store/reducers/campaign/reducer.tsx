@@ -32,7 +32,7 @@ const initialState: CampaignState = {
   preferredWalletOn: false,
   collectionId: null,
   collectionTokenId: null,
-
+  launchStage: null,
   claimHost: null,
   claimHostOn: false,
   multipleClaimsOn: false
@@ -65,7 +65,10 @@ export function newRetroDropReducer(
 
         case Constants.CAMPAIGN_SET_COLLECTION_TOKEN_ID:
           return {...state, collectionTokenId: action.payload.collectionTokenId }
-    
+
+        case Constants.CAMPAIGN_SET_LAUNCH_STAGE:
+          return {...state, launchStage: action.payload.launchStage }
+
         case Constants.CAMPAIGN_SET_TITLE:
           return {...state, title: action.payload.title }
         case Constants.CAMPAIGN_SET_LOADING:
@@ -110,10 +113,7 @@ export function newRetroDropReducer(
         case Constants.CAMPAIGN_SET_PREFERRED_WALLET_ON:
           return {...state, preferredWalletOn: action.payload.preferredWalletOn }
         case Constants.CAMPAIGN_SET_LINKS:
-          return {...state, links: [
-            ...state.links,
-            action.payload
-          ]}
+          return {...state, links: action.payload.links }
         case Constants.CAMPAIGN_SET_LINKS_GENERATE_LOADER:
           return {...state, linksGenerateLoader: action.payload.linksGenerateLoader }
         case Constants.CAMPAIGN_SET_CAMPAIGN:

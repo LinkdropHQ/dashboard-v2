@@ -5,6 +5,7 @@ import ClaimLinksWidget from "./claim-links-widget"
 import Aside from "./aside"
 import SetQRSet from "./set-qr-set"
 import ClaimAppSettings from './claim-app-settings'
+import LaunchProcessPopup from './launch-process-popup'
 
 export {
   ChooseContractAside,
@@ -13,5 +14,6 @@ export {
   DistributionWidget,
   SetERC20LinksAside,
   Aside,
-  SetQRSet
+  SetQRSet,
+  LaunchProcessPopup
 }

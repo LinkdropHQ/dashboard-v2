@@ -16,15 +16,20 @@ import {
   ClaimAppSettings
 } from './components'
 import {
+  TDistributionMethod,
   TRouterURLParams
 } from 'types'
 import {
   Redirect,
   useParams
 } from 'react-router-dom'
-import { RootState } from 'data/store'
+import * as campaignAsyncActions from 'data/store/reducers/campaign/async-actions/index'
+import { Dispatch } from 'redux'
+import { CampaignActions } from 'data/store/reducers/campaign/types'
+import { RootState, IAppDispatch } from 'data/store'
 import {
-  NewDispenserPopup
+  NewDispenserPopup,
+  LaunchPopup
 } from 'components/pages/common'
 import { connect } from 'react-redux'
 import Icons from 'icons'
@@ -38,39 +43,46 @@ const mapStateToProps = ({
 })
 
 const defineDistributionMethods = (
-  setCurrentStep: (currentStep: TStep) => void
+  setCurrentStep: (currentStep: TStep) => void,
+  addClaimLinksMethod: () => void,
 ) => {
   return [
     {
-      title: 'Dynamic QR for electronic displays',
+      title: 'Claim links',
+      text: 'A set of simple URLs with wrapped tokens, ready to be distributed via messengers and emails. Each link allows a user to claim their tokens easily',
+      onClick: () => {
+        addClaimLinksMethod()
+      },
+      image: <Icons.DistributionClaimLinksIcon />
+    }, {
+      title: 'Dynamic QR',
       text: 'A web page with an auto-refresh QR code that updates in real time. This ensures secure distribution, preventing a single user from claiming all tokens',
       onClick: () => {
         
       },
-      image: <Icons.DynamicQRPreviewIcon />
+      image: <Icons.DistributionDynamicIcon />
     }, {
-      title: 'Printable Dispenser QR code',
+      title: 'Dispenser QR',
       text: 'A single QR code that dispenses tokens one-by-one to users after they scan it. Ideal for controlled and sequential token distribution',
       onClick: () => {
         
       },
-      image: <Icons.DispenserQRPreviewIcon />
+      image: <Icons.DistributionDispenserIcon />
     }, {
-      title: 'Printable Set of QR codes',
+      title: 'QR Set',
       text: 'A set of single-claim QR codes. Each QR code is valid for one claim only, and becomes invalid after being scanned and claimed by a user',
       onClick: () => {
         setCurrentStep('set_qr-set')
       },
-      image: <Icons.QRSetPreviewIcon />
+      image: <Icons.DistributionQRSetIcon />
     }
   ]
 }
 
-
-
 const definePopup = (
   currentStep: TStep | null,
-  setCurrentStep: (currentStep: TStep | null) => void
+  setCurrentStep: (currentStep: TStep | null) => void,
+  addClaimLinksMethod: () => void
 ) => {
   switch (
     currentStep
@@ -86,9 +98,14 @@ const definePopup = (
     
     case 'choose_distribution_method':
       return <NewDispenserPopup
-        dispenserOptions={defineDistributionMethods(setCurrentStep)}
-        title='Create QR campaign'
-        subtitle='Start new QR campaign to distribute your tokens by choosing the method that best suits your needs:'
+        dispenserOptions={
+          defineDistributionMethods(
+            setCurrentStep,
+            addClaimLinksMethod
+          )
+        }
+        title='New campaign'
+        subtitle='Start new campaign to distribute your tokens by choosing the method that best suits your needs:'
         onClose={() => {
           setCurrentStep(null)
         }}
@@ -104,11 +121,30 @@ const definePopup = (
   }
 }
 
+const mapDispatcherToProps = (dispatch: IAppDispatch & Dispatch<CampaignActions>) => {
+  return {
+    // @ts-ignore
+    addClaimLinksMethod: (
+      campaignId: string,
+      callback: () => void
+    ) => {
+      dispatch(
+        campaignAsyncActions.addClaimLinksMethod({
+          campaignId,
+          successCallback: callback
+        })
+      )
+    },
+  }
+}
+
 // @ts-ignore
-type ReduxType = ReturnType<typeof mapStateToProps>
+type ReduxType = ReturnType<typeof mapDispatcherToProps> &
+                 ReturnType<typeof mapStateToProps>
 
 const CampaignDraft: FC<ReduxType> = ({
-  campaigns
+  campaigns,
+  addClaimLinksMethod
 }) => {
   const [
     currentStep,
@@ -116,6 +152,8 @@ const CampaignDraft: FC<ReduxType> = ({
   ] = useState<TStep | null>(null)
 
   const { type, id } = useParams<TRouterURLParams>()
+
+  // @ts-ignore
   const currentCampaign = campaigns.find(campaign => campaign.campaign_id === id)
   if (!currentCampaign) {
     return <Redirect to='campaigns' />
@@ -128,6 +166,7 @@ const CampaignDraft: FC<ReduxType> = ({
 
       <DistributionWidget
         setCurrentStep={setCurrentStep}
+        distributionMethod={currentCampaign.distribution_method}
       />
 
       <ClaimAppSettings
@@ -140,16 +179,27 @@ const CampaignDraft: FC<ReduxType> = ({
       draft={currentCampaign.draft}
       token={currentCampaign.token_address}
       chainId={currentCampaign.chain_id}
+      campaignId={id}
       distributionMethod={currentCampaign.distribution_method}
     />
     
     {
       definePopup(
         currentStep,
-        setCurrentStep
+        setCurrentStep,
+
+        // @ts-ignore
+        () => addClaimLinksMethod(
+          currentCampaign.campaign_id,
+          () => setCurrentStep(null)
+        )
       )
     }
   </Container>
 }
 
-export default connect(mapStateToProps)(CampaignDraft)
+// @ts-ignore
+export default connect(
+  mapStateToProps,
+  mapDispatcherToProps
+)(CampaignDraft)
