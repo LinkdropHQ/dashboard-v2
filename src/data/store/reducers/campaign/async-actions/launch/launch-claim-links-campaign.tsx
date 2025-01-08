@@ -6,7 +6,8 @@ import { RootState, IAppDispatch } from 'data/store'
 import {
   TCampaignLaunch,
   TCampaign,
-  TTokenType
+  TTokenType,
+  TDistributionMethod
 } from 'types'
 import { CampaignsActions } from '../../../campaigns/types'
 import { campaignsApi } from 'data/api'
@@ -27,6 +28,7 @@ const launchClaimLinksCampaign = async ({
   campaign_id,
   proxyContractAddress,
   token_standard,
+  distribution_method,
   dispatch,
   getState,
   actionCallback,
@@ -34,6 +36,7 @@ const launchClaimLinksCampaign = async ({
   campaign_id: string,
   proxyContractAddress: string,
   token_standard: TTokenType,
+  distribution_method: TDistributionMethod,
   dispatch: Dispatch<CampaignActions | UserActions | CampaignsActions> & IAppDispatch,
   getState: () => RootState,
   actionCallback?: (id: string) => void,
@@ -123,7 +126,8 @@ const launchClaimLinksCampaign = async ({
       const result = await campaignsApi.launchClaimLinks({
         campaign_id,
         campaign: campaignData,
-        claim_links: batchLinks
+        claim_links: batchLinks,
+        distribution_method
       })
   
       if (result.data.success) {

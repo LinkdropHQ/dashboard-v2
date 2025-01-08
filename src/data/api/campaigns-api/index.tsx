@@ -40,11 +40,13 @@ const requests: {
   launchClaimLinks: ({
     campaign_id,
     claim_links,
-    campaign
+    campaign,
+    distribution_method
   }) => {
     return campaignsApi.post(`/linkdrop/campaigns/${campaign_id}/launch`, {
       claim_links,
-      campaign
+      campaign,
+      distribution_method
     }, { withCredentials: true })
   },
   get: (chain_id: number | string) => {

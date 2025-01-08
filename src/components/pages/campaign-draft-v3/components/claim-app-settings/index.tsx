@@ -87,8 +87,8 @@ const ClaimAppSettings: FC<ReduxType> = ({
     multiple_claims_on,
     claiming_finished_button_url,
     claiming_finished_button_title,
-    available_countries
-
+    available_countries,
+    claiming_finished_auto_redirect
     // @ts-ignore
   } = campaign
 
@@ -103,7 +103,8 @@ const ClaimAppSettings: FC<ReduxType> = ({
     multiple_claims_on,
     claiming_finished_button_url,
     claiming_finished_button_title,
-    available_countries
+    available_countries,
+    claiming_finished_auto_redirect
   }
 
   const [ settingsData, setSettingsData ] = useState<TSettingsData>(defaultSettings)
@@ -116,6 +117,7 @@ const ClaimAppSettings: FC<ReduxType> = ({
       loading={loading}
       countries={countries}
       campaignData={campaign}
+      autoRedirectValue={claiming_finished_auto_redirect}
       additionalWalletsOnValue={Boolean(settingsData.additional_wallets_on)}
       availableCountriesValue={settingsData.available_countries.map((currentCountry) => {
         const country = countries.find(country => country.id === currentCountry)

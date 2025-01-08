@@ -128,6 +128,9 @@ export class LinksWorker {
         linkdropMasterAddress
       )
       for (let i = 0; i < links.length; i++) {
+        console.log({
+          link: links[i]
+        })
         let result
         if (type === 'ERC20') {
           result = await this.createERC20Link(
@@ -139,7 +142,7 @@ export class LinksWorker {
             signerKey,
             dashboardKey,
             proxyContractAddress,
-            proxyContractVersion
+            proxyContractVersion,
           )
         } else if (type === 'ERC721') {
           result = await this.createERC721Link(
@@ -174,6 +177,7 @@ export class LinksWorker {
             token_id: String(links[i].token_id || '0'),
             token_amount: links[i].token_amount || '0',
             link_id: result.link_id,
+            _id: links[i]._id,
             sender_signature: result.sender_signature,
             expiration_time: links[i].expiration_time,
             wei_amount: links[i].wei_amount || '0',

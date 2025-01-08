@@ -109,6 +109,7 @@ const definePopup = (
   finalScreenButtonSubmit: (
     buttonTitleValue: string,
     buttonHrefValue: string,
+    autoRedirectValue: boolean,
     successAction?: () => void,
     errorAction?: () => void
   ) => void,
@@ -118,6 +119,7 @@ const definePopup = (
   additionalWalletsOnValue: boolean,
   buttonTitleValue: string,
   buttonHrefValue: string,
+  autoRedirectValue: boolean,
   countries: TCountry[],
   customClaimHost: string,
 
@@ -171,6 +173,7 @@ const definePopup = (
         onClose={onClose}
         buttonTitleValue={buttonTitleValue}
         buttonHrefValue={buttonHrefValue}
+        autoRedirectValue={autoRedirectValue}
         action={finalScreenButtonSubmit}
         toggleAction={finalScreenButtonToggleAction}
         toggleValue={finalScreenButtonToggleValue}
@@ -254,6 +257,7 @@ const Settings: FC<TProps> = ({
   finalScreenButtonSubmit,
   buttonTitleValue,
   buttonHrefValue,
+  autoRedirectValue,
   
   campaignData,
   loading,
@@ -300,6 +304,7 @@ const Settings: FC<TProps> = ({
     additionalWalletsOnValue,
     buttonTitleValue,
     buttonHrefValue,
+    autoRedirectValue,
     countries,
     customClaimHostValue,
     campaignData.sponsored,

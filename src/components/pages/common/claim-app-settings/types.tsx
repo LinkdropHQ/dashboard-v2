@@ -25,10 +25,12 @@ export type TProps = {
 
   buttonTitleValue: string
   buttonHrefValue: string
+  autoRedirectValue: boolean
 
   finalScreenButtonSubmit: (
     buttonTitle: string,
     buttonHref: string,
+    autoRedirectValue: boolean,
     successAction?: () => void,
     errorAction?: () => void
   ) => void

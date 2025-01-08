@@ -88,6 +88,7 @@ const launch = (
           await launchClaimLinksCampaign({
             campaign_id: campaignId,
             proxyContractAddress,
+            distribution_method,
             token_standard,
             dispatch,
             getState

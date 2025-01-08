@@ -5,10 +5,12 @@ export type TProps = {
   id: string
   buttonTitleValue: string
   buttonHrefValue: string
+  autoRedirectValue: boolean
 
   action: (
     buttonTitleValue: string,
     buttonHrefValue: string,
+    autoRedirectValue: boolean,
     successAction?: () => void,
     errorAction?: () => void
   ) => void

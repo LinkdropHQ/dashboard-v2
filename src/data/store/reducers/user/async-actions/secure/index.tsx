@@ -42,17 +42,24 @@ const secure = async (
     if (!chainId) {
       return alertError('No chainId provided')
     }
+    alert('1')
+
     const contract = contracts[chainId]
     dispatch(campaignActions.setLoading(true))
     const newWallet = ethers.Wallet.createRandom()
     const { address: publicKey, privateKey: signerKey } = newWallet
     dispatch(campaignActions.setSignerKey(signerKey))
     dispatch(campaignActions.setSignerAddress(publicKey))
+    alert('2')
+
     const proxyContract = new ethers.Contract(proxyContractAddress, LinkdropMastercopy.abi, signer)
     let iface = new utils.Interface(LinkdropFactory.abi)
+    alert('3')
     let data = iface.encodeFunctionData('deployProxyWithSigner', [
       campaignNumber, publicKey, claimPattern === 'mint' ? 1 : 0
     ])
+    alert('4')
+
     let to = contract.factory
     if (totalAmount.wei_amount_formatted.gte(nativeTokenAmount as BigNumberish)) {
       const nativeToken = defineNativeTokenSymbol({ chainId })

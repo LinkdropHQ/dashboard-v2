@@ -1,13 +1,15 @@
 import {
   FC,
-  useState,
-  useEffect
+  useState
 } from 'react'
 import { TProps } from './types'
 import {
   AsidePopup
 } from 'components/common'
-import { InputStyled } from './styled-components'
+import {
+  InputStyled,
+  CheckboxStyled
+} from './styled-components'
 import { isURL } from 'helpers'
 
 const FinalScreenButton: FC<TProps> = ({
@@ -17,11 +19,13 @@ const FinalScreenButton: FC<TProps> = ({
   action,
   buttonHrefValue,
   buttonTitleValue,
+  autoRedirectValue,
   toggleAction,
   toggleValue
 }) => {
   const [ buttonHref, setButtonHref ] = useState<string>(buttonHrefValue || '')
   const [ buttonTitle, setButtonTitle ] = useState<string>(buttonTitleValue || '')
+  const [ autoRedirect, setAutoRedirect ] = useState<boolean>(autoRedirectValue || false)
 
   return <AsidePopup
     title={title}
@@ -34,17 +38,26 @@ const FinalScreenButton: FC<TProps> = ({
         return alert('Button link not provided')
       }
 
-      if (!buttonTitle) {
-        return alert('Button title not provided')
+      if (!autoRedirect) {
+        if (!buttonTitle) {
+          return alert('Button title not provided')
+        }
+  
+        if (!isURL(buttonHref)) {
+          return alert('Incorrect format for button link')
+        }
+      } else {
+        if (!isURL(buttonHref)) {
+          return alert('Incorrect format for button link')
+        }
       }
 
-      if (!isURL(buttonHref)) {
-        return alert('Incorrect format for button link')
-      }
+
 
       action(
         buttonTitle,
         buttonHref,
+        autoRedirect,
         () => onClose()
       )
     }}
@@ -64,6 +77,15 @@ const FinalScreenButton: FC<TProps> = ({
         value={buttonHref}
         onChange={(value) => {
           setButtonHref(value)
+          return value
+        }}
+      />
+
+      <CheckboxStyled
+        label='Enable auto-redirect after claim'
+        value={autoRedirect}
+        onChange={(value) => {
+          setAutoRedirect(value)
           return value
         }}
       />
