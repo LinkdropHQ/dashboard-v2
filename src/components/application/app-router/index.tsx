@@ -31,7 +31,6 @@ import {
   ReclaimQR,
   ReclaimQRCreate,
   Reclaims,
-  CampaignsV3,
   CampaignDraft
 } from 'components/pages'
 import { connect } from 'react-redux'

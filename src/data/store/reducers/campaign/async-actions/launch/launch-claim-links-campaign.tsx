@@ -133,7 +133,7 @@ const launchClaimLinksCampaign = async ({
       if (result.data.success) {
         const { campaign } = result.data
         if (actionCallback) {
-          const campaigns: { data: { campaigns_array: TCampaign[] } } = await campaignsApi.get(chainId)
+          const campaigns = await campaignsApi.get(chainId)
           // @ts-ignore
           dispatch(campaignsActions.updateCampaigns(campaigns.data.campaigns_array))
           actionCallback(campaign.campaign_id)

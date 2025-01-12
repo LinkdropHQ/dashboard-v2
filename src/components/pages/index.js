@@ -24,7 +24,8 @@ import CampaignQRsGenerate from './campaign-qrs-generate'
 import ReclaimQRCreate from './reclaim-qr-create'
 import Reclaims from './reclaims'
 import ReclaimQR from './reclaim-qr'
-
+import { utils, BigNumber } from 'ethers'
+console.log({ utils, BigNumber })
 
 // V3
 import CampaignDraft from './campaign-draft-v3'
@@ -34,7 +35,6 @@ export {
   Reclaims,
   ReclaimQR,
   ReclaimQRCreate,
-  CampaignsV3,
   DynamicQRCreate,
   CampaignDraft,
   Collection,

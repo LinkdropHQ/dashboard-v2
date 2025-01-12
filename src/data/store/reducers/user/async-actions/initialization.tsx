@@ -80,7 +80,7 @@ const initialization = () => {
         qrManagerData,
         collectionsData
       ]) => {
-        const campaigns: { data: { campaigns_array: TCampaign[] } } = campaignsData 
+        const campaigns = campaignsData 
         const qrs: { data: { qr_sets: TQRSet[] } } = qrsData 
         const collections: { data: { collections: TCollection[] } } = collectionsData 
         const dispensers: { data: { dispensers: TDispenser[] } } = dispensersData

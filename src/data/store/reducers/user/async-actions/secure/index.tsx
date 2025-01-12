@@ -11,10 +11,7 @@ import { RootState } from 'data/store'
 import { LinkdropFactory, LinkdropMastercopy } from 'abi'
 import contracts from 'configs/contracts'
 import { defineNativeTokenSymbol, defineNetworkName, alertError } from 'helpers'
-import { plausibleApi } from 'data/api'
 import { TTotalAmountERC20 } from 'types'
-import * as actionsUser from '../../actions'
-import * as actionsAsyncUser from '../../async-actions'
 
 const secure = async (
   totalAmount: TTotalAmountERC20,
@@ -57,11 +54,13 @@ const secure = async (
     ])
 
     let to = contract.factory
+
+    // compare 
     console.log({
-      wei_amount_formatted: totalAmount.wei_amount_formatted,
+      wei_amount_original: totalAmount.wei_amount_original,
       nativeTokenAmount
     })
-    if (totalAmount.wei_amount_formatted.gte(nativeTokenAmount as BigNumberish)) {
+    if (totalAmount.wei_amount_original.gte(nativeTokenAmount as BigNumberish)) {
       const nativeToken = defineNativeTokenSymbol({ chainId })
       dispatch(campaignActions.setLoading(false))
       return alertError(`Not enough ${nativeToken} on account`)
@@ -70,7 +69,7 @@ const secure = async (
     await signer.sendTransaction({
       to,
       from: address,
-      value: totalAmount.wei_amount_formatted,
+      value: totalAmount.wei_amount_original,
       data: data
     })
 

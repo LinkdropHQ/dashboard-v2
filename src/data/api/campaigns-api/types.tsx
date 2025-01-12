@@ -5,6 +5,7 @@ import type { TGetOneCampaign } from './get-one/types'
 import type { TSaveBatchV3 } from './save-batch/types'
 import type { TLaunchClaimLinks } from './launch-claim-links/types'
 import type { TGetBatch } from './get-batch/types'
+import type { TGetAll } from './get-all/types'
 import type {
   TAddClaimLinksMethod
 } from './add-claim-links-method/types'
@@ -16,7 +17,8 @@ export {
   TSaveBatchV3,
   TAddClaimLinksMethod,
   TLaunchClaimLinks,
-  TGetBatch
+  TGetBatch,
+  TGetAll
 }
 
 

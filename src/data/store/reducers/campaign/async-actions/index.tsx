@@ -15,12 +15,13 @@ import addClaimLinksMethod from './add-claim-links-method-v3'
 import launch from './launch'
 import updateAdditionalSettings from './update-additional-settings'
 import updateClaimAppSettings from './update-claim-app-settings'
-
+import createV3 from './create-v3'
 import setTokenContractData from './set-token-contract-data-v3'
 import getCampaignData from './get-campaign-data-v3'
 
 export {
   createProxyAddress,
+  createV3,
   getCampaignData,
   launch,
   updateAdditionalSettings,

@@ -8,6 +8,7 @@ import * as actionsUser from '../../../user/actions'
 import { getTotalAmountERC20 } from 'helpers'
 import { approveERC20V3 } from 'data/store/reducers/user/async-actions/approve'
 import secure from 'data/store/reducers/user/async-actions/secure/index'
+import * as actionsAsyncUser from '../../../user/async-actions'
 
 const launch = (
   campaignId: string,
@@ -25,9 +26,6 @@ const launch = (
       campaign: {
         links,
         decimals
-      },
-      user: {
-        dashboardKey
       }
     } = getState()
 
@@ -39,14 +37,21 @@ const launch = (
         campaign_number
       } = campaign
 
-      const callback = async () => {
+      const callback = async (dashboardKey: string) => {
+        console.log('HERE666')
+        console.log({decimals})
+
         if (!decimals) {
           throw new Error('No decimals defined')
         }
+        console.log('HERE1', links, decimals)
+
         const totalAmount = getTotalAmountERC20(
           links,
           decimals
         )
+        console.log({ totalAmount })
+
 
         // approve
         try {
@@ -94,7 +99,25 @@ const launch = (
             getState
           })
         }
+
+        if (distribution_method === 'QR_SET') {
+          //
+          // await launchQRSetCampaign({
+          //   campaign_id: campaignId,
+          //   proxyContractAddress,
+          //   distribution_method,
+          //   token_standard,
+          //   dispatch,
+          //   getState
+          // })
+        }
+
+
       }
+
+      let dashboardKey = actionsAsyncUser.useDashboardKey(
+        getState
+      )
 
       if (!dashboardKey) {
         //
@@ -105,7 +128,7 @@ const launch = (
         return 
       }
       
-      await callback()
+      await callback(dashboardKey)
     }
 
   }

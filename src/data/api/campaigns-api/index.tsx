@@ -7,7 +7,8 @@ import {
   TSaveBatchV3,
   TAddClaimLinksMethod,
   TLaunchClaimLinks,
-  TGetBatch
+  TGetBatch,
+  TGetAll
 } from './types'
 const {
   REACT_APP_SERVER_URL,
@@ -29,9 +30,7 @@ const requests: {
   addClaimLinksMethod: TAddClaimLinksMethod,
   launchClaimLinks: TLaunchClaimLinks,
   getBatch: TGetBatch,
-
-  // will update later
-  get: any,
+  get: TGetAll,
   saveBatch: any,
   getBatches: any,
   getReport: any
@@ -52,8 +51,6 @@ const requests: {
   get: (chain_id: number | string) => {
     return campaignsApi.get(`/linkdrop/campaigns?chain_id=${chain_id}`, { withCredentials: true })
   },
-
-
   createV3: ({
     title,
     chain_id,
