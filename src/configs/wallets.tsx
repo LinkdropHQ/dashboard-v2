@@ -7,7 +7,7 @@ const wallets: TWallet[] = [
     chains: ['1', '137', '8453', '13371'],
     token_types: ['ERC1155', 'ERC20', 'ERC721'],
     available_for_not_sponsored: true,
-    available_for_client: []
+    available_for_client: ['coinbase']
   },
   {
     id: 'coinbase_wallet',
@@ -15,7 +15,7 @@ const wallets: TWallet[] = [
     chains: ['1', '137', '8453', '13371'],
     token_types: ['ERC1155', 'ERC20', 'ERC721'],
     available_for_not_sponsored: true,
-    available_for_client: []
+    available_for_client: ['coinbase']
   },
   {
     id: 'okx_wallet',
