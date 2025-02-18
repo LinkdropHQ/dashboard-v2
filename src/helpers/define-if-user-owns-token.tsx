@@ -1,5 +1,5 @@
 import { TTokenType } from "types"
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import { ERC20Contract, ERC721Contract, ERC1155Contract } from 'abi'
 
 type TDefineIfUserOwnsToken = (userAddress: string, tokenType: TTokenType, tokenAddress: string, signer: any, tokenId: string) => Promise<{ owns: boolean, balance: string }>

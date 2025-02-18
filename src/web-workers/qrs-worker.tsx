@@ -2,7 +2,7 @@
 import { expose } from 'comlink'
 import { TQRItem, TQROption, TLinkDecrypted } from 'types'
 import * as wccrypto from '@walletconnect/utils'
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import { decrypt, encrypt } from 'lib/crypto'
 import QRCodeStyling from 'qr-code-styling-bigmac'
 

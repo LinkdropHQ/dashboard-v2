@@ -6,7 +6,7 @@ import {
 import {
   CampaignActions
 } from 'data/store/reducers/campaign/types'
-import { utils, ethers } from 'ethers'
+import { utils, ethers } from 'ethers5'
 import { IAppDispatch, RootState } from 'data/store'
 import { ERC20Contract } from 'abi'
 import { TAssetsData, TLinkContent } from 'types'

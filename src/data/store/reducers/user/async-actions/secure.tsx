@@ -6,7 +6,7 @@ import {
 import {
   CampaignActions
 } from 'data/store/reducers/campaign/types'
-import { utils, ethers, BigNumberish, BigNumber } from 'ethers'
+import { utils, ethers, BigNumberish, BigNumber } from 'ethers5'
 import { RootState } from 'data/store'
 import { LinkdropFactory, LinkdropMastercopy } from 'abi'
 import contracts from 'configs/contracts'

@@ -1,4 +1,4 @@
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 
 export type TAsset = {
   amount?: string,

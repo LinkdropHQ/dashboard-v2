@@ -1,6 +1,6 @@
 import {
   utils,
-} from 'ethers'
+} from 'ethers5'
 
 
 const {

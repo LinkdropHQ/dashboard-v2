@@ -6,7 +6,7 @@ import {
 import {
   CampaignActions
 } from 'data/store/reducers/campaign/types'
-import { utils, ethers } from 'ethers'
+import { utils, ethers } from 'ethers5'
 import { IAppDispatch, RootState } from 'data/store'
 import contracts from 'configs/contracts'
 import { defineContract, alertError } from 'helpers'

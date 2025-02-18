@@ -1,7 +1,7 @@
 import { UserState, UserActions } from './types'
 import { Constants } from './constants'
 import chains from 'configs/chains'
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 
 const { REACT_APP_CHAINS } = process.env
 const chainsAvailable: number[] = REACT_APP_CHAINS ? JSON.parse(REACT_APP_CHAINS) : Object.keys(chains)

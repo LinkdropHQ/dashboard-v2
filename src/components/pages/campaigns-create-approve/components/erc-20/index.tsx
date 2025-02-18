@@ -27,7 +27,7 @@ import { Tooltip } from 'components/common'
 import { useParams } from 'react-router-dom'
 import { TTokenType, TLinkContent } from 'types'
 import Icons from 'icons'
-import { utils, BigNumber } from 'ethers'
+import { utils, BigNumber } from 'ethers5'
 
 const mapStateToProps = ({
   user: {

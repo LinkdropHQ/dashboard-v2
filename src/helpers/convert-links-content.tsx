@@ -1,5 +1,5 @@
 import { TLinkContent, TAssetsData, TClaimPattern } from 'types'
-import { utils, BigNumber } from 'ethers'
+import { utils, BigNumber } from 'ethers5'
 import { getBignumberInterval } from 'helpers'
 // export type TAsset = {
 //   amount?: string,

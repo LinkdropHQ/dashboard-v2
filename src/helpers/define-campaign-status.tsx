@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import { LinkdropMastercopy } from 'abi'
 
 const defineCampaignStatus = async (

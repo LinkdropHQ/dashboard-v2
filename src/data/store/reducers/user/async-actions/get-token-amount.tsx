@@ -2,7 +2,7 @@ import * as actions from '../actions'
 import {
   TGetTokenBalance
 } from '../types'
-import { utils } from 'ethers'
+import { utils } from 'ethers5'
 
 const getTokenAmount: TGetTokenBalance = async (
   dispatch,

@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import { decrypt } from 'lib/crypto' 
 import { toString } from "uint8arrays/to-string"
 import { buf2hex } from 'helpers'

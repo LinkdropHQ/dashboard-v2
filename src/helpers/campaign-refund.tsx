@@ -1,4 +1,4 @@
-import { utils, ethers } from 'ethers'
+import { utils, ethers } from 'ethers5'
 import {  LinkdropMastercopy } from 'abi'
 import { defineContractFunds } from 'helpers'
 

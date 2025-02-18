@@ -10,7 +10,7 @@ import {
   defineNetworkName,
   alertError
 } from 'helpers'
-import { utils, ethers } from 'ethers'
+import { utils, ethers } from 'ethers5'
 import { IAppDispatch, RootState } from 'data/store'
 import { ERC20Contract } from 'abi'
 import { TAssetsData, TLinkContent, TTotalAmount } from 'types'

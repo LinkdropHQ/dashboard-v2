@@ -6,7 +6,7 @@ import {
 import {
   CampaignActions
 } from 'data/store/reducers/campaign/types'
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import { RootState } from 'data/store'
 import { defineContract, alertError } from 'helpers'
 import contracts from 'configs/contracts'

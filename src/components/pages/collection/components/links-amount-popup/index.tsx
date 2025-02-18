@@ -1,7 +1,7 @@
 import { FC, useState } from 'react'
 import { Popup } from 'linkdrop-ui'
 import { TProps } from './types'
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import {
   InputComponent,
   PopupForm,

@@ -2,7 +2,7 @@ import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 import { action } from 'typesafe-actions'
 import { Constants } from './constants'
 import { TAuthorizationStep, TNFTContract, TNFTToken, TERC20Contract, TERC20TokenList, TCountry } from 'types'
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 
 export function setAddress(address: string) {
   return action(

@@ -10,7 +10,7 @@ import {
   getComission,
   getERC20TokenList
  } from './index'
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import { plausibleApi, campaignsApi } from 'data/api'
 import { defineNetworkName, defineJSONRpcUrl, alertError } from 'helpers'
 import * as userActions from '../actions'

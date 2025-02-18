@@ -7,10 +7,37 @@ import { alertError } from 'helpers'
 import { RootState } from 'data/store'
 import { createThirdwebClient, getContract, defineChain, prepareContractCall, sendTransaction, readContract } from "thirdweb";
 import { nextTokenIdToMint, mintTo } from "thirdweb/extensions/erc1155";
-import { ethers5Adapter } from "thirdweb/adapters/ethers5";
+import { ethers6Adapter } from "thirdweb/adapters/ethers6"
 import { collectionsApi } from 'data/api'
 import { TCollectionToken, TCollection } from 'types'
+import { Config, getConnectorClient } from '@wagmi/core'
+import { BrowserProvider, JsonRpcSigner, JsonRpcProvider } from 'ethers'
+import { config } from 'components/application/connectors'
+import type { Account, Chain, Client, Transport } from 'viem'
+
 const { REACT_APP_THIRDWEB_CLIENT_ID } = process.env
+
+
+async function getEthersSigner(
+  config: Config,
+  { chainId }: { chainId?: number } = {},
+) {
+  const client = await getConnectorClient(config, { chainId })
+  return clientToSigner(client)
+}
+
+
+function clientToSigner(client: Client<Transport, Chain, Account>) {
+  const { account, chain, transport } = client
+  const network = {
+    chainId: chain.id,
+    name: chain.name,
+    ensAddress: chain.contracts?.ensRegistry?.address,
+  }
+  const provider = new BrowserProvider(transport, network)
+  const signer = new JsonRpcSigner(provider, account.address)
+  return signer
+}
 
 
 function createTokenERC1155(
@@ -39,7 +66,8 @@ function createTokenERC1155(
         return alertError('Network is not supported')
       }
 
-      const account = await ethers5Adapter.signer.fromEthers({ signer });
+      const signer6 = await getEthersSigner(config)
+      const account = await ethers6Adapter.signer.fromEthers({ signer: signer6 })
 
       const client = createThirdwebClient({
         clientId: REACT_APP_THIRDWEB_CLIENT_ID as string

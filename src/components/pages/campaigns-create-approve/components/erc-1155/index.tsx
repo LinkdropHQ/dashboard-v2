@@ -38,7 +38,7 @@ import {
 import { EditPopup } from './components'
 import { plausibleApi } from 'data/api'
 import chains from 'configs/chains'
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 
 const defaultNumberInput = (
   claimPattern: TClaimPattern,

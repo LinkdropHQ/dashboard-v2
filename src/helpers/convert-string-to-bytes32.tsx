@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 
 const convertStringToBytes32 = (value: string) => {
   let result = ethers.utils.hexlify(ethers.utils.toUtf8Bytes(value))

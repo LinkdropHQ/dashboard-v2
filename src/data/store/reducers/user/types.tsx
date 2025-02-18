@@ -3,7 +3,7 @@ import * as actions from './actions'
 import { Dispatch } from 'redux'
 import LinkdropBatchSDK from 'linkdrop-batch-sdk'
 import { TAuthorizationStep, TNFTContract, TNFTToken, TERC20Contract, TERC20TokenList, TCountry } from 'types'
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 
 export interface UserState {
   address: string
