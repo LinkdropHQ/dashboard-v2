@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import contracts from 'configs/contracts'
 import { defineJSONRpcUrl, alertError } from 'helpers'
 const { REACT_APP_INFURA_ID } = process.env

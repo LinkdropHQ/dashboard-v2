@@ -1,7 +1,7 @@
 import * as wccrypto from '@walletconnect/utils/dist/esm'
 import { TQRItem }  from 'types'
 import { encrypt } from 'lib/crypto'
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 
 const prepareQRArray = (
   quantity: number,

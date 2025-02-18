@@ -3,7 +3,7 @@ import { RootState } from 'data/store'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { TCountry, TLinkParams } from 'types'
-import { utils } from 'ethers'
+import { utils } from 'ethers5'
 import {
   WidgetComponent,
   Container,
@@ -45,7 +45,7 @@ import {
   countNativeTokensToSecure,
   defineIfWalletIsAvailableForClient
 } from 'helpers'
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 
 const mapStateToProps = ({
   user: {

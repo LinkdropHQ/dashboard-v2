@@ -7,7 +7,7 @@ import { sleep } from 'helpers'
 import {
   CampaignActions
 } from 'data/store/reducers/campaign/types'
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import { IAppDispatch, RootState } from 'data/store'
 import { ERC721Contract } from 'abi'
 import { TAssetsData, TLinkContent } from 'types'

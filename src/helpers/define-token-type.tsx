@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import { ERC721Contract, ERC1155Contract } from 'abi'
 import { TTokenType } from 'types'
 import { contractSpecificOptions } from 'configs/contract-specific-options'

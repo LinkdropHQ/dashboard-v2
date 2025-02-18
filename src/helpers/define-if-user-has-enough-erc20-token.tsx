@@ -1,4 +1,4 @@
-import { utils, BigNumber } from 'ethers'
+import { utils, BigNumber } from 'ethers5'
 
 type TDefineIfUserHasEnoughERC20Tokens = (
   balance: BigNumber,

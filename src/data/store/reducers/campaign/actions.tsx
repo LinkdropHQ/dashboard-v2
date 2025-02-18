@@ -1,7 +1,7 @@
 import { action } from 'typesafe-actions'
 import { Constants } from './constants'
 import { TTokenType, TAssetsData, TLinkContent, TLink, TClaimPattern } from 'types'
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 import { CampaignState } from './types'
 
 export function setTokenAddress (tokenAddress: string | null) {

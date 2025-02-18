@@ -1,5 +1,5 @@
 import { TAssetsData } from 'types'
-import { BigNumber, utils } from 'ethers'
+import { BigNumber, utils } from 'ethers5'
 
 const countNativeTokensToSecure = (
   nativeTokensAmount: string,

@@ -1,7 +1,7 @@
 import { ActionType } from 'typesafe-actions';
 import * as actions from './actions'
 import { TTokenType, TLinkContent, TClaimPattern, TAssetsData, TLink } from 'types'
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 
 export interface CampaignState {
   title?: string | null

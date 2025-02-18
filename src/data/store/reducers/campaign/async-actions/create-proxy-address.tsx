@@ -7,7 +7,7 @@ import { create2Address } from 'helpers'
 import { ZK_STACK_INITCODE } from 'configs/app'
 import {
   utils,
-} from 'ethers'
+} from 'ethers5'
 const {
   solidityKeccak256
 } = utils

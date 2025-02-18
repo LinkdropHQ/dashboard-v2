@@ -1,4 +1,4 @@
-import { ethers, BigNumber } from 'ethers'
+import { ethers, BigNumber } from 'ethers5'
 import { ERC20Contract } from 'abi'
 
 type TDefineIfUserOwnsContractERC20 = (

@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { useWalletClient } from 'wagmi'
-import { providers } from 'ethers'
+import { providers } from 'ethers5'
  
-
 // to fix
 export function walletClientToSigner(walletClient: any) {
   const { account, chain, transport } = walletClient

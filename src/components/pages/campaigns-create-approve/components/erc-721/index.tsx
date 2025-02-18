@@ -37,7 +37,7 @@ import {
   WidgetComponent
 } from 'components/pages/common'
 import { plausibleApi } from 'data/api'
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 
 const mapStateToProps = ({
   user: {

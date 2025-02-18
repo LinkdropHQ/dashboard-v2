@@ -1,6 +1,6 @@
 import { TAssetsData, TClaimPattern, TTokenType } from "types"
 import { TLinksContent } from '../../types'
-import { BigNumber } from 'ethers'
+import { BigNumber } from 'ethers5'
 
 export type TAsideContentsProps = {
   approved: boolean | null

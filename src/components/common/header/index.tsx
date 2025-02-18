@@ -25,7 +25,7 @@ import MiniPopup from '../mini-popup'
 import chains from 'configs/chains'
 import { IProps } from './types'
 import { IAppDispatch } from 'data/store'
-import { utils } from 'ethers'
+import { utils } from 'ethers5'
 import Icons from 'icons'
 import { useAccount } from 'wagmi'
 

@@ -22,7 +22,7 @@ import {
   defineNativeTokenSymbol
 } from 'helpers'
 import { TAssetsData, TTokenType, TClaimPattern } from 'types'
-import { BigNumber, utils } from 'ethers'
+import { BigNumber, utils } from 'ethers5'
 import { TLinksContent } from '../../types'
 
 

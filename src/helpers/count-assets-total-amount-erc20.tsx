@@ -3,7 +3,7 @@ import {
   TDefineTotalAmountERC20,
   TAsset
 } from 'types'
-import { utils, BigNumber } from 'ethers'
+import { utils, BigNumber } from 'ethers5'
 
 const countAssetsTotalAmountERC20: TDefineTotalAmountERC20 = (assets, decimals) => {
   const count = assets.reduce<BigNumber>((sum: BigNumber, item: TAsset) => {

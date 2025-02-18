@@ -15,7 +15,7 @@ import {
   defineNetworkName,
   truncate
 } from 'helpers'
-import { BigNumber, ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers5'
 import { zerionApi } from 'data/api'
 
 const { REACT_APP_ALCHEMY_API_KEY } = process.env

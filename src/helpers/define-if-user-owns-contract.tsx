@@ -3,7 +3,7 @@ import {
   defineAlchemyNetwork,
   getMinterRole
 } from 'helpers'
-import { ethers } from 'ethers'
+import { ethers } from 'ethers5'
 import chains from 'configs/chains'
 import { AdminRole } from 'abi'
 import { getMnemonicCollections } from 'data/api'

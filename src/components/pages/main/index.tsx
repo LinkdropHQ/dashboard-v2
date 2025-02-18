@@ -221,7 +221,7 @@ const Main: FC<ReduxType> = ({
   const connectorChainID = useChainId()
   const { connect, connectors } = useConnect()
   const injectedProvider = connectors.find(connector => connector.id === "injected")
-  const signer = useEthersSigner()
+  const signer = useEthersSigner() // signer v 6
   const { open } = useWeb3Modal()
   const system = defineSystem()
 

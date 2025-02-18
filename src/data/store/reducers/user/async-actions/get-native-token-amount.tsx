@@ -2,7 +2,7 @@ import * as actions from '../actions'
 import {
   TGetNativeTokenBalance
 } from '../types'
-import { utils } from 'ethers'
+import { utils } from 'ethers5'
 import { alertError } from 'helpers'
 
 const getNativeTokenAmount: TGetNativeTokenBalance = async (
