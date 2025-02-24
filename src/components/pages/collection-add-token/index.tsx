@@ -247,13 +247,18 @@ const CollectionAddToken: FC<ReduxType> = ({
           )}
           loading={loading}
           onClick={() => {
+            const propertiesAdded = (propertyValue && propertyName) ? { ...properties, [propertyName]: propertyValue } : properties
+            setProperties(propertiesAdded)
+            setPropertyValue('')
+            setPropertyName('')
+            
             createTokenERC1155(
               collectionId as string,
               tokenAddress as string,
               tokenName,
               description,
               copiesAmount || '0',
-              properties,
+              propertiesAdded,
               file,
               thumbnail,
               () => { history.push(`/collections/${collection_id}`) }
@@ -266,6 +271,7 @@ const CollectionAddToken: FC<ReduxType> = ({
       </ButtonsContainer>
     </WidgetComponentStyled>
   </Container>
-} 
+}
 
+// @ts-ignore
 export default connect(mapStateToProps, mapDispatcherToProps)(CollectionAddToken)
