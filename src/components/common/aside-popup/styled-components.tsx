@@ -54,6 +54,7 @@ export const Controls = styled.div`
 
 export const Content = styled.div`
   overflow: scroll;
+  min-height: 300px;
 `
 
 export const Note = styled.p`
