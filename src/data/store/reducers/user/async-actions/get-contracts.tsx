@@ -39,9 +39,7 @@ const getContracts = () => {
           network
         })
   
-        const filters = chainId === 1 || chainId === 137 ? {
-          excludeFilters: [ NftFilters.SPAM]
-        } : undefined
+        const filters = undefined
   
         const { contracts } = await alchemy.nft.getContractsForOwner(address, filters)
 
