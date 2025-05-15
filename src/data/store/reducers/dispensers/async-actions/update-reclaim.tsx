@@ -32,10 +32,7 @@ const updateReclaim = ({
     try {
 
       const { data } : { data: { success: boolean } } = await  dispensersApi.updateReclaim(
-        dispenserId,
-        reclaimAppId,
-        reclaimProviderId,
-        reclaimAppSecret
+        dispenserId
       )
       if (data.success) {
         const dispensersUpdated = dispensers.map(item => {

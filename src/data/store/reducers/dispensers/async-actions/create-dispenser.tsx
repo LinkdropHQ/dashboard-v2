@@ -65,22 +65,14 @@ const createDispenser = ({
         const date = getNextDayData()
         const dispenserTime = momentNoOffsetGetTime(+date) 
         const dateString = momentNoOffsetWithTimeUpdate(date, Number(dispenserTime.hours.value), Number(dispenserTime.minutes.value))
-        if (reclaim) {
-          if (!reclaim_app_id || !reclaim_app_secret || !reclaim_provider_id) {
-            throw new Error('reclaim_app_id, reclaim_app_secret or reclaim_provider_id not provided')
-          }
-        }
+        
         const newDispenser: TDispenser = {
           encrypted_multiscan_qr_secret: encryptedMultiscanQRSecret,
           multiscan_qr_id: secretKeyPair.address,
           claim_start: +(new Date(dateString)),
           encrypted_multiscan_qr_enc_code: encryptedMultiscanQREncCode,
           title,
-          dynamic,
-          reclaim,
-          reclaim_app_id: reclaim_app_id || '',
-          reclaim_app_secret: reclaim_app_secret || '',
-          reclaim_provider_id: reclaim_provider_id || ''
+          dynamic
         }
   
         const { data } = await dispensersApi.create(newDispenser)
