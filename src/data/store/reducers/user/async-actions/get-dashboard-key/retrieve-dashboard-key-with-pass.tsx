@@ -53,12 +53,7 @@ const retrieveDashboardKeyWithPass: (
     const signature_key_as_base_16 = toString(signature_key_uint_8_array, 'base16')
     return decrypt(encrypted_dashboard_key, signature_key_as_base_16) 
   } catch (err) {
-    console.log({
-      method: datadogLogs.logger.error,
-      logger: datadogLogs.logger,
-      datadogLogs
-    })
-    datadogLogs.logger.error('Retrieve of dashboard key failed', {}, err as any)
+    throw err
     console.error({ err })
   }
 }
