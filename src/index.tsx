@@ -35,7 +35,7 @@ if (
       // see https://docs.datadoghq.com/getting_started/site/
       site: REACT_APP_DATADOG_SITE as string,
       service: REACT_APP_DATADOG_SERVICE as string,
-      env: 'production',
+      env: 'prod',
       // Specify a version number to identify the deployed version of your application in Datadog
       // version: '1.0.0', 
       sessionSampleRate: 100,
@@ -46,10 +46,20 @@ if (
       defaultPrivacyLevel: 'mask-user-input',
   })
 
+  console.log({
+    clientToken: REACT_APP_DATADOG_CLIENT_TOKEN as string,
+    site: REACT_APP_DATADOG_SITE as string,
+    env: 'prod',
+    service: REACT_APP_DATADOG_SERVICE as string,
+    forwardErrorsToLogs: true,
+    sessionSampleRate: 100,
+    trackSessionAcrossSubdomains: true
+  })
+
   datadogLogs.init({
     clientToken: REACT_APP_DATADOG_CLIENT_TOKEN as string,
     site: REACT_APP_DATADOG_SITE as string,
-    env: 'production',
+    env: 'prod',
     service: REACT_APP_DATADOG_SERVICE as string,
     forwardErrorsToLogs: true,
     sessionSampleRate: 100,

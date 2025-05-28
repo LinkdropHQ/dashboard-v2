@@ -55,7 +55,8 @@ const retrieveDashboardKeyWithPass: (
   } catch (err) {
     console.log({
       method: datadogLogs.logger.error,
-      logger: datadogLogs.logger
+      logger: datadogLogs.logger,
+      datadogLogs
     })
     datadogLogs.logger.error('Retrieve of dashboard key failed', {}, err as any)
     console.error({ err })
