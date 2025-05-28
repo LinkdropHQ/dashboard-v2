@@ -106,7 +106,6 @@ const getDashboardKey = async (
     const errorText = defineError(err as Error)
     alertError(errorText)
     dispatch(userActions.setLoading(false))
-     throw err
   }
 }
 

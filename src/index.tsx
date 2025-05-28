@@ -10,7 +10,9 @@ const {
   REACT_APP_DATADOG_CLIENT_TOKEN,
   REACT_APP_DATADOG_APPLICATION_ID,
   REACT_APP_DATADOG_SERVICE,
-  REACT_APP_DATADOG_SITE
+  REACT_APP_DATADOG_SITE,
+  REACT_APP_DATADOG_BROWSER_CLIENT_TOKEN,
+  REACT_APP_DATADOG_BROWSER_SERVICE
 } = process.env
 const container = document.getElementById('root') as HTMLElement
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
@@ -46,23 +48,34 @@ if (
       defaultPrivacyLevel: 'mask-user-input',
   })
 
+ 
+}
+
+
+if (
+  REACT_APP_DATADOG_BROWSER_CLIENT_TOKEN &&
+  REACT_APP_DATADOG_BROWSER_SERVICE &&
+  REACT_APP_DATADOG_SITE
+) {
+
   console.log({
-    clientToken: REACT_APP_DATADOG_CLIENT_TOKEN as string,
+    clientToken: REACT_APP_DATADOG_BROWSER_CLIENT_TOKEN as string,
     site: REACT_APP_DATADOG_SITE as string,
     env: 'prod',
-    service: REACT_APP_DATADOG_SERVICE as string,
+    service: REACT_APP_DATADOG_BROWSER_SERVICE as string,
     forwardErrorsToLogs: true,
     sessionSampleRate: 100,
     trackSessionAcrossSubdomains: true
   })
 
   datadogLogs.init({
-    clientToken: REACT_APP_DATADOG_CLIENT_TOKEN as string,
+    clientToken: REACT_APP_DATADOG_BROWSER_CLIENT_TOKEN as string,
     site: REACT_APP_DATADOG_SITE as string,
     env: 'prod',
-    service: REACT_APP_DATADOG_SERVICE as string,
+    service: REACT_APP_DATADOG_BROWSER_SERVICE as string,
     forwardErrorsToLogs: true,
     sessionSampleRate: 100,
     trackSessionAcrossSubdomains: true
   })
 }
+
