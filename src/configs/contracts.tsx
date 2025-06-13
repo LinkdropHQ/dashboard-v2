@@ -32,12 +32,6 @@ const contracts: TContracts = {
     factory: '0xb619944Cb20133E4C9A67608845d891A2508c59F',
     minter_role: '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6',
     fee_manager: '0xaD2fF78Fb703C5c95dB9ebA3262546Dc31B09983'
-  },
-  543210: {
-    factory: '0x1587f7E9aD3d802c7f984B1A7d45B46c5e379814',
-    minter_role: '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6',
-    fee_manager: '0xA624BbDc3d7368a51759AD8aDC7BdE237c0fE2A8',
-    zk_stack: true
   }
 }
 
