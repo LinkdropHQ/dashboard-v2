@@ -5,9 +5,6 @@ import {
   immutableZkEvm,
   xLayer
 } from 'wagmi/chains'
-import {
-  zeroChain
-} from 'configs/chains'
 
 const defineWagmiNetwork = (
   chainId: number
@@ -21,8 +18,6 @@ const defineWagmiNetwork = (
       return base
     case 13371:
       return immutableZkEvm
-    case 543210:
-      return zeroChain
     case 196:
       return xLayer
     default:

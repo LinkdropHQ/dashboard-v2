@@ -1,9 +1,6 @@
 import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import {
-  zeroChain
-} from 'configs/chains'
-import {
   mainnet,
   polygon,
   sepolia,
@@ -38,8 +35,7 @@ const chains = [
   mainnet,
   sepolia,
   immutableZkEvm,
-  xLayer,
-  zeroChain
+  xLayer
 ] as const
 
 const config = defaultWagmiConfig({
@@ -61,8 +57,7 @@ const config = defaultWagmiConfig({
     [polygon.id]: http(),
     [base.id]: http(),
     [immutableZkEvm.id]: http(),
-    [xLayer.id]: http(),
-    [zeroChain.id]: http()
+    [xLayer.id]: http()
   },
 })
 
