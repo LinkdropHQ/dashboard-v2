@@ -17,7 +17,6 @@ import { useParams } from 'react-router-dom'
 import { TLinkParams } from './types'
 import { TDispenser } from 'types'
 
-
 const mapStateToProps = ({
   campaigns: { campaigns },
   dispensers: { loading, dispensers },
@@ -34,15 +33,15 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
   return {
     createDispenser: (
       title: string,
-      // date: string,
-      // duration: number,
       dynamic: boolean,
       successCallback: (id: string | number) => void
     ) => dispatch(asyncDispensersActions.createDispenser({
       title,
-      // date,
-      // duration,
       dynamic,
+      reclaim: false,
+      reclaim_app_id: undefined,
+      reclaim_app_secret: undefined,
+      reclaim_provider_id: undefined,
       successCallback
     }))
   }

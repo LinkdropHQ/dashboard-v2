@@ -286,6 +286,7 @@ const Settings: FC<TProps> = ({
   if (!campaignData) {
     return null
   }
+
   const [
     currentSetting,
     setCurrentSetting

@@ -2,7 +2,7 @@ import { Toggle } from "linkdrop-ui"
 import styled from "styled-components"
 
 export const Container = styled.div`  
-  padding: 24px 24px calc(56px + 24px + 12px);
+  padding: 24px;
   top: 0;
   right: 0;
   bottom: 0;
@@ -52,7 +52,10 @@ export const Controls = styled.div`
   width: calc(100% - 24px * 2);
 `
 
-export const Content = styled.div``
+export const Content = styled.div`
+  overflow: scroll;
+  min-height: 300px;
+`
 
 export const Note = styled.p`
   grid-column: span 2;

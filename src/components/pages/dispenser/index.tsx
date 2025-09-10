@@ -88,6 +88,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       qrDispenserName: string,
       whitelistOn: boolean,
       dynamic: boolean,
+      reclaim: boolean,
       successCallback?: () => void
     ) => dispatch(asyncDispensersActions.downloadDispenserQR({
       multiscan_qr_id,
@@ -98,6 +99,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       height: size,
       whitelist_on: whitelistOn,
       dynamic,
+      reclaim,
       successCallback
     })),
     
@@ -264,6 +266,26 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       dispatch(asyncDispensersActions.decryptDispenserData(
         { dispenser_id }
       ))
+    },
+
+    reclaimSubmit: (
+      dispenserId: string,
+      reclaimAppId: string,
+      reclaimAppSecret: string,
+      reclaimProviderId: string,
+      onSuccess?: () => void,
+      onError?: () => void
+    ) => {
+      dispatch(
+        asyncDispensersActions.updateReclaim({
+          dispenserId,
+          reclaimAppId,
+          reclaimAppSecret,
+          reclaimProviderId,
+          successCallback: onSuccess,
+          errorCallback: onError
+        }) 
+      )
     }
   }
 }
@@ -369,7 +391,8 @@ const Dispenser: FC<ReduxType> = ({
   getDispenserWhitelist,
   decryptDispenserData,
   updateAppTitle,
-  toggleAppTitle
+  toggleAppTitle,
+  reclaimSubmit
 }) => {
   const { id } = useParams<{id: string}>()
   // @ts-ignore
@@ -400,7 +423,9 @@ const Dispenser: FC<ReduxType> = ({
     return () => {
       removeCurrentDispenserData()
     }
-  }, [dispenser?.updated_at])
+  }, [
+    dispenser?.updated_at
+  ])
 
   useEffect(() => {
     if (!dashboardKey) { return }
@@ -408,7 +433,8 @@ const Dispenser: FC<ReduxType> = ({
   }, [
     dashboardKey,
     dispenser?.whitelist_on,
-    dispenser?.redirect_on
+    dispenser?.redirect_on,
+    dispenser?.reclaim
   ])
 
   const qrCodeDescription = defineQRCodeDescription()
@@ -434,7 +460,12 @@ const Dispenser: FC<ReduxType> = ({
     dispenser_url,
     decrypted_redirect_url,
     app_title,
-    app_title_on
+    app_title_on,
+
+    reclaim_app_id,
+    reclaim_app_secret,
+    reclaim,
+    reclaim_provider_id
   } = dispenser
 
   const currentStatus = defineDispenserStatus(
@@ -473,6 +504,7 @@ const Dispenser: FC<ReduxType> = ({
           title,
           Boolean(whitelist_on),
           Boolean(dynamic),
+          Boolean(reclaim),
           () => { toggleDownloadPopup(false) }
         )
       }}
@@ -525,6 +557,7 @@ const Dispenser: FC<ReduxType> = ({
       />
 
       <ClaimLinks
+  
         pauseDispenser={pauseDispenser}
         unpauseDispenser={unpauseDispenser}
         downloadReport={downloadReport}
@@ -544,12 +577,34 @@ const Dispenser: FC<ReduxType> = ({
         redirectUrl={decrypted_redirect_url}
         claimUrl={dispenser_url}
         loading={loading}
+        reclaimAppId={reclaim_app_id}
+        reclaim={reclaim}
+        reclaimAppSecret={reclaim_app_secret}
+        reclaimProviderId={reclaim_provider_id}
         dynamic={dynamic}
         campaignData={currentDispenserData.campaign}
         getDispenserWhitelist={getDispenserWhitelist}
         currentDispenser={dispenser}
         whitelistToggleValue={whitelist_on}
         appTitle={app_title}
+        reclaimSubmit={
+          (
+            reclaimAppId,
+            reclaimAppSecret,
+            reclaimProviderId,
+            onSuccess,
+            onError
+          ) => {
+            reclaimSubmit(
+              dispenser_id as string,
+              reclaimAppId,
+              reclaimAppSecret,
+              reclaimProviderId,
+              onSuccess,
+              onError
+            )
+          }
+        }
         appTitleToggleValue={app_title_on}
         appTitleSubmit={
           (

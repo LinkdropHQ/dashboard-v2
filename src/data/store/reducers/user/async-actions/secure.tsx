@@ -19,6 +19,7 @@ import * as actionsAsyncUser from '../async-actions'
 const secure = (
   totalNativeTokensAmountToSecure: BigNumber,
   nativeTokensPerLink: string,
+  useEscrowedNativeToken: boolean,
   walletApp: string,
   preferredWalletOn: boolean,
   availableСountries: TCountry[],
@@ -30,7 +31,7 @@ const secure = (
 ) => {
 
   return async (
-    dispatch: Dispatch<UserActions>  & Dispatch<CampaignActions>,
+    dispatch: Dispatch<UserActions> & Dispatch<CampaignActions>,
     getState: () => RootState
   ) => {
 
@@ -112,7 +113,7 @@ const secure = (
         const transaction = await signer.sendTransaction({
           to,
           from: address,
-          value: totalNativeTokensAmountToSecure,
+          value: useEscrowedNativeToken ? '0' : totalNativeTokensAmountToSecure,
           data: data
         })
     

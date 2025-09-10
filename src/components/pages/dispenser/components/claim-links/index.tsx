@@ -107,6 +107,11 @@ const defineContent = (
       <TableValue>{campaignData.token_standard}</TableValue>
     </TableRow>
 
+    {campaignData.token_id && <TableRow>
+      <TableText>Token ID</TableText>
+      <TableValue>{campaignData.token_id}</TableValue>
+    </TableRow>}
+
     <TableRow>
       <TableText>Claim pattern</TableText>
       <TableValue>{campaignData.claim_pattern === 'mint' ? 'mint' : 'transfer'}</TableValue>

@@ -22,12 +22,20 @@ import * as actionsUser from '../../user/actions'
 type TCreateDispenserArgs = {
   title: string,
   dynamic: boolean,
+  reclaim: boolean,
+  reclaim_app_id?: string | null
+  reclaim_provider_id?: string | null
+  reclaim_app_secret?: string | null,
   successCallback?: (id: string | number) => void,
 }
 
 const createDispenser = ({
   title,
   dynamic,
+  reclaim,
+  reclaim_app_id,
+  reclaim_provider_id,
+  reclaim_app_secret,
   successCallback
 }: TCreateDispenserArgs) => {
   return async (

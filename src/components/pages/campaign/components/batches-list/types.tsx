@@ -1,4 +1,4 @@
-import { TLinksBatch, TQRManagerItemType, TTokenType } from "types"
+import { TLinksBatch, TTokenType } from "types"
 
 export type TCreateDispenserAndAddLinks = (
   mappingPageRedirect: () => void,
@@ -34,6 +34,22 @@ export type TCreateQRSetAndAddLinks = (
   errorCallback?: () => void,
 ) => void
 
+export type TCreateReclaimAndAddLinks = (
+  mappingPageRedirect: () => void,
+  title: string,
+  campaignId: string,
+  batchId: string,
+  tokenAddress: string,
+  wallet: string,
+  tokenType: TTokenType,
+  customClaimHost: string,
+  customClaimHostOn: boolean,
+  successCallback?: (
+    dispenser_id: string | number
+  ) => void,
+  errorCallback?: () => void,
+) => void
+
 export type TProps = {
   batches: TLinksBatch[]
   campaignId: string
@@ -47,6 +63,7 @@ export type TProps = {
   customClaimHostOn: boolean
   createDispenserAndAddLinks: TCreateDispenserAndAddLinks
   createQRSetAndAddLinks: TCreateQRSetAndAddLinks
+  createReclaimAndAddLinks: TCreateReclaimAndAddLinks
   downloadLinks: (
     batch_id: string | number,
     campaign_id: string,

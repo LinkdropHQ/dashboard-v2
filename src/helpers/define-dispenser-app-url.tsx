@@ -2,7 +2,8 @@ const {
   REACT_APP_TESTNETS_URL,
   REACT_APP_MAINNETS_URL,
   REACT_APP_DISPENSER_APP_URL,
-  REACT_APP_DYNAMIC_DISPENSER_APP_URL
+  REACT_APP_DYNAMIC_DISPENSER_APP_URL,
+  REACT_APP_RECLAIM_APP
 } = process.env
 
 
@@ -21,7 +22,8 @@ const defineDispenserAppUrl = (
   decryptedMultiscanQRSecret: string,
   multiscanQREncCode: string,
   whitelist: boolean,
-  dynamic: boolean
+  dynamic: boolean,
+  reclaim: boolean
 ) => {
   const originalLink = `${claimAppURL}/#/mqr/${decryptedMultiscanQRSecret}/${multiscanQREncCode}`
 
@@ -31,6 +33,10 @@ const defineDispenserAppUrl = (
 
   const applicationParam = defineApiParam()
   const params = applicationParam ? `?api=${applicationParam}` : ''
+
+  if (reclaim) {
+    return `${REACT_APP_RECLAIM_APP as string}/#/mqr/${decryptedMultiscanQRSecret}/${multiscanQREncCode}${params}`
+  }
 
   if (dynamic) {
     return `${REACT_APP_DYNAMIC_DISPENSER_APP_URL as string}/#/mqr/${decryptedMultiscanQRSecret}/${multiscanQREncCode}${params}`

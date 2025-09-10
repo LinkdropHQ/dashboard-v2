@@ -25,7 +25,10 @@ import {
   CollectionsCreateInitial,
   Collection,
   CampaignDispenserGenerate,
-  CampaignQRsGenerate
+  CampaignQRsGenerate,
+  ReclaimQR,
+  ReclaimQRCreate,
+  Reclaims
 } from 'components/pages'
 import { connect } from 'react-redux'
 import { RootState } from 'data/store'
@@ -135,6 +138,7 @@ const AppRouter: FC<ReduxType> = ({ address }) => {
           component={Dispenser}
         />
 
+
         <ProtectedRoute
           path='/campaigns/new/:type/initial'
           exact={true}
@@ -204,6 +208,29 @@ const AppRouter: FC<ReduxType> = ({ address }) => {
           loggedIn={Boolean(address)}
           component={Dispenser}
         />
+{/* 
+        <ProtectedRoute
+          path='/reclaims/new'
+          exact={true}
+          loggedIn={Boolean(address)}
+          component={ReclaimQRCreate}
+        />
+
+        <ProtectedRoute
+          path='/reclaims/:id'
+          exact={true}
+          loggedIn={Boolean(address)}
+          component={ReclaimQR}
+        />
+
+        <ProtectedRoute
+          path='/reclaims'
+          exact={true}
+          loggedIn={Boolean(address)}
+          component={Reclaims}
+        /> */}
+
+        
 
         <ProtectedRoute
           path='/qrs/new'

@@ -24,6 +24,8 @@ import Timeframe from './timeframe'
 import RedirectScreen from './redirect'
 import Whitelist from './whitelist'
 import AppTitle from './app-title'
+import Reclaim from './reclaim'
+import { useQuery } from 'hooks'
 
 import { TDispenser } from 'types'
 
@@ -48,6 +50,11 @@ const settings = [
     id: 'app_title',
     subtitle: '',
     tooltip: 'Dynamic QR App Title'
+  }, {
+    title: 'Reclaim (ALPHA)',
+    id: 'reclaim',
+    subtitle: 'Share tokens with any regular website users (Twitter/Github/Reddit/your website). Powered by Reclaim Protocol. Learn more at https://www.reclaimprotocol.org/',
+    tooltip: 'Share tokens with any regular website users (Twitter/Github/Reddit/your website). Powered by Reclaim Protocol.'
   }
 ]
 
@@ -89,6 +96,14 @@ const definePopup = (
 
   appTitleSubmit: (value: string, onSuccess?: () => void, onError?: () => void) => void,
 
+  reclaimSubmit: (
+    reclaimAppId: any,
+    reclaimAppSecret: any,
+    reclaimProviderId: any,
+    onSuccess?: () => void,
+    onError?: () => void
+  ) => void,
+
   getDispenserWhitelist: (dispenserId: string) => void,
   loading: boolean,
   // redirect
@@ -110,6 +125,12 @@ const definePopup = (
   appTitle?: string,
   appTitleToggleAction?: (value: boolean) => void,
   appTitleToggleValue?: boolean,
+
+
+  reclaimAppId?: string | null,
+  reclaimAppSecret?: string | null,
+  reclaimProviderId?: string | null,
+
 ) => {
   switch (setting.id) {
     case 'redirect':
@@ -121,6 +142,18 @@ const definePopup = (
         toggleAction={redirectToggleAction}
         toggleValue={redirectToggleValue}
         action={redirectSubmit}
+      />
+    case 'reclaim':
+      return <Reclaim
+        {...setting}
+        onClose={onClose}
+        loading={loading}
+        currentDispenser={currentDispenser}
+        action={reclaimSubmit}
+
+        reclaimAppId={reclaimAppId}
+        reclaimAppSecret={reclaimAppSecret}
+        reclaimProviderId={reclaimProviderId}
       />
     case 'timeframe':
       return <Timeframe
@@ -162,7 +195,8 @@ const defineEnabled = (
   redirectToggleValue: boolean,
   whitelistValue: boolean,
   timeframeValue: boolean,
-  appTitleValue: boolean
+  appTitleValue: boolean,
+  reclaim: boolean
 ) => {
   if (settingId === 'redirect') {
     return redirectToggleValue
@@ -178,6 +212,10 @@ const defineEnabled = (
 
   if (settingId === 'app_title') {
     return appTitleValue
+  }
+
+  if (settingId === 'reclaim') {
+    return reclaim
   }
 
   return false
@@ -207,16 +245,26 @@ const Settings: FC<TProps> = ({
   timeframeToggleAction,
   timeframeToggleValue,
   dynamic,
+  reclaim,
   getDispenserWhitelist,
 
-  currentDispenser
+  currentDispenser,
+
+
+  reclaimSubmit,
+  reclaimAppId,
+  reclaimAppSecret,
+  reclaimProviderId
 }) => {
 
+  const currentPageQuery = useQuery()
+  const initialSettingFromQuery = currentPageQuery.get('settings_open')
+  const initialSetting = initialSettingFromQuery ? (settings.find(setting => setting.id === initialSettingFromQuery) || null): null
 
   const [
     currentSetting,
     setCurrentSetting
-  ] = useState<null | TSettingItem>(null)
+  ] = useState<null | TSettingItem>(initialSetting)
 
   if (!campaignData) {
     return null
@@ -229,6 +277,7 @@ const Settings: FC<TProps> = ({
     timeframeSubmit,
     whitelistSubmit,
     appTitleSubmit,
+    reclaimSubmit,
     getDispenserWhitelist,
     loading,
     redirectUrl,
@@ -243,7 +292,10 @@ const Settings: FC<TProps> = ({
     claimUrl,
     appTitle,
     appTitleToggleAction,
-    appTitleToggleValue
+    appTitleToggleValue,
+    reclaimAppId,
+    reclaimAppSecret,
+    reclaimProviderId
   ) : null
 
   // if (loading) {
@@ -264,11 +316,18 @@ const Settings: FC<TProps> = ({
           Boolean(redirectToggleValue),
           Boolean(whitelistToggleValue),
           Boolean(timeframeToggleValue),
-          Boolean(appTitleToggleValue)
+          Boolean(appTitleToggleValue),
+          Boolean(reclaimAppId)
         )
 
-        if (!dynamic && setting.id === 'app_title') {
+        if (
+          (!dynamic || reclaim) && setting.id === 'app_title'
+          
+        ) {
           return
+        }
+        if (!reclaim && setting.id === 'reclaim') {
+          return 
         }
 
         return renderSettingItem(

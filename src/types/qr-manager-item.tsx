@@ -2,7 +2,7 @@ import {
   TQRStatus
 } from "./qr"
 
-export type TQRManagerItemType = 'dispenser' | 'qr_set'
+export type TQRManagerItemType = 'dispenser' | 'qr_set' | 'reclaim'
 
 export type TQRManagerItem = {
   title: string
@@ -23,4 +23,5 @@ export type TQRManagerItem = {
   updated_at?: string
   dynamic?: boolean
   status: TQRStatus
+  reclaim?: boolean
 }

@@ -65,6 +65,7 @@ import {
 
 import {
   createDispenserAndAddLinks,
+  createReclaimAndAddLinks
 } from 'data/store/reducers/dispensers/async-actions'
 
 import {
@@ -203,6 +204,38 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
           mappingPageRedirect,
           title,
           dynamic,
+          campaignId,
+          batchId,
+          tokenAddress,
+          wallet,
+          tokenType,
+          customClaimHost,
+          customClaimHostOn,
+          successCallback,
+          errorCallback
+        })
+      )
+    },
+
+    createReclaimAndAddLinks: (
+      mappingPageRedirect: () => void,
+      title: string,
+      campaignId: string,
+      batchId: string,
+      tokenAddress: string,
+      wallet: string,
+      tokenType: TTokenType,
+      customClaimHost: string,
+      customClaimHostOn: boolean,
+      successCallback?: (
+        reclaim_id: string | number
+      ) => void,
+      errorCallback?: () => void,
+    ) => {
+      dispatch(
+        createReclaimAndAddLinks({
+          mappingPageRedirect,
+          title,
           campaignId,
           batchId,
           tokenAddress,
@@ -411,6 +444,7 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
   updateClaimHostOn,
   updateMultipleClaimsOn,
   createNewBatch,
+  createReclaimAndAddLinks,
   campaignLoading
 }) => {
 
@@ -418,6 +452,7 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
 
   const [status, setStatus] = useState<TCampaignStatus>('initial')
   const [withdrawable, setWithdrawable] = useState<boolean>(false)
+
 
   useEffect(() => {
     getCampaignBatches(
@@ -677,6 +712,7 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
           // @ts-ignore
           createDispenserAndAddLinks={createDispenserAndAddLinks}
           createQRSetAndAddLinks={createQRSetAndAddLinks}
+          createReclaimAndAddLinks={createReclaimAndAddLinks}
           wallet={wallet}
           batches={batches}
           loading={loading}

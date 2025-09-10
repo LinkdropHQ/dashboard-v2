@@ -61,6 +61,10 @@ export type TDispenser = {
   app_title?: string
   app_title_on?: boolean
 
+  reclaim_app_id?: string | null
+  reclaim_provider_id?: string | null
+  reclaim_app_secret?: string | null
+  reclaim?: boolean
 }
 
 export type TDispenserUpdateData = {

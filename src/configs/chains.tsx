@@ -1,5 +1,4 @@
 const { REACT_APP_INFURA_ID } = process.env
-import { type Chain } from 'viem'
 
 type TChains = {
   [chainId: number]: {

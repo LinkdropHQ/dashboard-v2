@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import TProps from "./types"
 
 export const TooltipContainer = styled.span<TProps>`
@@ -18,9 +18,15 @@ export const TooltipContainer = styled.span<TProps>`
     background-color: ${props => props.theme.primaryBackgroundColor};
     z-index: 10;
     padding: 8px 16px;
+    font-size: 14px;
     width: 300px;
     transform: translateY(-20px);
     transition: all 150ms cubic-bezier(.25, .8, .25, 1);
+
+    ${props => props.position === 'right' && css`
+      right: auto;
+      left: 0;
+    `}
   }
 
   &:hover:after {

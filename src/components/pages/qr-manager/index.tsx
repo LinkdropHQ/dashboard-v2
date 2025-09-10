@@ -316,7 +316,6 @@ const defineHref = (
   if (!dynamic) {
     return `/dispensers/${dispenserId}`
   }
-
   return `/dynamic-qrs/${dispenserId}`
 }
 
@@ -387,7 +386,12 @@ const QRManager: FC<ReduxType> = ({
     </>
   }
 
+
   const itemsToShow = items.filter(item => {
+    if (item.reclaim) {
+      return false
+    }
+
     if (qrManagerItemType === 'ACTIVE') {
       return !item.archived
     }

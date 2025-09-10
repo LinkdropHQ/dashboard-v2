@@ -58,7 +58,7 @@ const Whitelist: FC<TProps> = ({
         }}
         disabled={loading}
         value={value}
-        title='Recepient’s address'
+        title='Recipient address'
         placeholder={`Be careful and paste addresses here, i.e.:
 
 0xdfs7d8f7s8df98df09s8df98s0df9s80df90sdf

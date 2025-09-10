@@ -72,10 +72,19 @@ const AsideComponent: FC<TProps & ReduxType> = ({
         <Icons.ClaimLinksIcon />
         <AsideMenuItemTitle className={AsideMenuItemTitleClassName}>Claim Links</AsideMenuItemTitle>
       </AsideMenuItem>
+      
+      {/* hidden */}
+      {/* <AsideMenuItem to='/reclaims' active={location.pathname.includes('/reclaims')}>
+        <Icons.DynamicQRIcon />
+        <AsideMenuItemTitle className={AsideMenuItemTitleClassName}>Web2 Retrodrop (NEW)</AsideMenuItemTitle>
+      </AsideMenuItem> */}
+  
       <AsideMenuItem to='/qr-manager' active={location.pathname.includes('/qr-manager')}>
         <Icons.DynamicQRIcon />
         <AsideMenuItemTitle className={AsideMenuItemTitleClassName}>QR Manager</AsideMenuItemTitle>
       </AsideMenuItem>
+
+
 
       <AsideMenuItem to='/collections' active={location.pathname.includes('/collections')}>
         <Icons.NFTsIcon />

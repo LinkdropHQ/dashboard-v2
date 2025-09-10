@@ -182,7 +182,13 @@ const requests = {
     })
   },
 
-
+  updateReclaim: (
+    dispenser_id: string | number
+  ) => {
+    return dispensersApi.put(`/dispensers/${dispenser_id}/reclaim`, {}, {
+      withCredentials: true
+    })
+  },
 
 }
 

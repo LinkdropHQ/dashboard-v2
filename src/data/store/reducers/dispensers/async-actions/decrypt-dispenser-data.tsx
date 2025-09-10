@@ -41,20 +41,19 @@ const decryptDispenserData = ({
     } = getState()
 
     const currentDispenser = dispensers.find(dispenser => String(dispenser.dispenser_id) === dispenser_id)
-
     if (!currentDispenser) {
       dispatch(actionsDispensers.setLoading(false))
       return alertError('Dispenser not found')
     }
 
-    if (
-      currentDispenser.decrypted_multiscan_qr_enc_code &&
-      currentDispenser.decrypted_multiscan_qr_secret &&
-      currentDispenser.dispenser_url
-    ) {
-      dispatch(actionsDispensers.setLoading(false))
-      return
-    }
+    // if (
+    //   currentDispenser.decrypted_multiscan_qr_enc_code &&
+    //   currentDispenser.decrypted_multiscan_qr_secret &&
+    //   currentDispenser.dispenser_url
+    // ) {
+    //   dispatch(actionsDispensers.setLoading(false))
+    //   return
+    // }
 
     const callback = async (dashboardKey: string) => {
       try {
@@ -63,7 +62,8 @@ const decryptDispenserData = ({
           encrypted_multiscan_qr_enc_code,
           encrypted_multiscan_qr_secret,
           whitelist_on,
-          dynamic
+          dynamic,
+          reclaim
         } = currentDispenser
         const multiscanQREncCode = decrypt(encrypted_multiscan_qr_enc_code, dashboardKey)
         const decryptedMultiscanQRSecret = decrypt(encrypted_multiscan_qr_secret, dashboardKey)
@@ -75,7 +75,8 @@ const decryptDispenserData = ({
           decryptedMultiscanQRSecret,
           multiscanQREncCode,
           Boolean(whitelist_on),
-          Boolean(dynamic)
+          Boolean(dynamic),
+          Boolean(reclaim)
         )
   
         const linkKey = ethers.utils.id(multiscanQREncCode)

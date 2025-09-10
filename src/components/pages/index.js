@@ -21,9 +21,16 @@ import CollectionAddToken from './collection-add-token'
 import DynamicQRCreate from './dynamic-qr-create'
 import CampaignDispenserGenerate from './campaign-dispenser-generate'
 import CampaignQRsGenerate from './campaign-qrs-generate'
+import ReclaimQRCreate from './reclaim-qr-create'
+import Reclaims from './reclaims'
+import ReclaimQR from './reclaim-qr'
+
 
 export {
   Page,
+  Reclaims,
+  ReclaimQR,
+  ReclaimQRCreate,
   DynamicQRCreate,
   Collection,
   CampaignQRsGenerate,

@@ -35,9 +35,14 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
       title: string,
       dynamic: boolean,
       successCallback: (id: string | number) => void
+
     ) => dispatch(asyncDispensersActions.createDispenser({
       title,
       dynamic,
+      reclaim: false,
+      reclaim_app_id: undefined,
+      reclaim_app_secret: undefined,
+      reclaim_provider_id: undefined,
       successCallback
     }))
   }

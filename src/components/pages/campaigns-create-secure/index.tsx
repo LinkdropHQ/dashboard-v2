@@ -98,6 +98,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
     secure: (
       totalNativeTokensAmountToSecure: BigNumber,
       nativeTokensPerLink: string,
+      useEscrowedNativeToken: boolean,
       walletApp: string,
       preferredWalletOn: boolean,
       availableCountries: TCountry[],
@@ -110,6 +111,7 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
         userAsyncActions.secure(
           totalNativeTokensAmountToSecure,
           nativeTokensPerLink,
+          useEscrowedNativeToken,
           walletApp,
           preferredWalletOn,
           availableCountries,
@@ -252,6 +254,7 @@ const CampaignsCreateSecure: FC<ReduxType> = ({
 
   const [ hours, setHours ] = useState(expirationTime.hours)
   const [ minutes, setMinutes ] = useState(expirationTime.minutes)
+  const [ useEscrowedNativeToken, setUseEscrowedNativeToken ] = useState(false)
 
   useEffect(preventPageClose(), [])
 
@@ -377,18 +380,28 @@ const CampaignsCreateSecure: FC<ReduxType> = ({
           })} />
         </Header>
         <WidgetSubtitle>Include native tokens to each link as an extra bonus for receiver</WidgetSubtitle>
-        {addNativeTokens && <StyledInput
-          title={`${nativeTokenSymbol} to include`}
-          value={nativeTokensAmount}
-          disabled={loading}
-          note='This amount of native tokens will be included to each link as a bonus for receiver'
-          onChange={value => {
-            if (/^[0-9.]+$/.test(value) || value === '') {
-              setNativeTokensAmount(value)
-            }
-            return value
-          }}
-        />}
+        {addNativeTokens && <>
+          <StyledInput
+            title={`${nativeTokenSymbol} to include`}
+            value={nativeTokensAmount}
+            disabled={loading}
+            note='This amount of native tokens will be included to each link as a bonus for receiver'
+            onChange={value => {
+              if (/^[0-9.]+$/.test(value) || value === '') {
+                setNativeTokensAmount(value)
+              }
+              return value
+            }}
+          />
+          {currentCampaign && <CheckboxStyled
+            label={`Use ${nativeTokenSymbol} previously escrowed on the contract`}
+            value={useEscrowedNativeToken}
+            disabled={loading}
+            onChange={value => {
+              setUseEscrowedNativeToken(value)
+            }}
+          />}
+        </>}
       </WidgetComponent>}
     </WidgetContainer>
       
@@ -406,6 +419,7 @@ const CampaignsCreateSecure: FC<ReduxType> = ({
           secure(
             totalNativeTokensAmountToSecure,
             nativeTokensAmount,
+            useEscrowedNativeToken,
             String(currentWallet),
             enablePreferredWalletOn,
             countries,

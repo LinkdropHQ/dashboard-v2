@@ -2,7 +2,8 @@ import { FC, useState } from 'react'
 import {
   TProps,
   TCreateDispenserAndAddLinks,
-  TCreateQRSetAndAddLinks
+  TCreateQRSetAndAddLinks,
+  TCreateReclaimAndAddLinks
 } from './types'
 import {
   BatchList,
@@ -35,6 +36,7 @@ import { TLinksBatch, TTokenType } from 'types'
 const defineDispenserTypes = (
   createDispenserAndAddLinks: TCreateDispenserAndAddLinks,
   createQRSetAndAddLinks: TCreateQRSetAndAddLinks,
+  createReclaimAndAddLinks: TCreateReclaimAndAddLinks,
   campaignId: string,
   batchId: string,
   tokenAddress: string,
@@ -46,6 +48,7 @@ const defineDispenserTypes = (
 
   dispenserMappingPageRedirect: () => void,
   qrSetMappingPageRedirect: () => void,
+  reclaimMappingPageRedirect: () => void,
 
   successCallbackForDispenser?: (
     dispenser_id: string | number,
@@ -56,9 +59,32 @@ const defineDispenserTypes = (
     dispenser_id: string | number
   ) => void,
 
+  successCallbackForReclaim?: (
+    dispenser_id: string | number
+  ) => void,
+
   errorCallback?: () => void,
 ) => {
   return [
+    // {
+    //   title: 'Web2 Retrodrop',
+    //   text: 'Share tokens with any regular website users (Twitter/Github/Reddit/your website). Powered by Reclaim Protocol. Learn more at https://www.reclaimprotocol.org/',
+    //   onClick: () => {
+    //     createReclaimAndAddLinks(
+    //       reclaimMappingPageRedirect,
+    //       `Reclaim set for ${campaignTitle}`,
+    //       campaignId,
+    //       batchId,
+    //       tokenAddress,
+    //       wallet,
+    //       tokenType,
+    //       customClaimHost,
+    //       customClaimHostOn,
+    //       successCallbackForReclaim
+    //     )
+    //   },
+    //   image: <Icons.DispenserQRPreviewIcon />
+    // },
     {
       title: 'Dynamic QR for electronic displays',
       text: 'A web page with an auto-refresh QR code that updates in real time. This ensures secure distribution, preventing a single user from claiming all tokens',
@@ -160,6 +186,15 @@ const defineDistributeButton = (
       />
     }
 
+    if (batch.qr_campaign_type === 'RECLAIM') {
+      return <ButtonStyled
+        appearance='additional'
+        size='extra-small'
+        title='Reclaim'
+        to={`/reclaims/${batch.qr_campaign}`}
+      />
+    }
+
     if (batch.qr_campaign_type === 'DYNAMIC_DISPENSER') {
       return <ButtonStyled
         appearance='additional'
@@ -173,7 +208,7 @@ const defineDistributeButton = (
     appearance='action'
     disabled={batch.claim_links_count === 0}
     size='extra-small'
-    title='Choose'
+    title='Distribute'
     onClick={() => {
       setShowPopup(batch.batch_id)
     }}
@@ -196,7 +231,8 @@ const BatchesList: FC<TProps> = ({
   wallet,
   tokenType,
   createDispenserAndAddLinks,
-  createQRSetAndAddLinks
+  createQRSetAndAddLinks,
+  createReclaimAndAddLinks
 }) => {
 
   const history = useHistory()
@@ -213,6 +249,7 @@ const BatchesList: FC<TProps> = ({
   const dispenserOptions = defineDispenserTypes(
     createDispenserAndAddLinks,
     createQRSetAndAddLinks,
+    createReclaimAndAddLinks,
     campaignId,
     String(showPopup),
     tokenAddress as string,
@@ -228,6 +265,10 @@ const BatchesList: FC<TProps> = ({
 
     () => {
       history.push(`/campaigns/${campaignId}/qrs/generate`)
+    },
+
+    () => {
+      history.push(`/campaigns/${campaignId}/dispenser/generate`)
     },
 
     // for dispenser
@@ -248,10 +289,17 @@ const BatchesList: FC<TProps> = ({
       setShowPopup(false)
       return history.push(`/qrs/${dispenser_id}`)
     },
+    (
+      reclaim_id: string | number
+    ) => {
+      setShowPopup(false)
+      return history.push(`/reclaims/${reclaim_id}?settings_open=reclaim`)
+    },
     () => {
       setShowPopup(false)
       return history.push(`/campaigns/${campaignId}`)
     },
+
   )
 
   return <>

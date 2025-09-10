@@ -1,5 +1,21 @@
 # Linkdrop Dashboard
 
+
+## 2.1.52
+- removed reclaims (web2 airdrops)
+
+## 2.1.51
+- minor updates
+
+## 2.1.50
+- UI improvements
+
+## 2.1.49
+- reclaim support
+
+## 2.1.48
+- minor updates
+
 ## 2.1.47
 - support for zero network
 

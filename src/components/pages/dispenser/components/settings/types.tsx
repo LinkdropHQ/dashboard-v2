@@ -5,6 +5,7 @@ export type TProps = {
   appTitle?: string
   redirectUrl?: string | null
   dynamic?: boolean
+  reclaim?: boolean
   loading: boolean
   campaignData: TCampaign | null
   redirectToggleAction?: (value: boolean) => void
@@ -43,6 +44,17 @@ export type TProps = {
   ) => void
 
   getDispenserWhitelist: (dispenserId: string) => void
+
+  reclaimSubmit: (
+    reclaimAppId: any,
+    reclaimAppSecret: any,
+    reclaimProviderId: any,
+    onSuccess?: () => void,
+    onError?: () => void
+  ) => void,
+  reclaimAppId?: string | null,
+  reclaimAppSecret?: string | null,
+  reclaimProviderId?: string | null
 }
 
 export type TSettingItem = {

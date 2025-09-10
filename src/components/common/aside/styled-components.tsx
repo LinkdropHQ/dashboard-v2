@@ -10,8 +10,8 @@ export const Aside = styled.aside`
   flex-direction: column;
   position: relative;
   height: 100%;
-  min-width: 142px;
-  max-width: 142px;
+  min-width: 172px;
+  max-width: 172px;
   background-color: ${props => props.theme.primaryBackgroundColor};
 
   &.${AsideMinimizedClassName} {
@@ -139,8 +139,8 @@ export const AsideMenuItem = styled(Link)<AsideMenuItemProps>`
     cursor: not-allowed;
   `}
 
-  .${AsideMenuItemIconClassName} {
-    margin-right: 24px;
+  svg {
+    min-width: 20px;
   }
 `
 
