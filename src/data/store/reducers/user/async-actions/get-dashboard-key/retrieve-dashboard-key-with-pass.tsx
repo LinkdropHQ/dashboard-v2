@@ -2,7 +2,6 @@ import { ethers } from 'ethers5'
 import { decrypt } from 'lib/crypto' 
 import { toString } from "uint8arrays/to-string"
 import { buf2hex } from 'helpers'
-import { datadogLogs } from '@datadog/browser-logs';
 
 const retrieveDashboardKeyWithPass: (
   encrypted_dashboard_key: string,
@@ -53,13 +52,6 @@ const retrieveDashboardKeyWithPass: (
     const signature_key_as_base_16 = toString(signature_key_uint_8_array, 'base16')
     return decrypt(encrypted_dashboard_key, signature_key_as_base_16) 
   } catch (err) {
-    console.log({
-      method: datadogLogs.logger.error,
-      logger: datadogLogs.logger,
-      datadogLogs
-    })
-    datadogLogs.logger.error('Retrieve of dashboard key failed', {}, err as any)
-
     console.error({ err })
   }
 }

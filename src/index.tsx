@@ -47,8 +47,6 @@ if (
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
   })
-
- 
 }
 
 
@@ -57,16 +55,6 @@ if (
   REACT_APP_DATADOG_BROWSER_SERVICE &&
   REACT_APP_DATADOG_SITE
 ) {
-
-  console.log({
-    clientToken: REACT_APP_DATADOG_BROWSER_CLIENT_TOKEN as string,
-    site: REACT_APP_DATADOG_SITE as string,
-    env: 'prod',
-    service: REACT_APP_DATADOG_BROWSER_SERVICE as string,
-    forwardErrorsToLogs: true,
-    sessionSampleRate: 100,
-    trackSessionAcrossSubdomains: true
-  })
 
   datadogLogs.init({
     clientToken: REACT_APP_DATADOG_BROWSER_CLIENT_TOKEN as string,
