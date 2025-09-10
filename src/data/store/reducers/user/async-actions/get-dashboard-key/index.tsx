@@ -102,9 +102,9 @@ const getDashboardKey = async (
       }
     }
   } catch (err) {
+    console.error({ err })
     const errorText = defineError(err as Error)
     alertError(errorText)
-    console.error({ err })
     dispatch(userActions.setLoading(false))
   }
 }

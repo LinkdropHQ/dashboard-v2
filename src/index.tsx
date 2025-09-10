@@ -10,7 +10,9 @@ const {
   REACT_APP_DATADOG_CLIENT_TOKEN,
   REACT_APP_DATADOG_APPLICATION_ID,
   REACT_APP_DATADOG_SERVICE,
-  REACT_APP_DATADOG_SITE
+  REACT_APP_DATADOG_SITE,
+  REACT_APP_DATADOG_BROWSER_CLIENT_TOKEN,
+  REACT_APP_DATADOG_BROWSER_SERVICE
 } = process.env
 const container = document.getElementById('root') as HTMLElement
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
@@ -35,7 +37,7 @@ if (
       // see https://docs.datadoghq.com/getting_started/site/
       site: REACT_APP_DATADOG_SITE as string,
       service: REACT_APP_DATADOG_SERVICE as string,
-      env: 'production',
+      env: 'prod',
       // Specify a version number to identify the deployed version of your application in Datadog
       // version: '1.0.0', 
       sessionSampleRate: 100,
@@ -45,14 +47,23 @@ if (
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
   })
+}
+
+
+if (
+  REACT_APP_DATADOG_BROWSER_CLIENT_TOKEN &&
+  REACT_APP_DATADOG_BROWSER_SERVICE &&
+  REACT_APP_DATADOG_SITE
+) {
 
   datadogLogs.init({
-    clientToken: REACT_APP_DATADOG_CLIENT_TOKEN as string,
+    clientToken: REACT_APP_DATADOG_BROWSER_CLIENT_TOKEN as string,
     site: REACT_APP_DATADOG_SITE as string,
-    env: 'production',
-    service: REACT_APP_DATADOG_SERVICE as string,
+    env: 'prod',
+    service: REACT_APP_DATADOG_BROWSER_SERVICE as string,
     forwardErrorsToLogs: true,
     sessionSampleRate: 100,
     trackSessionAcrossSubdomains: true
   })
 }
+
