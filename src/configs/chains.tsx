@@ -71,42 +71,6 @@ const chains: TChains = {
     blockExplorerUrls: [
       'https://basescan.org'
     ]
-  },
-  13371: {
-    chainName: 'Immutable zkEVM',
-    displayName: 'Immutable zkEVM',
-    testnet: false,
-    alchemySupport: false,
-    mnemonicSupport: false,
-    nativeCurrency: {
-      name: 'IMX',
-      symbol: 'IMX',
-      decimals: 18
-    },
-    rpcUrls: [
-      'https://immutable-zkevm.drpc.org'
-    ],
-    blockExplorerUrls: [
-      'https://explorer.immutable.com'
-    ]
-  },
-  196: {
-    chainName: 'X Layer',
-    displayName: 'X Layer',
-    testnet: false,
-    alchemySupport: false,
-    mnemonicSupport: false,
-    nativeCurrency: {
-      name: 'OKB',
-      symbol: 'OKB',
-      decimals: 18
-    },
-    rpcUrls: [
-      'https://rpc.xlayer.tech'
-    ],
-    blockExplorerUrls: [
-      'https://www.oklink.com/xlayer'
-    ]
   }
 }
 

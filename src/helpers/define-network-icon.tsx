@@ -1,7 +1,6 @@
 import BaseNetworkIcon from 'images/base-network-icon.png'
 import PolygonNetworkIcon from 'images/polygon-network-icon.png'
 import MainnetNetworkIcon from 'images/mainnet-network-icon.png'
-import XLayerNetworkIcon from 'images/xlayer-network-icon.png'
 
 const defineNetworkIcon = (chainId: number) => {
   switch (chainId) {
@@ -11,8 +10,6 @@ const defineNetworkIcon = (chainId: number) => {
       return PolygonNetworkIcon
     case 8453:
       return BaseNetworkIcon
-    case 196:
-      return XLayerNetworkIcon
     default:
       return MainnetNetworkIcon
   }

@@ -3,8 +3,6 @@ const defineNetworkName = (chainId: number | null) : string => {
     case 1: return 'mainnet'
     case 137: return 'polygon'
     case 8453: return 'base'
-    case 13371: return 'immutableZkevm'
-    case 196: return 'xlayer'
     default: return 'mainnet'
   }
 }
