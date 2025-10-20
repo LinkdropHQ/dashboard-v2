@@ -3,10 +3,7 @@ import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import {
   mainnet,
   polygon,
-  sepolia,
-  base,
-  immutableZkEvm,
-  xLayer
+  base
 } from 'wagmi/chains'
 import { http } from 'wagmi'
 import { QueryClient } from '@tanstack/react-query'
@@ -32,10 +29,7 @@ const metadata = {
 const chains = [
   base,
   polygon,
-  mainnet,
-  sepolia,
-  immutableZkEvm,
-  xLayer
+  mainnet
 ] as const
 
 const config = defaultWagmiConfig({
@@ -53,11 +47,8 @@ const config = defaultWagmiConfig({
   ],
   transports: {
     [mainnet.id]: http(),
-    [sepolia.id]: http(),
     [polygon.id]: http(),
-    [base.id]: http(),
-    [immutableZkEvm.id]: http(),
-    [xLayer.id]: http()
+    [base.id]: http()
   },
 })
 
