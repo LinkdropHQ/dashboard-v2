@@ -16,10 +16,6 @@ const defineWagmiNetwork = (
       return polygon
     case 8453:
       return base
-    case 13371:
-      return immutableZkEvm
-    case 196:
-      return xLayer
     default:
       return base
   }
