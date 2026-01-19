@@ -104,15 +104,15 @@ const Erc20: FC<ReduxType > = ({
         />
         <Form onSubmit={(event) => {
           event.preventDefault()
-          const hasEnoughTokens = defineIfUserHasEnoughERC20Tokens(
-            tokenAmount as BigNumber,
-            formData.tokenAmount as string,
-            formData.linksAmount as string,
-            decimals,
-          )
-          if (!hasEnoughTokens) {
-            return alert(`Not enough tokens on balance. Current balance: ${tokenAmountFormatted} ${symbol}`)
-          }
+          // const hasEnoughTokens = defineIfUserHasEnoughERC20Tokens(
+          //   tokenAmount as BigNumber,
+          //   formData.tokenAmount as string,
+          //   formData.linksAmount as string,
+          //   decimals,
+          // )
+          // if (!hasEnoughTokens) {
+          //   return alert(`Not enough tokens on balance. Current balance: ${tokenAmountFormatted} ${symbol}`)
+          // }
           setAssetsData([ ...assetsData, {
             ...formData,
             id: assetsData.length
