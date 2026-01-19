@@ -92,12 +92,12 @@ const approve = (
       const alreadyAllowed = await contractInstance.allowance(address, proxyContractAddress)
       const totalToImprove = (alreadyAllowed as ethers.BigNumber).add(amountToApprove)
 
-      if (totalToImprove.gt(tokenAmount)) {
-        dispatch(campaignActions.setLoading(false))
-        return alertError(
-          `Not enough tokens to approve. Current balance: ${utils.formatUnits(tokenAmount, decimals)}, tokens to approve: ${amountToApproveFormatted}`
-        )
-      }
+      // if (totalToImprove.gt(tokenAmount)) {
+      //   dispatch(campaignActions.setLoading(false))
+      //   return alertError(
+      //     `Not enough tokens to approve. Current balance: ${utils.formatUnits(tokenAmount, decimals)}, tokens to approve: ${amountToApproveFormatted}`
+      //   )
+      // }
 
       let data = iface.encodeFunctionData('approve', [
         proxyContractAddress, String(totalToImprove)
