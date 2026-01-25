@@ -32,8 +32,12 @@ import {
   defineContractFunds,
   createEncryptionKey,
   formatDate,
-  formatTime
+  formatTime,
+  setForcedTokenAmount,
+  getForcedTokenAmount
 } from 'helpers'
+import { ERC20Contract } from 'abi'
+import { ethers } from 'ethers5'
 import {
   BatchesList,
   CampaignParameters,
@@ -452,6 +456,12 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
 
   const [status, setStatus] = useState<TCampaignStatus>('initial')
   const [withdrawable, setWithdrawable] = useState<boolean>(false)
+  const [forcedTokenAmountValue, setForcedTokenAmountValue] = useState<string>('0')
+  const [forcedTokenAmountOn, setForcedTokenAmountOn] = useState<boolean>(false)
+  const [forcedTokenAmountLoading, setForcedTokenAmountLoading] = useState<boolean>(false)
+  const [forcedTokenAmountSupported, setForcedTokenAmountSupported] = useState<boolean>(true)
+  const [tokenDecimals, setTokenDecimals] = useState<number>(18)
+  const [tokenSymbol, setTokenSymbol] = useState<string>('')
 
 
   useEffect(() => {
@@ -477,6 +487,43 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
     }
     onInit()
   }, [])
+
+  useEffect(() => {
+    const fetchForcedTokenAmount = async () => {
+      const campaign = campaigns.find(c => c.campaign_id === params.id)
+      if (!campaign || !campaign.proxy_contract_address || !signer) return
+      if (campaign.token_standard?.toUpperCase() !== 'ERC20') return
+
+      try {
+        // Check if contract supports forcedTokenAmount by attempting to call it
+        const proxyContract = new ethers.Contract(
+          campaign.proxy_contract_address,
+          [{ "inputs": [], "name": "forcedTokenAmount", "outputs": [{ "type": "uint256" }], "stateMutability": "view", "type": "function" }],
+          signer
+        )
+        const amount = await proxyContract.forcedTokenAmount()
+        setForcedTokenAmountValue(amount.toString())
+        setForcedTokenAmountOn(amount.toString() !== '0')
+        setForcedTokenAmountSupported(true)
+      } catch (err: any) {
+        console.log('Contract does not support forcedTokenAmount:', err.message)
+        setForcedTokenAmountSupported(false)
+      }
+
+      if (campaign.token_address) {
+        try {
+          const contractInstance = new ethers.Contract(campaign.token_address, ERC20Contract.abi, signer)
+          const decimals = await contractInstance.decimals()
+          const symbol = await contractInstance.symbol()
+          setTokenDecimals(decimals)
+          setTokenSymbol(symbol)
+        } catch (err) {
+          console.log('Error fetching token data:', err)
+        }
+      }
+    }
+    fetchForcedTokenAmount()
+  }, [campaigns, params.id, signer])
 
   // @ts-ignore
   const currentCampaign = campaigns.find(campaign => campaign.campaign_id === params.id)
@@ -961,6 +1008,42 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
 
         availableCountriesToggleValue={available_countries_on}
 
+        forcedTokenAmountValue={forcedTokenAmountValue}
+        forcedTokenAmountToggleValue={forcedTokenAmountOn}
+        forcedTokenAmountLoading={forcedTokenAmountLoading}
+        forcedTokenAmountSupported={forcedTokenAmountSupported}
+        tokenDecimals={tokenDecimals}
+        tokenSymbol={tokenSymbol}
+        forcedTokenAmountToggleAction={async (value, onSuccess, onError) => {
+          if (!value) {
+            setForcedTokenAmountLoading(true)
+            try {
+              await setForcedTokenAmount(proxy_contract_address, address, signer, '0')
+              setForcedTokenAmountValue('0')
+              setForcedTokenAmountOn(false)
+              onSuccess?.()
+            } catch (e) {
+              console.error(e)
+              onError?.()
+            }
+            setForcedTokenAmountLoading(false)
+          } else {
+            setForcedTokenAmountOn(true)
+          }
+        }}
+        forcedTokenAmountSubmit={async (amount, onSuccess, onError) => {
+          setForcedTokenAmountLoading(true)
+          try {
+            await setForcedTokenAmount(proxy_contract_address, address, signer, amount)
+            setForcedTokenAmountValue(amount)
+            setForcedTokenAmountOn(amount !== '0')
+            onSuccess?.()
+          } catch (e) {
+            console.error(e)
+            onError?.()
+          }
+          setForcedTokenAmountLoading(false)
+        }}
       />
     </AsideContainer>
   </Container>

@@ -87,6 +87,8 @@ import defineCoinbaseInstance from './define-coinbase-instance'
 import defineFirstTokenIdForUser from './define-first-token-id-for-user'
 import defineLastTokenIdForUser from './define-last-token-id-for-user'
 import defineIfUserOwnsTokenInArray from './define-if-user-owns-token-in-array'
+import setForcedTokenAmount from './set-forced-token-amount'
+import getForcedTokenAmount from './get-forced-token-amount'
 
 export {
   buf2hex,
@@ -175,5 +177,7 @@ export {
   decryptLinks,
   sleep,
   metadataUrlResolve,
-  defineDispenserAppUrl
+  defineDispenserAppUrl,
+  setForcedTokenAmount,
+  getForcedTokenAmount
 }
