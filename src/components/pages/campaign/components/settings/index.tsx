@@ -22,6 +22,7 @@ import Countries from './countries'
 import FinalScreenButton from './final-screen-button'
 import CustomClaimHost from './custom-claim-host'
 import MultipleClaims from './multiple-claims'
+import ForcedTokenAmount from './forced-token-amount'
 import wallets from 'configs/wallets'
 import { Tooltip } from 'components/common'
 
@@ -51,6 +52,11 @@ const settings = [
     subtitle: 'You can specify your own domain name, and claim links will be mapped to your domain name. By the default links are hosted at https://claim.linkdrop.io',
     id: 'custom_claim_host',
     tooltip: 'You can specify your own domain name to have claim links mapped to it'
+  }, {
+    title: 'Forced token amount',
+    subtitle: 'Override the per-link token amount with a fixed value for all claims. When enabled, all claims will receive this amount regardless of the original link amounts',
+    id: 'forced_token_amount',
+    tooltip: 'Set a specific token amount that will be used for all claims'
   }
 ]
 
@@ -140,6 +146,18 @@ const definePopup = (
 
   multipleClaimsOnToggleAction?: (value: boolean) => void,
   multipleClaimsOnToggleValue?: boolean,
+
+  forcedTokenAmountSubmit?: (
+    amount: string,
+    successAction?: () => void,
+    errorAction?: () => void
+  ) => void,
+  forcedTokenAmountValue?: string,
+  forcedTokenAmountToggleAction?: (value: boolean) => void,
+  forcedTokenAmountToggleValue?: boolean,
+  tokenDecimals?: number,
+  tokenSymbol?: string,
+  forcedTokenAmountLoading?: boolean,
 ) => {
   switch (setting.id) {
     case 'wallets':
@@ -196,6 +214,19 @@ const definePopup = (
         toggleValue={customClaimHostOnToggleValue}
       />
 
+    case 'forced_token_amount':
+      return <ForcedTokenAmount
+        {...setting}
+        onClose={onClose}
+        forcedTokenAmount={forcedTokenAmountValue || '0'}
+        action={forcedTokenAmountSubmit || (() => {})}
+        toggleAction={forcedTokenAmountToggleAction}
+        toggleValue={forcedTokenAmountToggleValue}
+        tokenDecimals={tokenDecimals || 18}
+        tokenSymbol={tokenSymbol || ''}
+        loading={forcedTokenAmountLoading || false}
+      />
+
     default: null
   }
 }
@@ -206,7 +237,8 @@ const defineEnabled = (
   finalScreenButtonToggleValue: boolean,
   preferredWalletToggleValue: boolean,
   customClaimHostToggleValue: boolean,
-  multipleClaimsToggleValue: boolean
+  multipleClaimsToggleValue: boolean,
+  forcedTokenAmountToggleValue: boolean
 ) => {
 
   if (settingId === 'available_countries') {
@@ -228,7 +260,11 @@ const defineEnabled = (
   if (settingId === 'multiple_claims') {
     return multipleClaimsToggleValue
   }
-  
+
+  if (settingId === 'forced_token_amount') {
+    return forcedTokenAmountToggleValue
+  }
+
   return false
 }
 
@@ -280,7 +316,14 @@ const Settings: FC<TProps> = ({
   additionalWalletsOnValue,
   multipleClaimsOnToggleAction,
   multipleClaimsOnToggleValue,
-  
+
+  forcedTokenAmountSubmit,
+  forcedTokenAmountValue,
+  forcedTokenAmountToggleAction,
+  forcedTokenAmountToggleValue,
+  tokenDecimals,
+  tokenSymbol,
+  forcedTokenAmountLoading,
 }) => {
 
   if (!campaignData) {
@@ -320,9 +363,17 @@ const Settings: FC<TProps> = ({
 
     customClaimHostOnToggleAction,
     customClaimHostOnToggleValue,
-  
+
     multipleClaimsOnToggleAction,
     multipleClaimsOnToggleValue,
+
+    forcedTokenAmountSubmit,
+    forcedTokenAmountValue,
+    forcedTokenAmountToggleAction,
+    forcedTokenAmountToggleValue,
+    tokenDecimals,
+    tokenSymbol,
+    forcedTokenAmountLoading,
   ) : null
 
   return <WidgetStyled title='Settings'>
@@ -336,7 +387,8 @@ const Settings: FC<TProps> = ({
         Boolean(finalScreenButtonToggleValue),
         Boolean(preferredWalletToggleValue),
         Boolean(customClaimHostOnToggleValue),
-        Boolean(multipleClaimsOnToggleValue)
+        Boolean(multipleClaimsOnToggleValue),
+        Boolean(forcedTokenAmountToggleValue)
       )
 
       const enabledLabel = defineEnabledLabel(
@@ -346,6 +398,10 @@ const Settings: FC<TProps> = ({
 
       if (preferredWalletValue === 'coinbase_wallet') {
         if (setting.id === 'custom_claim_host') return null
+      }
+
+      if (setting.id === 'forced_token_amount') {
+        if (campaignData.token_standard?.toUpperCase() !== 'ERC20') return null
       }
 
       return renderSettingItem(

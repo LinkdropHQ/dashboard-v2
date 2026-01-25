@@ -58,6 +58,17 @@ export type TProps = {
   ) => void
   customClaimHostValue: string
 
+  forcedTokenAmountSubmit?: (
+    amount: string,
+    successAction?: () => void,
+    errorAction?: () => void
+  ) => void
+  forcedTokenAmountValue?: string
+  forcedTokenAmountToggleAction?: (value: boolean) => void
+  forcedTokenAmountToggleValue?: boolean
+  tokenDecimals?: number
+  tokenSymbol?: string
+  forcedTokenAmountLoading?: boolean
 }
 
 export type TSettingItem = {
