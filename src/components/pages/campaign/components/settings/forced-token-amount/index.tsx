@@ -53,11 +53,23 @@ const ForcedTokenAmount: FC<TProps> = ({
     }
   }
 
+  const handleToggle = (value: boolean) => {
+    if (!value) {
+      // Toggling off - call with success callback to close and reset
+      toggleAction?.(value, () => {
+        setAmountValue('')
+        onClose()
+      })
+    } else {
+      toggleAction?.(value)
+    }
+  }
+
   return <AsidePopup
     title={title}
     subtitle={subtitle}
     onClose={onClose}
-    toggleAction={toggleAction}
+    toggleAction={handleToggle}
     toggleState={toggleValue}
     actionDisabled={loading}
     action={() => {

@@ -64,7 +64,11 @@ export type TProps = {
     errorAction?: () => void
   ) => void
   forcedTokenAmountValue?: string
-  forcedTokenAmountToggleAction?: (value: boolean) => void
+  forcedTokenAmountToggleAction?: (
+    value: boolean,
+    successAction?: () => void,
+    errorAction?: () => void
+  ) => void
   forcedTokenAmountToggleValue?: boolean
   tokenDecimals?: number
   tokenSymbol?: string

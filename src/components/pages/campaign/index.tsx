@@ -1004,15 +1004,17 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
         forcedTokenAmountLoading={forcedTokenAmountLoading}
         tokenDecimals={tokenDecimals}
         tokenSymbol={tokenSymbol}
-        forcedTokenAmountToggleAction={async (value) => {
+        forcedTokenAmountToggleAction={async (value, onSuccess, onError) => {
           if (!value) {
             setForcedTokenAmountLoading(true)
             try {
               await setForcedTokenAmount(proxy_contract_address, address, signer, '0')
               setForcedTokenAmountValue('0')
               setForcedTokenAmountOn(false)
+              onSuccess?.()
             } catch (e) {
               console.error(e)
+              onError?.()
             }
             setForcedTokenAmountLoading(false)
           } else {
