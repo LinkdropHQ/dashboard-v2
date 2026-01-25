@@ -73,6 +73,7 @@ export type TProps = {
   tokenDecimals?: number
   tokenSymbol?: string
   forcedTokenAmountLoading?: boolean
+  forcedTokenAmountSupported?: boolean
 }
 
 export type TSettingItem = {

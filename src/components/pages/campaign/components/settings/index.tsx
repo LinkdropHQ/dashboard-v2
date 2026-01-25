@@ -324,6 +324,7 @@ const Settings: FC<TProps> = ({
   tokenDecimals,
   tokenSymbol,
   forcedTokenAmountLoading,
+  forcedTokenAmountSupported,
 }) => {
 
   if (!campaignData) {
@@ -402,6 +403,7 @@ const Settings: FC<TProps> = ({
 
       if (setting.id === 'forced_token_amount') {
         if (campaignData.token_standard?.toUpperCase() !== 'ERC20') return null
+        if (!forcedTokenAmountSupported) return null
       }
 
       return renderSettingItem(

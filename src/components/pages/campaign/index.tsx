@@ -459,6 +459,7 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
   const [forcedTokenAmountValue, setForcedTokenAmountValue] = useState<string>('0')
   const [forcedTokenAmountOn, setForcedTokenAmountOn] = useState<boolean>(false)
   const [forcedTokenAmountLoading, setForcedTokenAmountLoading] = useState<boolean>(false)
+  const [forcedTokenAmountSupported, setForcedTokenAmountSupported] = useState<boolean>(true)
   const [tokenDecimals, setTokenDecimals] = useState<number>(18)
   const [tokenSymbol, setTokenSymbol] = useState<string>('')
 
@@ -494,11 +495,19 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
       if (campaign.token_standard?.toUpperCase() !== 'ERC20') return
 
       try {
-        const amount = await getForcedTokenAmount(campaign.proxy_contract_address, signer)
-        setForcedTokenAmountValue(amount)
-        setForcedTokenAmountOn(amount !== '0')
-      } catch (err) {
-        console.log('Error fetching forced token amount:', err)
+        // Check if contract supports forcedTokenAmount by attempting to call it
+        const proxyContract = new ethers.Contract(
+          campaign.proxy_contract_address,
+          [{ "inputs": [], "name": "forcedTokenAmount", "outputs": [{ "type": "uint256" }], "stateMutability": "view", "type": "function" }],
+          signer
+        )
+        const amount = await proxyContract.forcedTokenAmount()
+        setForcedTokenAmountValue(amount.toString())
+        setForcedTokenAmountOn(amount.toString() !== '0')
+        setForcedTokenAmountSupported(true)
+      } catch (err: any) {
+        console.log('Contract does not support forcedTokenAmount:', err.message)
+        setForcedTokenAmountSupported(false)
       }
 
       if (campaign.token_address) {
@@ -1002,6 +1011,7 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
         forcedTokenAmountValue={forcedTokenAmountValue}
         forcedTokenAmountToggleValue={forcedTokenAmountOn}
         forcedTokenAmountLoading={forcedTokenAmountLoading}
+        forcedTokenAmountSupported={forcedTokenAmountSupported}
         tokenDecimals={tokenDecimals}
         tokenSymbol={tokenSymbol}
         forcedTokenAmountToggleAction={async (value, onSuccess, onError) => {
