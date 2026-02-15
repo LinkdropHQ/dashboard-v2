@@ -123,11 +123,13 @@ const mapDispatcherToProps = (dispatch: IAppDispatch) => {
     },
 
     downloadReport: (
-      campaign_id: string
+      campaign_id: string,
+      encryptionKey?: string
     ) => {
       dispatch(
         downloadReport(
-          campaign_id
+          campaign_id,
+          encryptionKey
         )
       )
     },
@@ -882,7 +884,7 @@ const Campaign: FC<ReduxType & IProps & RouteComponentProps> = ({
 
         {sponsored && <AsideButtonsContainer>
           <AsideButton
-            onClick={() => downloadReport(campaign_id)}
+            onClick={() => downloadReport(campaign_id, sdk ? encryptionKey : undefined)}
           >
             <Icons.DownloadReportIcon />
             Download full report
